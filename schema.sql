@@ -16,6 +16,8 @@ CREATE TABLE IF NOT EXISTS users (
   password_reset_token VARCHAR(255),
   password_reset_token_expires_at TIMESTAMP,
   last_login TIMESTAMP,
+  username VARCHAR(100),
+  display_name VARCHAR(100),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   deleted_at TIMESTAMP -- Soft delete

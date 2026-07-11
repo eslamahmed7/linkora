@@ -23,10 +23,6 @@
       "dest": "server/index.ts"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "server/index.ts"
-    },
-    {
       "src": "/(.*)",
       "dest": "/$1"
     }

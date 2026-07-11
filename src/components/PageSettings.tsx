@@ -1,0 +1,321 @@
+import { useEffect, useState } from 'react'
+import { usePageBuilderStore } from '@/stores/pageBuilderStore'
+import { Settings, Upload, Image as ImageIcon, Copy } from 'lucide-react'
+import { ImageCropperModal } from './ImageCropperModal'
+import { useNotification } from '@/hooks/useNotification'
+import { qrAPI } from '@/api/qr'
+import type { QRCode } from '@/types/qr'
+
+export function PageSettings() {
+  const { page, updateSettings, updateDesign } = usePageBuilderStore()
+  const { settings, design } = page
+  const notification = useNotification()
+
+  const [cropperState, setCropperState] = useState<{
+    isOpen: boolean
+    imageUrl: string
+    type: 'profile' | 'background' | null
+  }>({
+    isOpen: false,
+    imageUrl: '',
+    type: null,
+  })
+
+  const [qrCodes, setQrCodes] = useState<QRCode[]>([])
+
+  useEffect(() => {
+    qrAPI.list().then(res => {
+      setQrCodes(res.qrCodes)
+    }).catch(() => {})
+  }, [])
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>, type: 'profile' | 'background') => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setCropperState({
+          isOpen: true,
+          imageUrl: reader.result as string,
+          type,
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+    // reset input so the same file can be selected again if needed
+    e.target.value = ''
+  }
+
+  const handleCropSave = (croppedImageUrl: string) => {
+    if (cropperState.type === 'profile') {
+      updateDesign({ profileImageUrl: croppedImageUrl })
+    } else if (cropperState.type === 'background') {
+      updateDesign({ backgroundImage: croppedImageUrl })
+    }
+    setCropperState({ isOpen: false, imageUrl: '', type: null })
+  }
+
+  return (
+    <div className="bg-white dark:bg-neutral-950 rounded-lg border border-neutral-200 dark:border-neutral-800 p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <Settings className="w-5 h-5 text-accent-600" />
+        <h2 className="text-lg font-bold">Page Settings</h2>
+      </div>
+
+      <div className="space-y-4">
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Page Title
+          </label>
+          <input
+            type="text"
+            value={settings.title}
+            onChange={(e) => updateSettings({ title: e.target.value })}
+            placeholder="My Awesome Page"
+            className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+          />
+        </div>
+
+        {/* Slug / Page URL */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Page URL (App Name)
+          </label>
+          <div className="flex rounded border border-neutral-200 dark:border-neutral-700 overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <span className="px-3 py-2 text-neutral-500 font-medium whitespace-nowrap border-r border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/50">
+              localhost:8887/p/
+            </span>
+            <input
+              type="text"
+              value={settings.slug || ''}
+              onChange={(e) =>
+                updateSettings({
+                  slug: e.target.value.toLowerCase().replace(/\s+/g, '-'),
+                })
+              }
+              placeholder="my-awesome-app"
+              className="flex-1 min-w-0 px-3 py-2 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50 focus:outline-none"
+            />
+          </div>
+          <div className="flex justify-between items-center mt-2">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+              {settings.slug ? 'Use this link to connect to your QR code' : 'A random URL will be generated if left blank'}
+            </p>
+            {settings.slug && (
+              <button 
+                onClick={() => {
+                  const baseUrl = window.location.origin;
+                  navigator.clipboard.writeText(`${baseUrl}/p/${settings.slug}`);
+                  notification.success('Link copied to clipboard!');
+                }}
+                className="text-xs font-bold text-accent-600 hover:text-accent-700 flex items-center gap-1 bg-accent-50 dark:bg-accent-900/20 px-2 py-1 rounded"
+              >
+                <Copy className="w-3 h-3" /> Copy Link
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Description
+          </label>
+          <textarea
+            value={settings.description || ''}
+            onChange={(e) =>
+              updateSettings({ description: e.target.value })
+            }
+            placeholder="A brief description of your page"
+            rows={3}
+            className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+          />
+        </div>
+
+        {/* Bio */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Bio
+          </label>
+          <textarea
+            value={settings.bio || ''}
+            onChange={(e) => updateSettings({ bio: e.target.value })}
+            placeholder="Tell people about yourself"
+            rows={3}
+            className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+          />
+        </div>
+
+        {/* Profile Image Upload */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Profile Image
+          </label>
+          <div className="flex items-center gap-4">
+            {design.profileImageUrl ? (
+              <img
+                src={design.profileImageUrl}
+                alt="Profile"
+                className="w-16 h-16 rounded-full object-cover border border-neutral-200 dark:border-neutral-700"
+              />
+            ) : (
+              <div className="w-16 h-16 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 flex items-center justify-center">
+                <ImageIcon className="w-6 h-6 text-neutral-400" />
+              </div>
+            )}
+            <label className="cursor-pointer px-4 py-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+              <Upload className="w-4 h-4" />
+              Upload Image
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => handleFileSelect(e, 'profile')}
+              />
+            </label>
+            {design.profileImageUrl && (
+              <button
+                onClick={() => updateDesign({ profileImageUrl: '' })}
+                className="px-3 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-sm font-medium transition-colors"
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Background Image Upload */}
+        <div>
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Background Image
+          </label>
+          <div className="flex flex-col gap-3">
+            {design.backgroundImage && (
+              <div className="relative w-full h-32 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700">
+                <img
+                  src={design.backgroundImage}
+                  alt="Background"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div className="flex items-center gap-3">
+              <label className="cursor-pointer flex-1 py-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 border border-neutral-200 dark:border-neutral-700 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                <Upload className="w-4 h-4" />
+                Upload Background
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => handleFileSelect(e, 'background')}
+                />
+              </label>
+              {design.backgroundImage && (
+                <button
+                  onClick={() => updateDesign({ backgroundImage: '' })}
+                  className="px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Remove
+                </button>
+              )}
+            </div>
+
+            {/* Customization controls for Background Image */}
+            {design.backgroundImage && (
+              <div className="grid grid-cols-2 gap-3 mt-2">
+                <div>
+                  <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                    Size (Scale)
+                  </label>
+                  <select
+                    value={design.backgroundImageSize || 'cover'}
+                    onChange={(e) => updateDesign({ backgroundImageSize: e.target.value as any })}
+                    className="w-full px-2 py-1.5 text-sm rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+                  >
+                    <option value="cover">Cover (Fill)</option>
+                    <option value="contain">Contain (Fit)</option>
+                    <option value="auto">Auto (Original)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                    Position
+                  </label>
+                  <select
+                    value={design.backgroundImagePosition || 'center'}
+                    onChange={(e) => updateDesign({ backgroundImagePosition: e.target.value as any })}
+                    className="w-full px-2 py-1.5 text-sm rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+                  >
+                    <option value="center">Center</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+          </div>
+        </div>
+
+        {/* Link with QR Code */}
+        <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800">
+          <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
+            Link with QR Code
+          </label>
+          <select
+            value={design.linkedQrId || ''}
+            onChange={async (e) => {
+              const qrId = e.target.value
+              updateDesign({ linkedQrId: qrId })
+              if (qrId && page.id) {
+                const selectedQr = qrCodes.find(q => q.id === qrId)
+                if (selectedQr) {
+                  const baseUrl = window.location.origin
+                  const pageUrl = `${baseUrl}/p/${settings.slug || page.id}`
+                  try {
+                    await qrAPI.update(qrId, {
+                      pageId: page.id,
+                      url: pageUrl,
+                      customization: {
+                        ...(selectedQr.customization || {}),
+                        dataType: 'landing-page',
+                        data: { pageId: page.id, url: pageUrl }
+                      } as any
+                    })
+                    notification.success('QR Code linked successfully!')
+                  } catch (error) {
+                    notification.error('Failed to link QR Code')
+                  }
+                }
+              }
+            }}
+            className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
+          >
+            <option value="">— Select a QR Code to Link —</option>
+            {qrCodes.map(qr => (
+              <option key={qr.id} value={qr.id}>{qr.name || qr.url || qr.id}</option>
+            ))}
+          </select>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+            Linking a QR code will automatically redirect scans to this page.
+          </p>
+        </div>
+      </div>
+
+
+
+      {cropperState.isOpen && cropperState.imageUrl && (
+        <ImageCropperModal
+          imageUrl={cropperState.imageUrl}
+          aspectRatio={cropperState.type === 'profile' ? 1 : 9 / 16}
+          circularCrop={cropperState.type === 'profile'}
+          onSave={handleCropSave}
+          onCancel={() => setCropperState({ isOpen: false, imageUrl: '', type: null })}
+        />
+      )}
+    </div>
+  )
+}

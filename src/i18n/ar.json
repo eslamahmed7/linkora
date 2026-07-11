@@ -1,0 +1,26 @@
+{
+  "common": {
+    "appName": "لينكورا",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "welcome": "أهلا وسهلا",
+    "logout": "تسجيل الخروج",
+    "settings": "الإعدادات",
+    "profile": "الملف الشخصي",
+    "darkMode": "الوضع الداكن",
+    "lightMode": "الوضع الفاتح"
+  },
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "editor": "المحرر",
+    "analytics": "التحليلات",
+    "settings": "الإعدادات",
+    "help": "المساعدة"
+  }
+}

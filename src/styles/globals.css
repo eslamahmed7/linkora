@@ -1,0 +1,111 @@
+@import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for theme */
+:root {
+  --bg-base: 255 255 255;
+  --bg-secondary: 250 250 250;
+  --bg-tertiary: 240 240 240;
+  --text-base: 10 10 10;
+  --text-secondary: 64 64 64;
+  --text-tertiary: 115 115 115;
+
+  color-scheme: light;
+}
+
+html.dark {
+  --bg-base: 10 10 10;
+  --bg-secondary: 26 26 26;
+  --bg-tertiary: 40 40 40;
+  --text-base: 250 250 250;
+  --text-secondary: 181 181 181;
+  --text-tertiary: 115 115 115;
+
+  color-scheme: dark;
+}
+
+* {
+  @apply border-neutral-200 dark:border-neutral-800;
+}
+
+html {
+  @apply bg-white dark:bg-neutral-900;
+  @apply text-neutral-900 dark:text-neutral-50;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  @apply font-sans transition-colors duration-200;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent-500;
+}
+
+button:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent-500;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  @apply outline-none ring-2 ring-accent-500 ring-offset-2 dark:ring-offset-neutral-900;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-neutral-100 dark:bg-neutral-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-400 dark:bg-neutral-600;
+}
+
+/* Selection color */
+::selection {
+  @apply bg-accent-500 text-white;
+}
+
+/* RTL support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="ltr"] {
+  direction: ltr;
+}
+
+/* Responsive helpers */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@keyframes nfc-shine-sweep {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(200%) rotate(25deg); }
+}

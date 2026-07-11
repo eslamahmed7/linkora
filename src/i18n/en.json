@@ -1,0 +1,26 @@
+{
+  "common": {
+    "appName": "Linkora",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "settings": "Settings",
+    "profile": "Profile",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "editor": "Editor",
+    "analytics": "Analytics",
+    "settings": "Settings",
+    "help": "Help"
+  }
+}

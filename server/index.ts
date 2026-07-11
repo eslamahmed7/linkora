@@ -23,7 +23,18 @@ const app: Express = express();
 
 // Middleware
 app.use(cors({
-  origin: config.CORS_ORIGIN,
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      config.CORS_ORIGIN,
+      'http://localhost:8887',
+      'http://localhost:3000'
+    ];
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 

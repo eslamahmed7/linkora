@@ -5,17 +5,26 @@ if (!config.SUPABASE_URL || !config.SUPABASE_SERVICE_ROLE_KEY) {
   console.warn('Missing Supabase credentials. Backend requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');
 }
 
-// Create a single supabase client for interacting with your database
-// Note: This uses the SERVICE_ROLE key, which bypasses Row Level Security (RLS).
-// This is appropriate for backend services acting on behalf of the application,
-// but all authorization must be handled by the application logic (Service layer).
-export const supabase = createClient(
-  config.SUPABASE_URL,
-  config.SUPABASE_SERVICE_ROLE_KEY,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+// Create a lazy initialized supabase client to prevent Vercel boot crashes
+let supabaseClient: any = null;
+
+export const supabase = new Proxy({}, {
+  get(target, prop) {
+    if (!supabaseClient) {
+      if (!config.SUPABASE_URL || !config.SUPABASE_SERVICE_ROLE_KEY) {
+        throw new Error('Missing Supabase credentials: VITE_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is empty in Vercel Environment Variables');
+      }
+      supabaseClient = createClient(
+        config.SUPABASE_URL,
+        config.SUPABASE_SERVICE_ROLE_KEY,
+        {
+          auth: {
+            autoRefreshToken: false,
+            persistSession: false,
+          },
+        }
+      );
+    }
+    return supabaseClient[prop];
   }
-);
+}) as ReturnType<typeof createClient>;

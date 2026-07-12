@@ -9,18 +9,18 @@
       }
     },
     {
-      "src": "server/index.ts",
+      "src": "server/vercel-entry.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.ts"
+      "dest": "server/vercel-entry.js"
     },
     {
       "src": "/r/(.*)",
-      "dest": "server/index.ts"
+      "dest": "server/vercel-entry.js"
     },
     {
       "src": "/assets/(.*)",

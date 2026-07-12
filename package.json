@@ -7,11 +7,11 @@
   "scripts": {
     "dev": "concurrently \"pnpm run dev:client\" \"pnpm run dev:server\"",
     "dev:client": "vite",
-    "dev:server": "nodemon --exec tsx api/index.ts",
-    "build": "tsc -b && vite build",
-    "build:server": "tsc --project tsconfig.server.json",
+    "dev:server": "nodemon --exec tsx server/index.ts",
+    "build": "npm run build:server && tsc -b && vite build",
+    "build:server": "npx esbuild server/index.ts --bundle --platform=node --target=node18 --outfile=api/index.js --format=esm --external:express --external:cors --external:@supabase/supabase-js --external:bcryptjs --external:dotenv --external:framer-motion",
     "preview": "vite preview",
-    "start": "tsx api/index.ts"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.2",
@@ -53,6 +53,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.17",
     "concurrently": "^10.0.3",
+    "esbuild": "^0.28.1",
     "nodemon": "^3.1.14",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",

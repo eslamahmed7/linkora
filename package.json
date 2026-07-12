@@ -9,9 +9,9 @@
     "dev:client": "vite",
     "dev:server": "nodemon --exec tsx server/index.ts",
     "build": "npm run build:server && tsc -b && vite build",
-    "build:server": "npx esbuild server/index.ts --bundle --platform=node --target=node18 --outfile=api/index.cjs --format=cjs --external:express --external:cors --external:@supabase/supabase-js --external:bcryptjs --external:dotenv --external:framer-motion",
+    "build:server": "npx esbuild server/index.ts --bundle --platform=node --target=node18 --outfile=api/index.js --format=esm --external:express --external:cors --external:@supabase/supabase-js --external:bcryptjs --external:dotenv --external:framer-motion",
     "preview": "vite preview",
-    "start": "node api/index.cjs"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.2",

@@ -7,7 +7,6 @@ import { errorHandler } from './middleware/errorHandler';
 import { sendSuccess } from './utils/response';
 
 // Routes
-import authRoutes from './routes/auth';
 import pageRoutes from './routes/pages';
 import linkRoutes from './routes/links';
 import qrcodeRoutes from './routes/qrcodes';
@@ -53,7 +52,6 @@ app.get('/api/version', (req: Request, res: Response) => {
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
 app.use('/api/pages', pageRoutes);
 app.use('/api/links', linkRoutes);
 app.use('/api/qrcodes', qrcodeRoutes);

@@ -1,6 +1,5 @@
 import { supabase } from '@/lib/supabase';
 import { User } from '@/stores/authStore';
-import { apiClient } from './client';
 
 export interface AuthResponse {
   user: User;
@@ -16,12 +15,35 @@ export const authAPI = {
     
     if (error) throw error;
     
+    const user = data.session?.user;
+    if (!user) throw new Error('No user returned from Auth');
     const token = data.session?.access_token || '';
-    
-    const response = await apiClient.get<User>('/auth/me');
-    
+
+    // Fetch user details directly from public.users table instead of /api/auth/me
+    const { data: userData, error: dbError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+
+    if (dbError) throw dbError;
+
     return {
-      user: response.data!,
+      user: {
+        id: userData.id,
+        email: userData.email,
+        avatar: userData.avatar_url,
+        displayName: userData.display_name,
+        username: userData.username,
+        role: userData.role,
+        bio: userData.bio,
+        cover: userData.cover,
+        theme: userData.theme,
+        language: userData.language,
+        isSuspended: userData.is_suspended,
+        createdAt: userData.created_at,
+        updatedAt: userData.updated_at
+      } as User,
       token,
     };
   },
@@ -39,20 +61,41 @@ export const authAPI = {
 
     if (authError) throw authError;
 
+    const user = authData.session?.user;
+    if (!user) throw new Error('No user returned from Auth');
     const token = authData.session?.access_token || '';
 
     // Wait a brief moment for the Supabase Auth trigger to insert the user into public.users
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const response = await apiClient.get<User>('/auth/me');
+    // Fetch user details directly from public.users table instead of /api/auth/me
+    const { data: userData, error: dbError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single();
 
-    if (!response.success) {
-      console.error("Backend sync failed:", response);
-      throw new Error(response.message || response.error || 'Failed to sync user from database');
+    if (dbError) {
+      console.error("Backend DB sync failed:", dbError);
+      throw new Error('Failed to sync user from database');
     }
 
     return {
-      user: response.data!,
+      user: {
+        id: userData.id,
+        email: userData.email,
+        avatar: userData.avatar_url,
+        displayName: userData.display_name,
+        username: userData.username,
+        role: userData.role,
+        bio: userData.bio,
+        cover: userData.cover,
+        theme: userData.theme,
+        language: userData.language,
+        isSuspended: userData.is_suspended,
+        createdAt: userData.created_at,
+        updatedAt: userData.updated_at
+      } as User,
       token,
     };
   },
@@ -66,8 +109,32 @@ export const authAPI = {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) throw new Error('No session');
 
-    const response = await apiClient.get<User>('/auth/me');
-    return { user: response.data! };
+    // Fetch user details directly from public.users table instead of /api/auth/me
+    const { data: userData, error: dbError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', session.user.id)
+      .single();
+
+    if (dbError) throw dbError;
+
+    return { 
+      user: {
+        id: userData.id,
+        email: userData.email,
+        avatar: userData.avatar_url,
+        displayName: userData.display_name,
+        username: userData.username,
+        role: userData.role,
+        bio: userData.bio,
+        cover: userData.cover,
+        theme: userData.theme,
+        language: userData.language,
+        isSuspended: userData.is_suspended,
+        createdAt: userData.created_at,
+        updatedAt: userData.updated_at
+      } as User
+    };
   },
 
   async googleLogin(): Promise<void> {
@@ -96,7 +163,39 @@ export const authAPI = {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) throw new Error('No session');
     
-    const response = await apiClient.put<User>('/auth/profile', updates);
-    return response.data!;
+    // Map camelCase User fields back to snake_case DB fields
+    const dbUpdates: any = {};
+    if (updates.avatar !== undefined) dbUpdates.avatar_url = updates.avatar;
+    if (updates.displayName !== undefined) dbUpdates.display_name = updates.displayName;
+    if (updates.username !== undefined) dbUpdates.username = updates.username;
+    if (updates.bio !== undefined) dbUpdates.bio = updates.bio;
+    if (updates.cover !== undefined) dbUpdates.cover = updates.cover;
+    if (updates.theme !== undefined) dbUpdates.theme = updates.theme;
+    if (updates.language !== undefined) dbUpdates.language = updates.language;
+
+    const { data: userData, error } = await supabase
+      .from('users')
+      .update(dbUpdates)
+      .eq('id', session.user.id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    
+    return {
+      id: userData.id,
+      email: userData.email,
+      avatar: userData.avatar_url,
+      displayName: userData.display_name,
+      username: userData.username,
+      role: userData.role,
+      bio: userData.bio,
+      cover: userData.cover,
+      theme: userData.theme,
+      language: userData.language,
+      isSuspended: userData.is_suspended,
+      createdAt: userData.created_at,
+      updatedAt: userData.updated_at
+    } as User;
   }
 };

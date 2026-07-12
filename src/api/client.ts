@@ -1,9 +1,7 @@
 // API Client for frontend-backend communication
 import { supabase } from '@/lib/supabase';
 
-const API_BASE_URL = import.meta.env.DEV 
-  ? 'http://localhost:3001/api' 
-  : '/api';
+const API_BASE_URL = '/api';
 
 export interface ApiResponse<T> {
   success: boolean

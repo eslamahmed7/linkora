@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { usePageBuilderStore } from '@/stores/pageBuilderStore'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Monitor, Smartphone, Tablet } from 'lucide-react'
 import { getIconData } from '../utils/iconMap'
 
 export function PagePreview() {
   const { page } = usePageBuilderStore()
   const { settings, design, links } = page
+  const [viewMode, setViewMode] = useState<'mobile' | 'tablet' | 'desktop'>('mobile')
 
   const getBackgroundStyle = () => {
     if (design.backgroundImage) {
@@ -131,17 +133,51 @@ export function PagePreview() {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-900/50 p-4">
-      {/* Phone Mockup Frame */}
-      <div className="relative w-[320px] h-[650px] bg-black rounded-[45px] shadow-xl overflow-hidden border-[8px] border-black">
-        {/* Notch */}
-        <div className="absolute top-0 inset-x-0 h-6 bg-black z-50 rounded-b-3xl w-40 mx-auto"></div>
-        
-        {/* Screen Content */}
-        <div
-          className="w-full h-full overflow-y-auto relative no-scrollbar"
-          style={getBackgroundStyle()}
+    <div className="w-full h-full flex flex-col bg-neutral-100 dark:bg-neutral-900/50">
+      {/* Viewport Toggles */}
+      <div className="flex items-center justify-center gap-2 p-3 border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shrink-0">
+        <button
+          onClick={() => setViewMode('mobile')}
+          className={`p-2 rounded-lg transition-colors ${viewMode === 'mobile' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
+          title="Mobile View"
         >
+          <Smartphone className="w-5 h-5" />
+        </button>
+        <button
+          onClick={() => setViewMode('tablet')}
+          className={`p-2 rounded-lg transition-colors ${viewMode === 'tablet' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
+          title="Tablet View"
+        >
+          <Tablet className="w-5 h-5" />
+        </button>
+        <button
+          onClick={() => setViewMode('desktop')}
+          className={`p-2 rounded-lg transition-colors ${viewMode === 'desktop' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
+          title="Desktop View"
+        >
+          <Monitor className="w-5 h-5" />
+        </button>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center p-4 overflow-hidden">
+        {/* Responsive Frame */}
+        <div 
+          className={`relative transition-all duration-300 ease-in-out ${
+            viewMode === 'mobile' ? 'w-full max-w-[400px] h-[800px] max-h-full rounded-[40px] shadow-2xl border-[12px] border-neutral-900 dark:border-black' :
+            viewMode === 'tablet' ? 'w-[768px] h-[1024px] max-h-full max-w-full rounded-[30px] shadow-xl border-[16px] border-neutral-900 dark:border-black' :
+            'w-full max-w-[1200px] h-full rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-700'
+          } overflow-hidden bg-white dark:bg-black`}
+        >
+          {/* Mobile Notch (only in mobile view) */}
+          {viewMode === 'mobile' && (
+            <div className="absolute top-0 inset-x-0 h-6 bg-neutral-900 dark:bg-black z-50 rounded-b-3xl w-40 mx-auto shadow-sm"></div>
+          )}
+          
+          {/* Screen Content */}
+          <div
+            className="w-full h-full overflow-y-auto relative no-scrollbar"
+            style={getBackgroundStyle()}
+          >
           <div className="relative z-10 flex flex-col items-center px-6 py-12 min-h-full">
             {/* Profile Image */}
             {design.profileImageUrl ? (
@@ -255,6 +291,7 @@ export function PagePreview() {
             {/* Removed Watermark as requested */}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )

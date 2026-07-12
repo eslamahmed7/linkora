@@ -172,7 +172,7 @@ export function DashboardPage() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-neutral-900 dark:text-white text-sm truncate">{a.title}</p>
                     <p className="text-xs text-neutral-400">
-                      {a.type === 'page' ? (a.isPublished ? `🟢 ${t('dashboard.activity.published')}` : `⚪ ${t('dashboard.activity.draft')}` : t('dashboard.activity.qrCode')} &nbsp;·&nbsp;
+                      {a.type === 'page' ? (a.isPublished ? `🟢 ${t('dashboard.activity.published')}` : `⚪ ${t('dashboard.activity.draft')}`) : t('dashboard.activity.qrCode')} &nbsp;·&nbsp;
                       {new Date(a.createdAt).toLocaleDateString()}
                     </p>
                   </div>

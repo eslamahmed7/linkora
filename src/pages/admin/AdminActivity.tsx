@@ -97,6 +97,7 @@ export function AdminActivityPage() {
           >
             {t('common.search')}
           </button>
+          <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
               showFilters

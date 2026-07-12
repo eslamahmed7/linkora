@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   LayoutDashboard, Users, Palette, Layers, Lightbulb,
   Bug, Mail, Megaphone, Activity, Settings, Shield, Database,
@@ -22,35 +23,38 @@ interface NavItem {
   minRole?: string
 }
 
-const NAV_ITEMS: NavItem[] = [
-  { path: '/admin', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" />, group: 'Overview' },
-  { path: '/admin/analytics', label: 'Analytics', icon: <BarChart3 className="w-4 h-4" />, group: 'Overview' },
+const getNavItems = (t: (key: string) => string): NavItem[] => [
+  { path: '/admin', label: t('admin.layout.nav.dashboard'), icon: <LayoutDashboard className="w-4 h-4" />, group: t('admin.layout.groups.overview') },
+  { path: '/admin/analytics', label: t('admin.layout.nav.analytics'), icon: <BarChart3 className="w-4 h-4" />, group: t('admin.layout.groups.overview') },
 
-  { path: '/admin/users', label: 'Users', icon: <Users className="w-4 h-4" />, group: 'Management' },
-  { path: '/admin/templates', label: 'Design Marketplace', icon: <Palette className="w-4 h-4" />, group: 'Management' },
-  { path: '/admin/community', label: 'Community', icon: <Layers className="w-4 h-4" />, group: 'Management' },
-  { path: '/admin/assets', label: 'Asset Manager', icon: <Layers className="w-4 h-4" />, group: 'Management' },
-  { path: '/admin/files', label: 'File Manager', icon: <Image className="w-4 h-4" />, group: 'Management' },
+  { path: '/admin/users', label: t('admin.layout.nav.users'), icon: <Users className="w-4 h-4" />, group: t('admin.layout.groups.management') },
+  { path: '/admin/templates', label: t('admin.layout.nav.designMarketplace'), icon: <Palette className="w-4 h-4" />, group: t('admin.layout.groups.management') },
+  { path: '/admin/community', label: t('admin.layout.nav.community'), icon: <Layers className="w-4 h-4" />, group: t('admin.layout.groups.management') },
+  { path: '/admin/assets', label: t('admin.layout.nav.assetManager'), icon: <Layers className="w-4 h-4" />, group: t('admin.layout.groups.management') },
+  { path: '/admin/files', label: t('admin.layout.nav.fileManager'), icon: <Image className="w-4 h-4" />, group: t('admin.layout.groups.management') },
 
-  { path: '/admin/suggestions', label: 'Suggestions', icon: <Lightbulb className="w-4 h-4" />, group: 'Feedback' },
-  { path: '/admin/features', label: 'Feature Requests', icon: <Sparkles className="w-4 h-4" />, group: 'Feedback' },
-  { path: '/admin/bugs', label: 'Bug Reports', icon: <Bug className="w-4 h-4" />, group: 'Feedback' },
-  { path: '/admin/messages', label: 'Messages', icon: <Mail className="w-4 h-4" />, group: 'Feedback' },
+  { path: '/admin/suggestions', label: t('admin.layout.nav.suggestions'), icon: <Lightbulb className="w-4 h-4" />, group: t('admin.layout.groups.feedback') },
+  { path: '/admin/features', label: t('admin.layout.nav.featureRequests'), icon: <Sparkles className="w-4 h-4" />, group: t('admin.layout.groups.feedback') },
+  { path: '/admin/bugs', label: t('admin.layout.nav.bugReports'), icon: <Bug className="w-4 h-4" />, group: t('admin.layout.groups.feedback') },
+  { path: '/admin/messages', label: t('admin.layout.nav.messages'), icon: <Mail className="w-4 h-4" />, group: t('admin.layout.groups.feedback') },
 
-  { path: '/admin/announcements', label: 'Announcements', icon: <Megaphone className="w-4 h-4" />, group: 'Communication' },
+  { path: '/admin/announcements', label: t('admin.layout.nav.announcements'), icon: <Megaphone className="w-4 h-4" />, group: t('admin.layout.groups.communication') },
 
-  { path: '/admin/activity', label: 'Activity Logs', icon: <Activity className="w-4 h-4" />, group: 'System' },
-  { path: '/admin/settings', label: 'Settings', icon: <Settings className="w-4 h-4" />, group: 'System' },
-  { path: '/admin/backups', label: 'Backups', icon: <Database className="w-4 h-4" />, group: 'System' },
+  { path: '/admin/activity', label: t('admin.layout.nav.activityLogs'), icon: <Activity className="w-4 h-4" />, group: t('admin.layout.groups.system') },
+  { path: '/admin/settings', label: t('admin.layout.nav.settings'), icon: <Settings className="w-4 h-4" />, group: t('admin.layout.groups.system') },
+  { path: '/admin/backups', label: t('admin.layout.nav.backups'), icon: <Database className="w-4 h-4" />, group: t('admin.layout.groups.system') },
 ]
 
 export function AdminLayout({ children }: AdminLayoutProps) {
+  const { t } = useTranslation()
   const { user, logout } = useAuth()
   const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const NAV_ITEMS = getNavItems(t)
 
   const isAdmin = user?.role && ['super_admin', 'admin', 'editor', 'support', 'designer', 'viewer'].includes(user.role)
 
@@ -59,10 +63,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-950">
         <div className="text-center space-y-4">
           <Shield className="w-16 h-16 text-neutral-300 dark:text-neutral-600 mx-auto" />
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">Access Denied</h1>
-          <p className="text-neutral-500">You don't have admin permissions.</p>
+          <h1 className="text-2xl font-bold text-neutral-900 dark:text-white">{t('admin.layout.accessDenied')}</h1>
+          <p className="text-neutral-500">{t('admin.layout.noPermissions')}</p>
           <button onClick={() => navigate('/dashboard')} className="px-4 py-2 bg-accent-600 text-white rounded-xl">
-            Go to Dashboard
+            {t('admin.layout.goToDashboard')}
           </button>
         </div>
       </div>
@@ -122,7 +126,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 transition-all ${collapsed ? 'justify-center px-2' : ''}`}
           >
             <ChevronLeft className="w-4 h-4" />
-            {!collapsed && <span>Back to App</span>}
+            {!collapsed && <span>{t('components.layout.backToApp')}</span>}
           </button>
         </div>
       </aside>
@@ -173,7 +177,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             </button>
             <div className="hidden sm:flex items-center gap-2 bg-neutral-100 dark:bg-neutral-900 rounded-xl px-3 py-2 w-64">
               <Search className="w-4 h-4 text-neutral-400" />
-              <input type="text" placeholder="Search..." className="bg-transparent text-sm outline-none flex-1 text-neutral-900 dark:text-white placeholder-neutral-400" />
+              <input type="text" placeholder={t('admin.layout.searchPlaceholder')} className="bg-transparent text-sm outline-none flex-1 text-neutral-900 dark:text-white placeholder-neutral-400" />
             </div>
           </div>
           <div className="flex items-center gap-2">

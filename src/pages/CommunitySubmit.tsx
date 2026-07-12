@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   ArrowLeft, Save, Send, Loader2, Layers, QrCode, CreditCard,
@@ -60,28 +61,45 @@ const DEFAULT_QR: QRCustomization = {
 }
 
 function TypeSelector({ onSelect }: { onSelect: (t: DesignType) => void }) {
+  const { t } = useTranslation()
+  const typeLabelKeys: Record<string, string> = {
+    nfc_template: 'community.types.nfc',
+    link_page_template: 'community.types.linkPage',
+    qr_template: 'community.types.qr',
+    background: 'community.types.background',
+    pattern: 'community.types.pattern',
+    qr_frame: 'community.types.qrFrame',
+  }
+  const typeDescKeys: Record<string, string> = {
+    nfc_template: 'community.types.nfcDesc',
+    link_page_template: 'community.types.linkPageDesc',
+    qr_template: 'community.types.qrDesc',
+    background: 'community.types.backgroundDesc',
+    pattern: 'community.types.patternDesc',
+    qr_frame: 'community.types.qrFrameDesc',
+  }
   return (
     <div className="min-h-[60vh] flex items-center justify-center p-4">
       <div className="max-w-2xl w-full">
         <div className="text-center mb-8">
           <Sparkles className="w-10 h-10 text-accent-500 mx-auto mb-3" />
-          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white">Create a Template</h1>
-          <p className="text-sm text-neutral-500 mt-1">Choose a template type to get started</p>
+          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white">{t('community.title')}</h1>
+          <p className="text-sm text-neutral-500 mt-1">{t('community.subtitle')}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {TEMPLATE_TYPES.map(t => {
-            const Icon = t.icon
+          {TEMPLATE_TYPES.map(tt => {
+            const Icon = tt.icon
             return (
               <button
-                key={t.type}
-                onClick={() => onSelect(t.type)}
+                key={tt.type}
+                onClick={() => onSelect(tt.type)}
                 className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 hover:border-accent-400 dark:hover:border-accent-600 hover:shadow-lg transition-all text-left group"
               >
-                <div className={`w-10 h-10 rounded-xl ${t.bgColor} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <Icon className={`w-5 h-5 ${t.color}`} />
+                <div className={`w-10 h-10 rounded-xl ${tt.bgColor} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                  <Icon className={`w-5 h-5 ${tt.color}`} />
                 </div>
-                <h3 className="text-sm font-bold text-neutral-900 dark:text-white">{t.label}</h3>
-                <p className="text-xs text-neutral-500 mt-0.5">{t.description}</p>
+                <h3 className="text-sm font-bold text-neutral-900 dark:text-white">{t(typeLabelKeys[tt.type])}</h3>
+                <p className="text-xs text-neutral-500 mt-0.5">{t(typeDescKeys[tt.type])}</p>
               </button>
             )
           })}
@@ -117,11 +135,21 @@ function CommunityLinkPageEditor({ design, links, setDesign, setLinks }: {
 }
 
 export function CommunitySubmitPage() {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const notification = useNotification()
   const { user } = useAuthStore()
   const isEdit = !!id
+
+  const typeLabelKeys: Record<string, string> = {
+    nfc_template: 'community.types.nfc',
+    link_page_template: 'community.types.linkPage',
+    qr_template: 'community.types.qr',
+    background: 'community.types.background',
+    pattern: 'community.types.pattern',
+    qr_frame: 'community.types.qrFrame',
+  }
 
   const [selectedType, setSelectedType] = useState<DesignType | null>(null)
   const [loading, setLoading] = useState(isEdit)
@@ -182,7 +210,7 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
           if (m.qrCustomization) setQrCustomization({ ...DEFAULT_QR, ...m.qrCustomization as QRCustomization })
           if (m.background) setBgConfig(m.background as BackgroundConfig)
         }
-      } catch { notification.error('Failed to load submission') }
+      } catch { notification.error(t('community.toasts.loadFailed')) }
       finally { setLoading(false) }
     }
     load()
@@ -226,9 +254,9 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
         const { error } = await supabase.from('community_submissions').insert(payload)
         if (error) throw error
       }
-      notification.success('Draft saved')
+      notification.success(t('community.toasts.draftSaved'))
     } catch (err: any) {
-      notification.error(err.message || 'Failed to save draft')
+      notification.error(err.message || t('community.toasts.saveFailed'))
     } finally { setSaving(false) }
   }
 
@@ -259,7 +287,7 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
       }
       setSubmitted(true)
     } catch (err: any) {
-      notification.error(err.message || 'Failed to submit')
+      notification.error(err.message || t('community.toasts.submitFailed'))
     } finally { setSaving(false) }
   }
 
@@ -268,10 +296,10 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
       <div className="min-h-[60vh] flex items-center justify-center p-4">
         <div className="text-center max-w-sm">
           <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-xl font-extrabold text-neutral-900 dark:text-white mb-2">Template Submitted!</h1>
-          <p className="text-sm text-neutral-500 mb-6">Your template has been submitted for review. An admin will review it soon.</p>
+          <h1 className="text-xl font-extrabold text-neutral-900 dark:text-white mb-2">{t('community.successTitle')}</h1>
+          <p className="text-sm text-neutral-500 mb-6">{t('community.successDesc')}</p>
           <button onClick={() => navigate('/dashboard')} className="px-6 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-semibold text-sm transition-colors">
-            Back to Dashboard
+            {t('community.backToDashboard')}
           </button>
         </div>
       </div>
@@ -292,9 +320,9 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
 
   const metaPanel = (
     <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
-      <h3 className="text-sm font-bold text-neutral-900 dark:text-white">Template Details</h3>
+      <h3 className="text-sm font-bold text-neutral-900 dark:text-white">{t('community.details')}</h3>
       <div>
-        <label className="block text-xs font-semibold text-neutral-500 mb-1">Title *</label>
+        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.meta.title')} *</label>
         <input
           type="text" value={meta.title} onChange={e => setMeta(p => ({ ...p, title: e.target.value }))}
           placeholder="My Awesome Template"
@@ -302,21 +330,21 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
         />
       </div>
       <div>
-        <label className="block text-xs font-semibold text-neutral-500 mb-1">Description</label>
+        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.meta.description')}</label>
         <textarea value={meta.description} onChange={e => setMeta(p => ({ ...p, description: e.target.value }))}
           rows={3} placeholder="Describe your template..."
           className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600 resize-none"
         />
       </div>
       <div>
-        <label className="block text-xs font-semibold text-neutral-500 mb-1">Category</label>
+        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.meta.category')}</label>
         <select value={meta.category} onChange={e => setMeta(p => ({ ...p, category: e.target.value as TemplateCategory }))}
           className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600">
-          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+          {CATEGORIES.map(c => <option key={c} value={c}>{t(`community.categories.${c}`)}</option>)}
         </select>
       </div>
       <div>
-        <label className="block text-xs font-semibold text-neutral-500 mb-1">Tags (comma-separated)</label>
+        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.meta.tags')}</label>
         <input type="text" value={meta.tags} onChange={e => setMeta(p => ({ ...p, tags: e.target.value }))}
           placeholder="modern, minimal, dark"
           className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600"
@@ -326,12 +354,12 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
         <button onClick={handleSaveDraft} disabled={saving || !meta.title.trim()}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-neutral-800 font-semibold text-sm transition-colors disabled:opacity-50">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Draft
+          {t('community.buttons.saveDraft')}
         </button>
         <button onClick={handleSubmit} disabled={saving || !meta.title.trim()}
           className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-semibold text-sm transition-colors disabled:opacity-50">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-          Submit
+          {t('community.buttons.submit')}
         </button>
       </div>
     </div>
@@ -347,19 +375,19 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
               <ArrowLeft className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
             </button>
             <div>
-              <h1 className="text-base font-bold text-neutral-900 dark:text-white">Submit Template</h1>
-              <p className="text-xs text-neutral-500">{TEMPLATE_TYPES.find(t => t.type === selectedType)?.label}</p>
+              <h1 className="text-base font-bold text-neutral-900 dark:text-white">{t('community.submitTitle')}</h1>
+              <p className="text-xs text-neutral-500">{t(typeLabelKeys[TEMPLATE_TYPES.find(tt => tt.type === selectedType)?.type || ''])}</p>
             </div>
           </div>
           <div className="flex gap-2">
             <button onClick={handleSaveDraft} disabled={saving || !meta.title.trim()}
               className="flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 font-semibold text-sm transition-colors disabled:opacity-50">
-              <Save className="w-4 h-4" /> Draft
+              <Save className="w-4 h-4" /> {t('community.buttons.draft')}
             </button>
             <button onClick={handleSubmit} disabled={saving || !meta.title.trim()}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-600 hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm transition-colors">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-              {saving ? 'Sending...' : 'Submit for Review'}
+              {saving ? t('community.buttons.sending') : t('community.buttons.submitForReview')}
             </button>
           </div>
         </div>
@@ -384,17 +412,17 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
               <div className="flex flex-col lg:flex-row gap-4">
                 <div className="flex-1 space-y-4">
                   <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5">
-                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-4">QR Code Settings</h3>
+                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-4">{t('community.qrSettings.title')}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-neutral-500 mb-1">Data / URL</label>
+                        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.qrSettings.dataUrl')}</label>
                         <input type="text" value={qrCustomization.data?.url || ''}
                           onChange={e => setQrCustomization(c => ({ ...c, data: { ...c.data, url: e.target.value } }))}
                           placeholder="https://example.com"
                           className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-neutral-500 mb-1">Dot Style</label>
+                        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.qrSettings.dotStyle')}</label>
                         <select value={qrCustomization.dotStyle}
                           onChange={e => setQrCustomization(c => ({ ...c, dotStyle: e.target.value as any }))}
                           className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600">
@@ -404,13 +432,13 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-neutral-500 mb-1">Foreground</label>
+                        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.qrSettings.foreground')}</label>
                         <input type="color" value={qrCustomization.foregroundColor}
                           onChange={e => setQrCustomization(c => ({ ...c, foregroundColor: e.target.value }))}
                           className="w-full h-10 rounded-lg border border-neutral-200 dark:border-neutral-700 cursor-pointer" />
                       </div>
                       <div>
-                        <label className="block text-xs font-semibold text-neutral-500 mb-1">Background</label>
+                        <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.qrSettings.background')}</label>
                         <input type="color" value={qrCustomization.backgroundColor}
                           onChange={e => setQrCustomization(c => ({ ...c, backgroundColor: e.target.value }))}
                           className="w-full h-10 rounded-lg border border-neutral-200 dark:border-neutral-700 cursor-pointer" />
@@ -420,7 +448,7 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
                 </div>
                 <div className="w-full lg:w-[320px] shrink-0">
                   <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 sticky top-20">
-                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-4">Preview</h3>
+                    <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-4">{t('community.qrSettings.preview')}</h3>
                     <div className="flex items-center justify-center p-6 bg-neutral-100 dark:bg-neutral-800 rounded-xl">
                       <QRGenerator value={qrCustomization.data?.url || 'https://linkora.app'} size={200} customization={qrCustomization} />
                     </div>
@@ -430,27 +458,27 @@ const [cardDesign, setCardDesign] = useState<CardDesign>({
             )}
             {selectedType === 'background' && (
               <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl p-5 space-y-4">
-                <h3 className="text-sm font-bold text-neutral-900 dark:text-white">Background Settings</h3>
+                <h3 className="text-sm font-bold text-neutral-900 dark:text-white">{t('community.bgSettings.title')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-neutral-500 mb-1">Type</label>
+                    <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.bgSettings.type')}</label>
                     <select value={bgConfig.type}
                       onChange={e => setBgConfig(c => ({ ...c, type: e.target.value as any }))}
                       className="w-full px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white text-sm">
-                      <option value="solid">Solid</option>
-                      <option value="linear-gradient">Linear Gradient</option>
-                      <option value="radial-gradient">Radial Gradient</option>
+                      <option value="solid">{t('community.bgSettings.solid')}</option>
+                      <option value="linear-gradient">{t('community.bgSettings.linearGradient')}</option>
+                      <option value="radial-gradient">{t('community.bgSettings.radialGradient')}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-neutral-500 mb-1">Color</label>
+                    <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.bgSettings.color')}</label>
                     <input type="color" value={bgConfig.color}
                       onChange={e => setBgConfig(c => ({ ...c, color: e.target.value }))}
                       className="w-full h-10 rounded-lg border border-neutral-200 dark:border-neutral-700 cursor-pointer" />
                   </div>
                   {bgConfig.type !== 'solid' && (
                     <div>
-                      <label className="block text-xs font-semibold text-neutral-500 mb-1">Color 2</label>
+                      <label className="block text-xs font-semibold text-neutral-500 mb-1">{t('community.bgSettings.color2')}</label>
                       <input type="color" value={bgConfig.color2}
                         onChange={e => setBgConfig(c => ({ ...c, color2: e.target.value }))}
                         className="w-full h-10 rounded-lg border border-neutral-200 dark:border-neutral-700 cursor-pointer" />

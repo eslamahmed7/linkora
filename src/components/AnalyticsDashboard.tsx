@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { analyticsAPI } from '@/api/analytics'
 import { useNotification } from '@/hooks/useNotification'
 import { BarChart3, Users, Mouse, TrendingUp } from 'lucide-react'
@@ -9,6 +10,7 @@ interface AnalyticsDashboardProps {
 }
 
 export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
+  const { t } = useTranslation()
   const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const notification = useNotification()
@@ -25,18 +27,18 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
         : await analyticsAPI.getDashboardStats()
       setAnalytics(response)
     } catch (error) {
-      notification.error('Failed to load analytics')
+      notification.error(t('components.analyticsDashboard.loadFailed'))
     } finally {
       setIsLoading(false)
     }
   }
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading analytics...</div>
+    return <div className="text-center py-8">{t('components.analyticsDashboard.loading')}</div>
   }
 
   if (!analytics) {
-    return <div className="text-center py-8">No analytics data available</div>
+    return <div className="text-center py-8">{t('components.analyticsDashboard.empty')}</div>
   }
 
   const { stats } = analytics
@@ -49,14 +51,14 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
           <div className="flex items-center gap-3 mb-2">
             <Mouse className="w-5 h-5 text-accent-600 dark:text-accent-400" />
             <span className="text-sm text-neutral-600 dark:text-neutral-400">
-              Total Clicks
+              {t('components.analyticsDashboard.totalClicks')}
             </span>
           </div>
           <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
             {stats.totalClicks.toLocaleString()}
           </div>
           <p className="text-xs text-neutral-500 mt-1">
-            {stats.clicksToday} today
+            {t('components.analyticsDashboard.todayClicks', { count: stats.clicksToday })}
           </p>
         </div>
 
@@ -64,14 +66,14 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
           <div className="flex items-center gap-3 mb-2">
             <Users className="w-5 h-5 text-accent-600 dark:text-accent-400" />
             <span className="text-sm text-neutral-600 dark:text-neutral-400">
-              Unique Visitors
+              {t('components.analyticsDashboard.uniqueVisitors')}
             </span>
           </div>
           <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
             {stats.uniqueVisitors.toLocaleString()}
           </div>
           <p className="text-xs text-neutral-500 mt-1">
-            {stats.visitorsToday} today
+            {t('components.analyticsDashboard.todayVisitors', { count: stats.visitorsToday })}
           </p>
         </div>
 
@@ -79,7 +81,7 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
           <div className="flex items-center gap-3 mb-2">
             <BarChart3 className="w-5 h-5 text-accent-600 dark:text-accent-400" />
             <span className="text-sm text-neutral-600 dark:text-neutral-400">
-              Avg. CTR
+              {t('components.analyticsDashboard.avgCTR')}
             </span>
           </div>
           <div className="text-2xl font-bold text-neutral-900 dark:text-neutral-50">
@@ -88,31 +90,29 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
               : '0'}
             %
           </div>
-          <p className="text-xs text-neutral-500 mt-1">Click-through rate</p>
+          <p className="text-xs text-neutral-500 mt-1">{t('components.analyticsDashboard.ctrDesc')}</p>
         </div>
 
         <div className="p-4 rounded-lg bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
           <div className="flex items-center gap-3 mb-2">
             <TrendingUp className="w-5 h-5 text-accent-600 dark:text-accent-400" />
             <span className="text-sm text-neutral-600 dark:text-neutral-400">
-              Device Split
+              {t('components.analyticsDashboard.deviceSplit')}
             </span>
           </div>
           <div className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-            {Math.round(
+            {t('components.analyticsDashboard.mobilePercent', { percent: Math.round(
               (stats.deviceBreakdown.mobile /
                 (stats.deviceBreakdown.desktop +
                   stats.deviceBreakdown.mobile +
                   stats.deviceBreakdown.tablet)) *
                 100
-            )}
-            % Mobile
+            ) })}
           </div>
           <p className="text-xs text-neutral-500 mt-1">
-            {stats.deviceBreakdown.desktop +
+            {t('components.analyticsDashboard.totalVisits', { total: stats.deviceBreakdown.desktop +
               stats.deviceBreakdown.mobile +
-              stats.deviceBreakdown.tablet}{' '}
-            total visits
+              stats.deviceBreakdown.tablet })}
           </p>
         </div>
       </div>
@@ -121,7 +121,7 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
       {stats.topLinks.length > 0 && (
         <div className="p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
           <h3 className="font-semibold mb-4 text-neutral-900 dark:text-neutral-50">
-            Top Links
+            {t('components.analyticsDashboard.topLinks')}
           </h3>
           <div className="space-y-3">
             {stats.topLinks.slice(0, 5).map((link) => (
@@ -153,7 +153,7 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
       {stats.topCountries.length > 0 && (
         <div className="p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
           <h3 className="font-semibold mb-4 text-neutral-900 dark:text-neutral-50">
-            Top Countries
+            {t('components.analyticsDashboard.topCountries')}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {stats.topCountries.slice(0, 6).map((country) => (
@@ -162,7 +162,7 @@ export function AnalyticsDashboard({ pageId }: AnalyticsDashboardProps) {
                   {country.country}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  {country.clicks} clicks
+                  {t('components.analyticsDashboard.clicksCount', { clicks: country.clicks })}
                 </p>
               </div>
             ))}

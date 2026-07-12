@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 import { useNotification } from '@/hooks/useNotification'
 import { authAPI } from '@/api/auth'
 
 export function SettingsPage() {
+  const { t } = useTranslation()
   const { logout } = useAuth()
   const { theme, setTheme: setThemeMode, language, setLanguage } = useTheme()
   const notification = useNotification()
@@ -18,24 +20,24 @@ export function SettingsPage() {
     e.preventDefault()
 
     if (newPassword !== confirmPassword) {
-      notification.error('Passwords do not match')
+      notification.error(t('settings.password.mismatch'))
       return
     }
 
     if (newPassword.length < 8) {
-      notification.error('Password must be at least 8 characters')
+      notification.error(t('settings.password.minLength'))
       return
     }
 
     setIsLoading(true)
     try {
       // This would call the backend API
-      notification.success('Password changed successfully')
+      notification.success(t('settings.password.success'))
       setCurrentPassword('')
       setNewPassword('')
       setConfirmPassword('')
     } catch (error) {
-      notification.error('Failed to change password')
+      notification.error(t('settings.password.failed'))
     } finally {
       setIsLoading(false)
     }
@@ -46,9 +48,9 @@ export function SettingsPage() {
     try {
       // Sync with backend
       authAPI.updateProfile({ theme: newTheme })
-      notification.success('Theme updated')
+      notification.success(t('settings.theme.updated'))
     } catch (error) {
-      notification.error('Failed to update theme')
+      notification.error(t('settings.theme.failed'))
     }
   }
 
@@ -57,9 +59,9 @@ export function SettingsPage() {
     try {
       // Sync with backend
       authAPI.updateProfile({ language: newLang })
-      notification.success('Language updated')
+      notification.success(t('settings.language.updated'))
     } catch (error) {
-      notification.error('Failed to update language')
+      notification.error(t('settings.language.failed'))
     }
   }
 
@@ -68,15 +70,15 @@ export function SettingsPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
-          Settings
+          {t('settings.title')}
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400 mt-1">
-          Manage your application settings
+          {t('settings.subtitle')}
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-neutral-200 dark:border-neutral-800">
+      <div className="flex gap-2 border-b border-neutral-200 dark:border-neutral-800 overflow-x-auto">
         {(['general', 'appearance', 'language'] as const).map((tab) => (
           <button
             key={tab}
@@ -87,7 +89,7 @@ export function SettingsPage() {
                 : 'border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50'
             }`}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {({ general: t('settings.tabs.general'), appearance: t('settings.tabs.appearance'), language: t('settings.tabs.language') })[tab]}
           </button>
         ))}
       </div>
@@ -98,12 +100,12 @@ export function SettingsPage() {
           {/* Change Password */}
           <div className="bg-white dark:bg-neutral-950 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
             <h2 className="text-xl font-bold text-neutral-900 dark:text-neutral-50 mb-4">
-              Change Password
+              {t('settings.password.changeTitle')}
             </h2>
             <form onSubmit={handleChangePassword} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                  Current Password
+                  {t('settings.password.current')}
                 </label>
                 <input
                   type="password"
@@ -116,7 +118,7 @@ export function SettingsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                  New Password
+                  {t('settings.password.new')}
                 </label>
                 <input
                   type="password"
@@ -129,7 +131,7 @@ export function SettingsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                  Confirm Password
+                  {t('settings.password.confirm')}
                 </label>
                 <input
                   type="password"
@@ -145,7 +147,7 @@ export function SettingsPage() {
                 disabled={isLoading}
                 className="px-6 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors disabled:opacity-50"
               >
-                {isLoading ? 'Updating...' : 'Update Password'}
+                {isLoading ? t('settings.password.updating') : t('settings.password.update')}
               </button>
             </form>
           </div>
@@ -153,25 +155,25 @@ export function SettingsPage() {
           {/* Danger Zone */}
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6">
             <h2 className="text-xl font-bold text-red-900 dark:text-red-50 mb-2">
-              Danger Zone
+              {t('settings.dangerZone.title')}
             </h2>
             <p className="text-sm text-red-800 dark:text-red-200 mb-4">
-              Actions here cannot be undone
+              {t('settings.dangerZone.warning')}
             </p>
             <button
               onClick={() => {
                 if (
                   window.confirm(
-                    'Are you sure you want to log out of all devices?'
+                    t('settings.dangerZone.confirmMessage')
                   )
                 ) {
                   logout()
-                  notification.success('Logged out successfully')
+                  notification.success(t('settings.dangerZone.logoutSuccess'))
                 }
               }}
               className="px-6 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium transition-colors"
             >
-              Logout from All Devices
+              {t('settings.dangerZone.logoutAll')}
             </button>
           </div>
         </div>
@@ -186,20 +188,20 @@ export function SettingsPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-3">
-                Current Theme: <span className="font-bold text-accent-600">{theme}</span>
+                {t('settings.theme.current')} <span className="font-bold text-accent-600">{theme}</span>
               </label>
               <div className="flex gap-4">
-                {(['dark', 'light'] as const).map((t) => (
+                {(['dark', 'light'] as const).map((mode) => (
                   <button
-                    key={t}
-                    onClick={() => handleThemeChange(t)}
+                    key={mode}
+                    onClick={() => handleThemeChange(mode)}
                     className={`px-6 py-3 rounded-lg font-medium transition-colors ${
-                      theme === t
+                      theme === mode
                         ? 'bg-accent-600 text-white'
                         : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 hover:bg-neutral-200 dark:hover:bg-neutral-700'
                     }`}
                   >
-                    {t.charAt(0).toUpperCase() + t.slice(1)} Mode
+                    {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
                   </button>
                 ))}
               </div>
@@ -217,7 +219,7 @@ export function SettingsPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-3">
-                Current Language: <span className="font-bold text-accent-600">{language === 'en' ? 'English' : 'العربية'}</span>
+                {t('settings.language.current')} <span className="font-bold text-accent-600">{language === 'en' ? t('settings.language.english') : t('settings.language.arabic')}</span>
               </label>
               <div className="flex gap-4">
                 {(['en', 'ar'] as const).map((lang) => (
@@ -230,7 +232,7 @@ export function SettingsPage() {
                         : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 hover:bg-neutral-200 dark:hover:bg-neutral-700'
                     }`}
                   >
-                    {lang === 'en' ? 'English' : 'العربية'}
+                    {lang === 'en' ? t('settings.language.english') : t('settings.language.arabic')}
                   </button>
                 ))}
               </div>

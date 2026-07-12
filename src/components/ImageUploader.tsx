@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { uploadAPI } from '@/api/upload'
 import { useNotification } from '@/hooks/useNotification'
 import { X, Image as ImageIcon } from 'lucide-react'
@@ -15,9 +16,10 @@ interface ImageUploaderProps {
 export function ImageUploader({
   onImageUploaded,
   currentImage,
-  label = 'Upload Image',
+  label,
   aspectRatio,
 }: ImageUploaderProps) {
+  const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
   const [preview, setPreview] = useState<string | undefined>(currentImage)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -27,14 +29,14 @@ export function ImageUploader({
     try {
       if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
         notification.error(
-          `Invalid file type. Allowed types: ${ALLOWED_IMAGE_TYPES.join(', ')}`
+          t('components.imageUploader.errors.invalidType', { types: ALLOWED_IMAGE_TYPES.join(', ') })
         )
         return
       }
 
       if (file.size > MAX_IMAGE_SIZE) {
         notification.error(
-          `File too large. Maximum size: ${MAX_IMAGE_SIZE / 1024 / 1024}MB`
+          t('components.imageUploader.errors.fileTooLarge', { size: MAX_IMAGE_SIZE / 1024 / 1024 })
         )
         return
       }
@@ -49,9 +51,9 @@ export function ImageUploader({
 
       const response = await uploadAPI.uploadImage(file)
       onImageUploaded(response.file)
-      notification.success('Image uploaded successfully')
+      notification.success(t('components.imageUploader.toasts.uploadSuccess'))
     } catch (error) {
-      notification.error('Failed to upload image')
+      notification.error(t('components.imageUploader.errors.uploadFailed'))
       setPreview(currentImage)
     } finally {
       setIsLoading(false)
@@ -82,14 +84,14 @@ export function ImageUploader({
   return (
     <div className="space-y-4">
       <label className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-        {label}
+        {label || t('components.imageUploader.defaultLabel')}
       </label>
 
       {preview ? (
         <div className="relative rounded-lg overflow-hidden border-2 border-neutral-200 dark:border-neutral-800">
           <img
             src={preview}
-            alt="Preview"
+            alt={t('components.imageUploader.preview')}
             className="w-full h-64 object-cover"
             style={aspectRatio ? { aspectRatio } : undefined}
           />
@@ -112,10 +114,10 @@ export function ImageUploader({
         >
           <ImageIcon className="w-12 h-12 mx-auto text-neutral-400 dark:text-neutral-600 mb-3" />
           <p className="font-medium text-neutral-900 dark:text-neutral-50">
-            Click to upload or drag and drop
+            {t('components.imageUploader.dropzone')}
           </p>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-            PNG, JPG, GIF up to {MAX_IMAGE_SIZE / 1024 / 1024}MB
+            {t('components.imageUploader.formats', { size: MAX_IMAGE_SIZE / 1024 / 1024 })}
           </p>
         </div>
       )}
@@ -133,7 +135,7 @@ export function ImageUploader({
         <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-600"></div>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-            Uploading...
+            {t('components.imageUploader.uploading')}
           </p>
         </div>
       )}

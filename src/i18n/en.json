@@ -14,13 +14,1773 @@
     "settings": "Settings",
     "profile": "Profile",
     "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "lightMode": "Light Mode",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "prev": "Prev",
+    "search": "Search",
+    "filter": "Filter",
+    "filters": "Filters",
+    "clearAll": "Clear all",
+    "selectAll": "Select all",
+    "selected": "{{count}} selected",
+    "all": "All",
+    "none": "None",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "retry": "Retry",
+    "refresh": "Refresh",
+    "upload": "Upload",
+    "download": "Download",
+    "copy": "Copy",
+    "paste": "Paste",
+    "undo": "Undo",
+    "redo": "Redo",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "feature": "Feature",
+    "unfeature": "Unfeature",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "pin": "Pin",
+    "suspend": "Suspend",
+    "unsuspend": "Unsuspend",
+    "saving": "Saving...",
+    "creating": "Creating...",
+    "submitting": "Submitting...",
+    "updating": "Updating...",
+    "sending": "Sending...",
+    "unknown": "Unknown",
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "active": "Active",
+    "inactive": "Inactive",
+    "suspended": "Suspended",
+    "pending": "Pending",
+    "completed": "Completed",
+    "failed": "Failed",
+    "public": "Public",
+    "unlisted": "Unlisted",
+    "private": "Private",
+    "pro": "Pro",
+    "featured": "Featured",
+    "pinned": "Pinned",
+    "name": "Name",
+    "title": "Title",
+    "description": "Description",
+    "type": "Type",
+    "status": "Status",
+    "date": "Date",
+    "actions": "Actions",
+    "user": "User",
+    "email": "Email",
+    "password": "Password",
+    "role": "Role",
+    "category": "Category",
+    "tags": "Tags",
+    "version": "Version",
+    "size": "Size",
+    "color": "Color",
+    "opacity": "Opacity",
+    "rotation": "Rotation",
+    "preview": "Preview",
+    "page": "Page",
+    "pageOf": "Page {{page}} of {{total}}",
+    "noData": "No data",
+    "noResults": "No results found",
+    "system": "System",
+    "pageNotFound": "Page not found"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "editor": "Editor",
     "analytics": "Analytics",
     "settings": "Settings",
-    "help": "Help"
+    "help": "Help",
+    "myPages": "My Pages",
+    "qrCodes": "QR Codes",
+    "nfcCards": "NFC Cards",
+    "submitTemplate": "Submit Template",
+    "adminPanel": "Admin Panel"
+  },
+  "auth": {
+    "login": "Login",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot Password",
+    "resetPassword": "Reset Password",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "displayName": "Display Name",
+    "rememberMe": "Remember me",
+    "loggingIn": "Logging in...",
+    "creatingAccount": "Creating account...",
+    "sending": "Sending...",
+    "sendResetLink": "Send Reset Link",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed. Please try again.",
+    "accountCreated": "Account created successfully!",
+    "registrationFailed": "Registration failed. Please try again.",
+    "resetLinkSent": "Password reset link sent to your email",
+    "resetLinkFailed": "Failed to send reset link. Please try again.",
+    "resetLinkCheck": "Check your email for a password reset link. It may take a few minutes to arrive.",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "forgotLink": "Forgot your password?",
+    "backToLogin": "Back to login",
+    "welcomeBack": "Welcome back to your link page builder",
+    "createAccount": "Create your account to get started",
+    "loginSubtitle": "Enter your email address and we'll send you a link to reset your password",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid email address",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "passwordsNoMatch": "Passwords do not match",
+    "nameRequired": "Display name is required"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "subtitle": "Here's what's happening with your Linkora today.",
+    "newPage": "New Page",
+    "newQR": "New QR",
+    "viewAll": "View all",
+    "recentActivity": "Recent Activity",
+    "gettingStarted": "Getting Started",
+    "quickActions": "Quick Actions",
+    "stats": {
+      "totalPages": "Total Pages",
+      "qrCodes": "QR Codes",
+      "totalScans": "Total Scans",
+      "linkClicks": "Link Clicks"
+    },
+    "activity": {
+      "published": "Published",
+      "draft": "Draft",
+      "qrCode": "QR Code"
+    },
+    "actions": {
+      "createNewPage": "Create New Page",
+      "generateQRCode": "Generate QR Code",
+      "viewAnalytics": "View Analytics",
+      "nfcCards": "NFC Cards"
+    },
+    "empty": "No activity yet.",
+    "checklist": {
+      "createFirstPage": "Create your first page",
+      "addLinks": "Add links to your page",
+      "createQR": "Create a QR code",
+      "publishPage": "Publish your page",
+      "createFirstCTA": "Create your first page →"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your application settings",
+    "tabs": {
+      "general": "General",
+      "appearance": "Appearance",
+      "language": "Language"
+    },
+    "password": {
+      "current": "Current Password",
+      "new": "New Password",
+      "confirm": "Confirm Password",
+      "changeTitle": "Change Password",
+      "update": "Update Password",
+      "updating": "Updating...",
+      "success": "Password changed successfully",
+      "failed": "Failed to change password"
+    },
+    "dangerZone": {
+      "title": "Danger Zone",
+      "warning": "Actions here cannot be undone",
+      "logoutAll": "Logout from All Devices",
+      "confirmMessage": "Are you sure you want to log out of all devices?",
+      "success": "Logged out successfully"
+    },
+    "theme": {
+      "title": "Theme Settings",
+      "current": "Current Theme: ",
+      "updated": "Theme updated",
+      "failed": "Failed to update theme"
+    },
+    "language": {
+      "title": "Language Settings",
+      "current": "Current Language: ",
+      "english": "English",
+      "arabic": "العربية",
+      "updated": "Language updated",
+      "failed": "Failed to update language"
+    }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "subtitle": "Manage your profile information",
+    "fields": {
+      "displayName": "Display Name",
+      "username": "Username",
+      "bio": "Bio",
+      "email": "Email",
+      "cover": "Cover"
+    },
+    "bioPlaceholder": "Tell us about yourself...",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "discard": "Discard",
+    "memberSince": "Member since ",
+    "emailHelper": "Email cannot be changed",
+    "avatarSuccess": "Avatar updated successfully",
+    "avatarFailed": "Failed to upload avatar",
+    "coverSuccess": "Cover updated successfully",
+    "coverFailed": "Failed to upload cover",
+    "profileSuccess": "Profile updated successfully",
+    "profileFailed": "Failed to update profile"
+  },
+  "myPages": {
+    "title": "My Pages",
+    "subtitle": "Manage your link pages",
+    "createPage": "Create Page",
+    "searchPlaceholder": "Search pages...",
+    "empty": "No pages yet. Create your first one!",
+    "filters": {
+      "all": "All Pages",
+      "published": "Published",
+      "draft": "Draft"
+    },
+    "table": {
+      "title": "Title",
+      "slug": "Slug",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "actions": {
+      "viewPublic": "View Public Page",
+      "editPage": "Edit Page",
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "delete": "Delete"
+    },
+    "confirmDelete": "Are you sure you want to delete this page?",
+    "toasts": {
+      "loadFailed": "Failed to load pages",
+      "deleted": "Page deleted successfully",
+      "deleteFailed": "Failed to delete page",
+      "duplicated": "Page duplicated successfully",
+      "duplicateFailed": "Failed to duplicate page",
+      "archived": "Page archived successfully",
+      "archiveFailed": "Failed to archive page"
+    }
+  },
+  "nfc": {
+    "title": "NFC Cards",
+    "subtitle": "Create, customize, and manage your premium NFC business cards.",
+    "addCard": "Add NFC Card",
+    "createFirst": "Create Your First Card",
+    "emptyTitle": "No NFC Cards Yet",
+    "emptyDesc": "Create your first premium NFC business card. Choose a template and customize every detail.",
+    "templatePicker": {
+      "title": "Choose a Template",
+      "subtitle": "Pick a base design — you can fully customize it after",
+      "using": "Using: "
+    },
+    "cardDetails": "Card Details",
+    "editCard": "Edit Card",
+    "fields": {
+      "cardName": "Card Name *",
+      "description": "Description",
+      "destinationPage": "Destination Page",
+      "redirectTo": "Redirects to:",
+      "noDescription": "No description",
+      "noPageLinked": "No Page Linked",
+      "tagNotLinked": "Tag not linked",
+      "customDesign": "Custom Design"
+    },
+    "placeholders": {
+      "cardName": "e.g. My Smart Business Card",
+      "description": "Where will you use this card?",
+      "createPageFirst": "Create a page first",
+      "editCardName": "My Smart Card",
+      "editDescription": "Where will you use this?"
+    },
+    "stats": {
+      "totalCards": "Total Cards",
+      "active": "Active",
+      "linkedTags": "Linked Tags"
+    },
+    "buttons": {
+      "createAndDesign": "Create & Open Designer",
+      "editDesign": "Edit Design",
+      "createDesign": "Create Design",
+      "linkTag": "Link Tag"
+    },
+    "simulator": {
+      "title": "NFC Tag Writer",
+      "subtitle": "Simulate linking a physical NFC chip",
+      "tagUid": "NFC Tag UID",
+      "cardTarget": "Card Target",
+      "placeholder": "e.g. 04:DE:6F:A2",
+      "random": "Random",
+      "start": "Start Simulation",
+      "writing": "Writing NFC...",
+      "done": "Done",
+      "placePhone": "Place phone near card",
+      "tagLinked": "Tag Linked!",
+      "successText": "UID {{uid}} linked to \"{{title}}\"",
+      "simulationFailed": "Simulation failed"
+    },
+    "confirmDelete": "Delete this card?",
+    "toasts": {
+      "loadFailed": "Failed to load data",
+      "created": "Card created! Opening designer...",
+      "createFailed": "Failed to create NFC card",
+      "designSaved": "Design saved!",
+      "designFailed": "Failed to save design",
+      "activated": "Card activated",
+      "deactivated": "Card deactivated",
+      "statusFailed": "Failed to update card status",
+      "deleted": "Card deleted",
+      "deleteFailed": "Failed to delete card",
+      "updated": "Card updated",
+      "updateFailed": "Failed to update card",
+      "tagLinked": "NFC tag linked!"
+    }
+  },
+  "qrPage": {
+    "title": "QR Codes",
+    "subtitle": "Create and manage your QR codes",
+    "createQR": "Create QR Code",
+    "emptyTitle": "No QR Codes Yet",
+    "emptyDesc": "Create your first QR code to get started"
+  },
+  "qrList": {
+    "title": "QR Codes",
+    "subtitle": "Manage your QR codes and track their performance",
+    "searchPlaceholder": "Search QR codes...",
+    "empty": "No QR codes yet. Create your first one!",
+    "linkedTo": "Linked to: ",
+    "table": {
+      "name": "Name",
+      "url": "URL",
+      "scans": "Scans",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "actions": {
+      "copyUrl": "Copy URL",
+      "deactivate": "Deactivate",
+      "activate": "Activate",
+      "delete": "Delete"
+    },
+    "confirmDelete": "Are you sure you want to delete this QR code?",
+    "toasts": {
+      "loadFailed": "Failed to load QR codes",
+      "deleted": "QR code deleted successfully",
+      "deleteFailed": "Failed to delete QR code",
+      "activated": "QR code activated",
+      "deactivated": "QR code deactivated",
+      "statusFailed": "Failed to update QR code",
+      "urlCopied": "QR code URL copied to clipboard"
+    }
+  },
+  "qrEditor": {
+    "newTitle": "New QR Code",
+    "editTitle": "Edit QR Code",
+    "subtitle": "Customize your advanced QR code",
+    "tabs": {
+      "content": "Content",
+      "design": "Design",
+      "branding": "Branding",
+      "frame": "Frame",
+      "presets": "Presets"
+    },
+    "livePreview": "Live Preview",
+    "fields": {
+      "name": "QR Code Name (Internal)",
+      "namePlaceholder": "e.g. Main Website",
+      "dataType": "Data Type",
+      "selectPage": "Select Landing Page",
+      "selectPageDefault": "— Select a Page —",
+      "url": "URL Link",
+      "urlPlaceholder": "https://...",
+      "ssid": "Network Name (SSID)",
+      "wifiPassword": "Password",
+      "encryption": "Encryption",
+      "text": "Text Content",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1234567890",
+      "message": "Message",
+      "emailTo": "Email Address",
+      "subject": "Subject",
+      "body": "Message Body",
+      "paypalUsername": "PayPal Username",
+      "paypalPlaceholder": "johndoe",
+      "paypalAmount": "Amount (Optional)",
+      "paypalAmountPlaceholder": "20.00",
+      "btcAddress": "Bitcoin Address",
+      "btcPlaceholder": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+      "btcAmount": "Amount (Optional BTC)",
+      "btcAmountPlaceholder": "0.05",
+      "telegramUsername": "Telegram Username",
+      "telegramPlaceholder": "durov",
+      "discordCode": "Discord Invite Code",
+      "discordPlaceholder": "aBcD123",
+      "zoomMeetingId": "Meeting ID",
+      "zoomMeetingPlaceholder": "1234567890",
+      "zoomPassword": "Password (Optional)",
+      "zoomPasswordPlaceholder": "Pass123",
+      "slackWorkspace": "Workspace URL",
+      "slackPlaceholder": "my-workspace"
+    },
+    "design": {
+      "density": "QR Code Density",
+      "dotStyle": "Dot Style",
+      "eyeOuter": "Eye Outer Frame",
+      "eyeInner": "Eye Inner Ball",
+      "autoClean": "Auto (Clean)",
+      "autoCleanDesc": "Proportional Increase (Max Dense)",
+      "auto": "Auto"
+    },
+    "colors": {
+      "bgImage": "Background Image",
+      "bgImageHelp": "Upload a picture behind your QR code",
+      "fgGradient": "Foreground Gradient",
+      "fgGradientHelp": "Gradient colors for QR code dots",
+      "bgGradient": "Background Gradient",
+      "bgGradientHelp": "Gradient colors for the background",
+      "gradientType": "Gradient Type",
+      "gradientAngle": "Gradient Angle",
+      "radialScale": "Radial Scale (Spread)",
+      "fgColor": "Foreground Color",
+      "bgColor": "Background Color",
+      "startColor": "Start Color",
+      "endColor": "End Color",
+      "linear": "Linear",
+      "radial": "Radial"
+    },
+    "logo": {
+      "uploadTitle": "Upload Custom Logo",
+      "builtinTitle": "Or Select Built-in Logo",
+      "size": "Logo Size",
+      "clearBg": "Clear Background Behind Logo",
+      "clearBgHelp": "Remove QR dots to make logo readable",
+      "uploadBtn": "Choose Image from Device"
+    },
+    "frame": {
+      "style": "Frame Style",
+      "textPosition": "Text Position",
+      "text": "Frame Text",
+      "textDefault": "SCAN ME",
+      "fontFamily": "Font Family",
+      "frameColor": "Frame Color",
+      "textGradient": "Text Gradient & Color",
+      "textBaseColor": "Text Base Color",
+      "textHelp": "Apply gradient to text or change its solid color",
+      "positions": {
+        "top": "Top",
+        "bottom": "Bottom",
+        "left": "Left",
+        "right": "Right"
+      },
+      "fonts": {
+        "sansSerif": "Sans Serif (Modern)",
+        "serif": "Serif (Classic)",
+        "monospace": "Monospace (Code)",
+        "cursive": "Cursive (Playful)",
+        "fantasy": "Fantasy (Bold)"
+      }
+    },
+    "bgUpload": {
+      "choose": "Choose File",
+      "change": "Change Image",
+      "remove": "Remove"
+    },
+    "presets": {
+      "showLess": "Show Less",
+      "showMore": "Show More"
+    },
+    "buttons": {
+      "save": "Save",
+      "saving": "Saving…"
+    },
+    "toasts": {
+      "loadFailed": "Failed to load QR code",
+      "presetApplied": "Preset applied",
+      "nameRequired": "Please enter a name for your QR code",
+      "updated": "QR code updated successfully",
+      "created": "QR code created successfully",
+      "saveFailed": "Failed to save QR code",
+      "logoUploaded": "Logo uploaded successfully",
+      "logoFailed": "Failed to read logo file",
+      "bgUploaded": "Background uploaded successfully",
+      "bgFailed": "Failed to read background file"
+    },
+    "dataTypes": {
+      "landingPage": "Landing Page",
+      "url": "URL",
+      "text": "Text",
+      "wifi": "Wi-Fi",
+      "phone": "Phone",
+      "email": "Email",
+      "sms": "SMS",
+      "vcard": "VCard",
+      "maps": "Maps"
+    },
+    "wifi": {
+      "wpa": "WPA/WPA2",
+      "wep": "WEP",
+      "none": "None"
+    }
+  },
+  "pageEditor": {
+    "newPage": "New Page",
+    "editPage": "Edit Page",
+    "fullPreview": "Full Preview",
+    "tabs": {
+      "settings": "Settings",
+      "links": "Links",
+      "design": "Design"
+    },
+    "tabDescriptions": {
+      "settings": "Page info & URL handle",
+      "links": "Add & manage your links",
+      "design": "Colors, fonts & layout"
+    },
+    "mode": {
+      "edit": "Edit",
+      "preview": "Preview"
+    },
+    "publishStatus": {
+      "published": "Published",
+      "draft": "Draft"
+    },
+    "buttons": {
+      "save": "Save",
+      "saving": "Saving…"
+    },
+    "loading": "Loading page...",
+    "designSubtitle": "Design your link page",
+    "toasts": {
+      "loadFailed": "Failed to load page",
+      "titleRequired": "Title is required",
+      "updated": "Page updated successfully",
+      "created": "Page created successfully",
+      "saveFailed": "Failed to save page"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Track clicks, visitors, and engagement across your link pages.",
+    "charts": {
+      "viewsOverTime": "Page Views Over Time",
+      "topLinks": "Top Performing Links"
+    },
+    "stats": {
+      "pageViews": "Page Views",
+      "linkClicks": "Link Clicks",
+      "uniqueVisitors": "Unique Visitors"
+    },
+    "ranges": {
+      "7d": "7D",
+      "30d": "30D",
+      "all": "All",
+      "last7": "Last 7 days",
+      "last30": "Last 30 days",
+      "lastAll": "Last 14 days"
+    },
+    "noPages": "No pages yet",
+    "emptyViews": "No view data yet. Share your page to start tracking!",
+    "emptyClicks": "No link click data yet."
+  },
+  "community": {
+    "title": "Create a Template",
+    "submitTitle": "Submit Template",
+    "subtitle": "Choose a template type to get started",
+    "successTitle": "Template Submitted!",
+    "successDesc": "Your template has been submitted for review. An admin will review it soon.",
+    "backToDashboard": "Back to Dashboard",
+    "details": "Template Details",
+    "meta": {
+      "titleLabel": "Title *",
+      "titlePlaceholder": "My Awesome Template",
+      "descLabel": "Description",
+      "descPlaceholder": "Describe your template...",
+      "categoryLabel": "Category",
+      "tagsLabel": "Tags (comma-separated)",
+      "tagsPlaceholder": "modern, minimal, dark"
+    },
+    "types": {
+      "nfcCard": "NFC Card",
+      "linkPage": "Link Page",
+      "qrCode": "QR Code",
+      "background": "Background",
+      "pattern": "Pattern",
+      "qrFrame": "QR Frame",
+      "nfcCardDesc": "Premium NFC card designs",
+      "linkPageDesc": "Link page layouts & themes",
+      "qrCodeDesc": "Custom QR code styles",
+      "backgroundDesc": "Gradients, colors & patterns",
+      "patternDesc": "NFC card patterns & textures",
+      "qrFrameDesc": "Decorative QR code frames"
+    },
+    "categories": {
+      "general": "General",
+      "premium": "Premium",
+      "business": "Business",
+      "creative": "Creative",
+      "tech": "Tech",
+      "lifestyle": "Lifestyle"
+    },
+    "qrSettings": {
+      "title": "QR Code Settings",
+      "dataUrl": "Data / URL",
+      "dataPlaceholder": "https://example.com",
+      "dotStyle": "Dot Style",
+      "foreground": "Foreground",
+      "background": "Background"
+    },
+    "bgSettings": {
+      "title": "Background Settings",
+      "type": "Type",
+      "color": "Color",
+      "color2": "Color 2",
+      "solid": "Solid",
+      "linearGradient": "Linear Gradient",
+      "radialGradient": "Radial Gradient"
+    },
+    "buttons": {
+      "saveDraft": "Save Draft",
+      "submit": "Submit",
+      "draft": "Draft",
+      "submitReview": "Submit for Review"
+    },
+    "toasts": {
+      "loadFailed": "Failed to load submission",
+      "draftSaved": "Draft saved",
+      "draftFailed": "Failed to save draft",
+      "submitFailed": "Failed to submit"
+    }
+  },
+  "publicPage": {
+    "notFound": "404",
+    "notFoundMsg": "This page doesn't exist or is not published yet.",
+    "goBack": "Go back home",
+    "noLinks": "No links added yet.",
+    "fallbackTitle": "Your Name",
+    "fallbackBio": "Your bio goes here. Tell people about yourself.",
+    "poweredBy": "Powered by "
+  },
+  "components": {
+    "layout": {
+      "toggleTheme": "Toggle theme",
+      "changeLanguage": "Change language",
+      "backToApp": "Back to App"
+    },
+    "linkEditor": {
+      "title": "Links",
+      "linksCount": "{{count}} links",
+      "addLink": "Add Link",
+      "linkTitle": "Link Title",
+      "urlPlaceholder": "https://example.com",
+      "newLinkTitle": "Link title",
+      "newLinkUrl": "URL (https://...)",
+      "activeVisible": "Active (Visible)",
+      "inactiveHidden": "Inactive (Hidden)",
+      "chooseIcon": "Choose Icon",
+      "customColor": "Custom Button Color"
+    },
+    "cardDesigner": {
+      "title": "Card Designer",
+      "dragHint": "Drag elements . Click to select . Scroll panel for more",
+      "selectHint": "Click element to select . Drag to move . Lock to prevent accidental moves . Grid won't appear in exports",
+      "noSelected": "No Element Selected",
+      "selectHelp": "Click on any element on the card to edit its properties. Hold Shift/Ctrl to multi-select.",
+      "tabs": {
+        "template": "Base Template",
+        "background": "Background",
+        "pattern": "Pattern Overlay",
+        "qrContainer": "QR Container",
+        "cardInfo": "Card Info",
+        "borderGlow": "Border & Glow",
+        "elements": "Elements",
+        "addIcons": "Add Icons",
+        "export": "Export"
+      },
+      "fields": {
+        "bgColor": "Background Color",
+        "startColor": "Start Color",
+        "endColor": "End Color",
+        "angle": "Angle",
+        "overlayColor": "Overlay Color",
+        "blur": "Blur ({{value}}px)",
+        "overlayOpacity": "Overlay Opacity ({{value}}%)",
+        "patternOpacity": "Opacity ({{value}}%)",
+        "color": "Color",
+        "name": "Name",
+        "jobTitle": "Job Title",
+        "company": "Company",
+        "linkedQR": "Linked QR Code",
+        "noQR": "No QR Code —",
+        "brandPreset": "Brand Preset Color",
+        "customColor": "Custom Color",
+        "textColor": "Text Color",
+        "contentText": "Content Text",
+        "textContent": "Text Content",
+        "fontFamily": "Font Family",
+        "fontSize": "Font Size",
+        "fontWeight": "Weight",
+        "size": "Size",
+        "opacity": "Opacity",
+        "rotation": "Rotation",
+        "xPosition": "X Position (%)",
+        "yPosition": "Y Position (%)",
+        "borderRadius": "Border Radius ({{value}}px)",
+        "borderStyle": "Border Style",
+        "glowColor": "Glow Color",
+        "glowIntensity": "Glow Intensity ({{value}}%)",
+        "nfcBadge": "NFC"
+      },
+      "buttons": {
+        "grid": "Grid",
+        "saveDesign": "Save Design",
+        "saving": "Saving...",
+        "loading": "Loading...",
+        "changeImage": "Change Image",
+        "uploadImage": "Upload Image",
+        "addText": "Add Custom Text",
+        "resetPositions": "Reset All Positions",
+        "exporting": "Exporting...",
+        "showFront": "Show Front Face",
+        "showBack": "Show Back Face",
+        "removeSelected": "Remove Selected",
+        "removeIcon": "Remove Icon"
+      },
+      "export": {
+        "png2x": "Standard PNG (2x)",
+        "png4x": "High-Res PNG (4x)",
+        "transparent": "Transparent PNG",
+        "pdf": "Print PDF (3.5x2\")"
+      },
+      "defaults": {
+        "yourName": "Your Name",
+        "jobTitle": "Job Title",
+        "company": "Company",
+        "newText": "New Text"
+      },
+      "borderPresets": {
+        "default": "Template Default",
+        "subtleWhite": "Subtle White",
+        "gold": "Gold Border",
+        "silver": "Silver Border",
+        "indigo": "Indigo Border",
+        "none": "No Border"
+      }
+    },
+    "designEditor": {
+      "sections": {
+        "themes": "Themes & Presets",
+        "background": "Background & Style",
+        "buttons": "Buttons & Links",
+        "typography": "Typography & Colors",
+        "advanced": "Advanced Settings"
+      },
+      "fields": {
+        "bgType": "Background Type",
+        "bgColor": "Background Color",
+        "gradientType": "Gradient Type",
+        "color1": "Color 1",
+        "color2": "Color 2",
+        "rotation": "Rotation",
+        "scale": "Scale",
+        "glassEffect": "Enable Glassmorphism Effect",
+        "btnStyle": "Button Style (Fill Type)",
+        "btnWidth": "Button Width",
+        "btnHeight": "Button Height (Padding)",
+        "iconPosition": "Icon Position",
+        "btnShape": "Button Shape (Border Radius)",
+        "btnShadow": "Button Shadow",
+        "hoverAnim": "Hover Animation",
+        "btnColor": "Button Color",
+        "textColor": "Text Color",
+        "fontFamily": "Font Family",
+        "headingColor": "Heading Color",
+        "bioColor": "Bio Color",
+        "profileRadius": "Profile Image Radius",
+        "btnSpacing": "Button Spacing",
+        "showBio": "Show Profile Bio",
+        "loadAnimations": "Enable Page Load Animations"
+      },
+      "positions": {
+        "left": "Left",
+        "right": "Right"
+      },
+      "themes": {
+        "minimalLight": "Minimal Light",
+        "darkMode": "Dark Mode",
+        "glassmorphism": "Glassmorphism",
+        "cyberpunk": "Cyberpunk",
+        "sunsetVibes": "Sunset Vibes",
+        "oceanBreeze": "Ocean Breeze",
+        "forestZen": "Forest Zen",
+        "neonNights": "Neon Nights",
+        "monochrome": "Monochrome",
+        "pastelDream": "Pastel Dream",
+        "retro90s": "Retro 90s",
+        "goldLuxury": "Gold Luxury",
+        "midnightBlue": "Midnight Blue",
+        "candyPop": "Candy Pop",
+        "hackerTerminal": "Hacker Terminal",
+        "frostedMint": "Frosted Mint",
+        "lavaGlass": "Lava Glass",
+        "cyberPulse": "Cyber Pulse",
+        "toxicGlow": "Toxic Glow",
+        "auroraBorealis": "Aurora Borealis"
+      },
+      "btnStyles": {
+        "solid": "Solid (Classic)",
+        "outline": "Outline (Ghost)",
+        "soft": "Soft (Translucent)",
+        "pushable": "3D Pushable",
+        "gradient": "Gradient Fill",
+        "neon": "Neon Border",
+        "glass": "Glass Frost",
+        "flat": "Minimal Flat",
+        "duotone": "Duo-Tone"
+      },
+      "shadows": {
+        "none": "None",
+        "soft": "Soft Shadow",
+        "hard": "Hard Drop Shadow",
+        "neon": "Neon Glow",
+        "neumorphism": "Neumorphism (Soft 3D)",
+        "classic": "Classic Drop",
+        "heavy": "Bottom Heavy",
+        "inner": "Inner Shadow (Debossed)",
+        "colored": "Colored Soft",
+        "retro": "Retro Pop"
+      },
+      "hoverAnims": {
+        "none": "None",
+        "pulse": "Pulse",
+        "bounce": "Bounce",
+        "wobble": "Wobble",
+        "slide": "Slide"
+      }
+    },
+    "pagePreview": {
+      "mobileView": "Mobile View",
+      "tabletView": "Tablet View",
+      "desktopView": "Desktop View",
+      "noLinks": "No links added yet"
+    },
+    "pageSettings": {
+      "title": "Page Settings",
+      "fields": {
+        "pageTitle": "Page Title",
+        "pageTitlePlaceholder": "My Awesome Page",
+        "slug": "Page URL (App Name)",
+        "slugPlaceholder": "my-awesome-app",
+        "slugHelper": "A random URL will be generated if left blank",
+        "linkHelper": "Use this link to connect to your QR code",
+        "description": "Description",
+        "descPlaceholder": "A brief description of your page",
+        "bio": "Bio",
+        "bioPlaceholder": "Tell people about yourself",
+        "profileImage": "Profile Image",
+        "bgImage": "Background Image",
+        "sizeScale": "Size (Scale)",
+        "position": "Position",
+        "linkQR": "Link with QR Code",
+        "linkQRHelper": "Linking a QR code will automatically redirect scans to this page.",
+        "selectQR": "-- Select a QR Code to Link --"
+      },
+      "buttons": {
+        "copyLink": "Copy Link",
+        "uploadImage": "Upload Image",
+        "remove": "Remove",
+        "uploadBg": "Upload Background"
+      },
+      "sizeOptions": {
+        "cover": "Cover (Fill)",
+        "contain": "Contain (Fit)",
+        "auto": "Auto (Original)"
+      },
+      "positionOptions": {
+        "center": "Center",
+        "top": "Top",
+        "bottom": "Bottom",
+        "left": "Left",
+        "right": "Right"
+      },
+      "toasts": {
+        "linkCopied": "Link copied to clipboard!",
+        "qrLinked": "QR Code linked successfully!",
+        "qrFailed": "Failed to link QR Code"
+      }
+    },
+    "fileUploader": {
+      "defaultLabel": "Upload Files",
+      "uploadedFiles": "Uploaded Files",
+      "dropzone": "Click to upload or drag and drop",
+      "maxSize": "Max {{size}}MB per file",
+      "uploading": "Uploading...",
+      "errors": {
+        "typeNotAllowed": "File type not allowed",
+        "tooLarge": "File too large. Maximum size: {{size}}MB",
+        "uploadFailed": "Failed to upload file",
+        "deleteFailed": "Failed to delete file"
+      },
+      "toasts": {
+        "uploaded": "{{name}} uploaded successfully",
+        "deleted": "File deleted"
+      }
+    },
+    "imageUploader": {
+      "defaultLabel": "Upload Image",
+      "dropzone": "Click to upload or drag and drop",
+      "formats": "PNG, JPG, GIF up to {{size}}MB",
+      "uploading": "Uploading...",
+      "preview": "Preview",
+      "errors": {
+        "invalidType": "Invalid file type. Allowed types: {{types}}",
+        "tooLarge": "File too large. Maximum size: {{size}}MB",
+        "uploadFailed": "Failed to upload image"
+      },
+      "toasts": {
+        "uploaded": "Image uploaded successfully"
+      }
+    },
+    "imageCropper": {
+      "title": "Crop Image",
+      "zoom": "Zoom",
+      "cancel": "Cancel",
+      "saveApply": "Save & Apply"
+    },
+    "iconPicker": {
+      "title": "Choose Icon",
+      "searchPlaceholder": "Search icons (e.g. WhatsApp, TikTok)...",
+      "noResults": "No icons found for \"{{search}}\""
+    },
+    "nfcManager": {
+      "title": "NFC Cards",
+      "newCard": "New Card",
+      "createCard": "Create Card",
+      "cardTitlePlaceholder": "Card title",
+      "cardDescPlaceholder": "Card description (optional)",
+      "loading": "Loading...",
+      "empty": "No NFC cards yet. Create one to get started.",
+      "toasts": {
+        "loadFailed": "Failed to load NFC cards",
+        "titleRequired": "Title is required",
+        "created": "NFC card created",
+        "createFailed": "Failed to create NFC card",
+        "updated": "NFC card updated",
+        "updateFailed": "Failed to update NFC card",
+        "deleted": "NFC card deleted",
+        "deleteFailed": "Failed to delete NFC card"
+      }
+    },
+    "qrGenerator": {
+      "copy": "Copy",
+      "downloadPNG": "PNG",
+      "downloadSVG": "SVG",
+      "defaultText": "SCAN ME",
+      "toasts": {
+        "svgDownloaded": "QR code downloaded as SVG",
+        "pngDownloaded": "QR code downloaded as PNG",
+        "downloadFailed": "Failed to download QR code",
+        "copied": "QR code copied to clipboard",
+        "copyFailed": "Failed to copy to clipboard",
+        "copyQrFailed": "Failed to copy QR code"
+      }
+    },
+    "qrLinker": {
+      "title": "Link to QR Code",
+      "description": "Connect this page to one of your existing QR codes. Scanning the QR code will instantly redirect users to this page.",
+      "loading": "Loading your QR codes...",
+      "noQr": "You haven't created any QR codes yet. Go to the QR section to create one first.",
+      "selectPlaceholder": "Select a QR Code...",
+      "currentlyLinked": "(Currently Linked)",
+      "linked": "Linked!",
+      "link": "Link"
+    },
+    "analyticsDashboard": {
+      "totalClicks": "Total Clicks",
+      "uniqueVisitors": "Unique Visitors",
+      "avgCTR": "Avg. CTR",
+      "ctrDesc": "Click-through rate",
+      "deviceSplit": "Device Split",
+      "topLinks": "Top Links",
+      "topCountries": "Top Countries",
+      "todayClicks": "{{count}} today",
+      "todayVisitors": "{{count}} today",
+      "mobilePercent": "% Mobile",
+      "totalVisits": "{{count}} total visits",
+      "clicksCount": "{{count}} clicks",
+      "loading": "Loading analytics...",
+      "empty": "No analytics data available",
+      "loadFailed": "Failed to load analytics"
+    },
+    "notifications": {
+      "dismiss": "Dismiss"
+    }
+  },
+  "admin": {
+    "layout": {
+      "groups": {
+        "overview": "Overview",
+        "management": "Management",
+        "feedback": "Feedback",
+        "communication": "Communication",
+        "system": "System"
+      },
+      "nav": {
+        "dashboard": "Dashboard",
+        "analytics": "Analytics",
+        "users": "Users",
+        "designMarketplace": "Design Marketplace",
+        "community": "Community",
+        "assetManager": "Asset Manager",
+        "fileManager": "File Manager",
+        "suggestions": "Suggestions",
+        "featureRequests": "Feature Requests",
+        "bugReports": "Bug Reports",
+        "messages": "Messages",
+        "announcements": "Announcements",
+        "activityLogs": "Activity Logs",
+        "settings": "Settings",
+        "backups": "Backups"
+      },
+      "searchPlaceholder": "Search...",
+      "accessDenied": "Access Denied",
+      "noPermissions": "You don't have admin permissions.",
+      "goToDashboard": "Go to Dashboard"
+    },
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "Overview of your entire platform",
+      "refresh": "Refresh",
+      "sections": {
+        "recentSubmissions": "Recent Submissions",
+        "recentSuggestions": "Recent Suggestions",
+        "recentActivity": "Recent Activity"
+      },
+      "stats": {
+        "totalUsers": "Total Users",
+        "activeUsers": "Active Users",
+        "totalPages": "Total Pages",
+        "qrCodes": "QR Codes",
+        "nfcCards": "NFC Cards",
+        "designs": "Designs",
+        "totalViews": "Total Views",
+        "totalScans": "Total Scans",
+        "dailyRegistrations": "Daily Registrations",
+        "submissions": "Submissions",
+        "suggestions": "Suggestions",
+        "bugReports": "Bug Reports"
+      },
+      "empty": {
+        "submissions": "No submissions yet",
+        "suggestions": "No suggestions yet",
+        "activity": "No activity yet"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "Platform performance and engagement metrics",
+      "periods": {
+        "7d": "7 Days",
+        "30d": "30 Days",
+        "90d": "90 Days"
+      },
+      "charts": {
+        "viewsScans": "Views & Scans Over Time",
+        "designsByType": "Designs by Type",
+        "submissionsByStatus": "Submissions by Status",
+        "bugsByPriority": "Bugs by Priority"
+      },
+      "stats": {
+        "totalViews": "Total Views",
+        "totalScans": "Total Scans",
+        "dailyRegistrations": "Daily Registrations",
+        "weeklyRegistrations": "Weekly Registrations"
+      },
+      "legend": {
+        "views": "Views",
+        "scans": "Scans"
+      },
+      "tooltip": "{{date}}: {{views}} views, {{scans}} scans",
+      "empty": "No data",
+      "emptyTimeline": "No timeline data"
+    },
+    "users": {
+      "title": "User Management",
+      "subtitle": "{{total}} total users",
+      "searchPlaceholder": "Search users...",
+      "changeRole": "Change Role",
+      "empty": "No users found",
+      "noName": "No Name",
+      "confirmDelete": "Delete this user? This cannot be undone.",
+      "roles": {
+        "all": "All Roles"
+      },
+      "filters": {
+        "all": "All Status",
+        "active": "Active",
+        "suspended": "Suspended"
+      },
+      "table": {
+        "user": "User",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "joined": "Joined",
+        "actions": "Actions"
+      }
+    },
+    "templates": {
+      "title": "Templates",
+      "subtitle": "{{total}} templates",
+      "createTemplate": "Create Template",
+      "editInEditor": "Edit in Editor",
+      "searchPlaceholder": "Search templates...",
+      "empty": "No templates found",
+      "confirmDelete": "Delete this template permanently?",
+      "filters": {
+        "allTypes": "All Types",
+        "allStatus": "All Status"
+      },
+      "byAuthor": "by {{author}}"
+    },
+    "community": {
+      "title": "Community Templates",
+      "subtitle": "Review and manage user submissions",
+      "searchPlaceholder": "Search by title, description, or user...",
+      "submissionCount": "{{total}} submission(s)",
+      "empty": "No submissions found",
+      "approve": "Approve & Publish",
+      "reject": "Reject",
+      "requestChanges": "Request Changes",
+      "openInEditor": "Open in Editor",
+      "openInTemplateEditor": "Open in Template Editor",
+      "adminReply": "Admin reply: ",
+      "modals": {
+        "approveTitle": "Approve Submission",
+        "rejectTitle": "Reject Submission",
+        "changesTitle": "Request Changes",
+        "approveMsg": "\"{{title}}\" will be published to the marketplace.",
+        "rejectMsg": "Notify \"{{title}}\" creator of rejection.",
+        "changesMsg": "Request changes on \"{{title}}\".",
+        "approvePlaceholder": "Write a public reply to the creator (optional)...",
+        "rejectPlaceholder": "Explain why this was rejected (optional)...",
+        "changesPlaceholder": "Describe what changes are needed..."
+      }
+    },
+    "suggestions": {
+      "title": "Suggestions",
+      "subtitle": "{{total}} total suggestions",
+      "empty": "No suggestions found",
+      "detailTitle": "Suggestion Details",
+      "votesCount": "{{count}} votes",
+      "table": {
+        "suggestion": "Suggestion",
+        "user": "User",
+        "votes": "Votes",
+        "status": "Status",
+        "date": "Date"
+      },
+      "fields": {
+        "description": "Description",
+        "status": "Status",
+        "adminNotes": "Admin Notes"
+      },
+      "notesPlaceholder": "Internal notes..."
+    },
+    "features": {
+      "title": "Feature Requests",
+      "subtitle": "{{total}} total feature requests",
+      "empty": "No feature requests found",
+      "detailTitle": "Feature Details",
+      "votesCount": "{{count}} votes",
+      "table": {
+        "feature": "Feature",
+        "user": "User",
+        "votes": "Votes",
+        "status": "Status",
+        "date": "Date"
+      },
+      "fields": {
+        "description": "Description",
+        "status": "Status",
+        "scheduledDate": "Scheduled Date",
+        "adminNotes": "Admin Notes"
+      },
+      "notesPlaceholder": "Internal notes..."
+    },
+    "bugs": {
+      "title": "Bug Reports",
+      "subtitle": "{{total}} total bug reports",
+      "empty": "No bug reports found",
+      "detailTitle": "Bug Details",
+      "screenshot": "Bug screenshot",
+      "table": {
+        "bug": "Bug",
+        "user": "User",
+        "priority": "Priority",
+        "status": "Status",
+        "device": "Device",
+        "date": "Date"
+      },
+      "fields": {
+        "description": "Description",
+        "environment": "Environment",
+        "screenshotLabel": "Screenshot",
+        "status": "Status",
+        "fixVersion": "Fix Version",
+        "adminNotes": "Admin Notes",
+        "device": "Device:",
+        "browser": "Browser:",
+        "os": "OS:",
+        "url": "URL:"
+      },
+      "placeholders": {
+        "fixVersion": "e.g. v1.2.0",
+        "notes": "Internal notes..."
+      }
+    },
+    "messages": {
+      "title": "Messages",
+      "subtitle": "{{total}} total messages",
+      "unreadIndicator": "({{count}} unread)",
+      "empty": "No messages found",
+      "noSubject": "(no subject)",
+      "detailTitle": "Message",
+      "table": {
+        "from": "From",
+        "email": "Email",
+        "subject": "Subject",
+        "message": "Message",
+        "status": "Status",
+        "date": "Date"
+      },
+      "fields": {
+        "subject": "Subject",
+        "message": "Message",
+        "status": "Status",
+        "adminReply": "Admin Reply"
+      },
+      "replyPlaceholder": "Type your reply...",
+      "saveReply": "Save & Reply"
+    },
+    "announcements": {
+      "title": "Announcements",
+      "subtitle": "{{count}} total announcements",
+      "newAnnouncement": "New Announcement",
+      "editTitle": "Edit Announcement",
+      "createTitle": "New Announcement",
+      "empty": "No announcements yet",
+      "table": {
+        "title": "Title",
+        "content": "Content",
+        "type": "Type",
+        "target": "Target",
+        "channel": "Channel",
+        "active": "Active",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "fields": {
+        "title": "Title",
+        "content": "Content",
+        "type": "Type",
+        "target": "Target",
+        "channel": "Channel",
+        "startsAt": "Starts At",
+        "expiresAt": "Expires At"
+      },
+      "placeholders": {
+        "title": "Announcement title",
+        "content": "Announcement content..."
+      }
+    },
+    "activity": {
+      "title": "Activity Logs",
+      "subtitle": "{{total}} total activity entries",
+      "searchPlaceholder": "Search actions...",
+      "empty": "No activity logs found",
+      "filters": {
+        "allTypes": "All types"
+      },
+      "fields": {
+        "entityType": "Entity Type",
+        "dateFrom": "Date From",
+        "dateTo": "Date To"
+      },
+      "table": {
+        "user": "User",
+        "action": "Action",
+        "entity": "Entity",
+        "entityId": "Entity ID",
+        "ipAddress": "IP Address",
+        "timestamp": "Timestamp"
+      }
+    },
+    "settings": {
+      "title": "Site Settings",
+      "subtitle": "Configure your application",
+      "saved": "Saved!",
+      "discard": "Discard",
+      "lastUpdated": "Last updated: {{date}}",
+      "emptyCategory": "No settings in this category",
+      "categories": {
+        "general": "General",
+        "seo": "SEO",
+        "mail": "Mail",
+        "storage": "Storage",
+        "authentication": "Authentication",
+        "maintenance": "Maintenance",
+        "feature_flags": "Feature Flags"
+      }
+    },
+    "backups": {
+      "title": "Backups",
+      "subtitle": "{{count}} backups · {{size}} total",
+      "newBackup": "New Backup",
+      "creating": "Creating...",
+      "createBackup": "Create Backup",
+      "empty": "No backups yet",
+      "never": "Never",
+      "fields": {
+        "backupName": "Backup Name (optional)",
+        "namePlaceholder": "e.g. pre-update backup",
+        "type": "Type"
+      },
+      "types": {
+        "full": "Full Backup",
+        "database": "Database Only",
+        "media": "Media Only"
+      },
+      "stats": {
+        "totalBackups": "Total Backups",
+        "totalSize": "Total Size",
+        "lastBackup": "Last Backup"
+      },
+      "table": {
+        "name": "Name",
+        "type": "Type",
+        "size": "Size",
+        "status": "Status",
+        "created": "Created"
+      }
+    },
+    "assets": {
+      "title": "Asset Manager",
+      "subtitle": "{{count}} assets · Centralized library for all editors",
+      "newAsset": "New Asset",
+      "searchPlaceholder": "Search assets...",
+      "empty": "No assets found. Create your first asset to get started.",
+      "confirmDelete": "Delete this asset?",
+      "confirmForceDelete": "This asset is in use. Force delete?",
+      "editTitle": "Edit Asset",
+      "createTitle": "New Asset",
+      "addTag": "Add tag...",
+      "moduleHelper": "Empty = compatible with all modules",
+      "bulkSelected": "{{count}} selected",
+      "pagination": "Page {{page}} of {{total}}",
+      "table": {
+        "name": "Name",
+        "type": "Type",
+        "category": "Category",
+        "modules": "Modules",
+        "uses": "Uses",
+        "status": "Status"
+      },
+      "fields": {
+        "name": "Name *",
+        "slug": "Slug",
+        "description": "Description",
+        "type": "Type *",
+        "category": "Category",
+        "version": "Version",
+        "previewUrl": "Preview URL",
+        "thumbnailUrl": "Thumbnail URL",
+        "dataJson": "Data (JSON)",
+        "tags": "Tags",
+        "modules": "Compatible Modules",
+        "premium": "Premium",
+        "featured": "Featured",
+        "active": "Active",
+        "pinned": "Pinned",
+        "visibility": "Visibility"
+      },
+      "invalidJson": "Invalid JSON"
+    },
+    "files": {
+      "title": "File Manager",
+      "subtitle": "Manage uploaded files and media via Supabase Storage",
+      "upload": "Upload",
+      "filterPlaceholder": "Filter...",
+      "root": "root",
+      "empty": "This folder is empty",
+      "emptyUpload": "No files uploaded yet",
+      "uploading": "Uploading...",
+      "dropzone": "Drop files here",
+      "dropzoneAlt": "Drag & drop files here",
+      "browseHelper": "or click to browse (max 10MB)",
+      "deleteFolder": "Delete Folder",
+      "deleteFile": "Delete File",
+      "confirmDelete": "Are you sure you want to delete {{name}}?",
+      "deleteWarning": "This action cannot be undone.",
+      "deleteFolderWarning": "All contents will also be deleted.",
+      "stats": {
+        "totalSize": "Total Size",
+        "images": "Images",
+        "documents": "Documents",
+        "files": "Files"
+      },
+      "toasts": {
+        "bucketNotFound": "Storage bucket \"uploads\" not found. Create it in Supabase Dashboard > Storage.",
+        "uploaded": "Uploaded {{count}} file(s)",
+        "deleted": "Deleted {{name}}",
+        "deleteFailed": "Failed to delete: {{error}}"
+      }
+    },
+    "templateEditor": {
+      "newTemplate": "Create New Template",
+      "editTemplate": "Edit Template",
+      "newTemplateHeader": "New Template",
+      "loading": "Loading template...",
+      "preview": "Preview",
+      "livePreview": "Live Preview",
+      "metadata": "Template Details",
+      "qrSettings": "QR Code Settings",
+      "bgSettings": "Background Settings",
+      "patternSettings": "Pattern Settings",
+      "frameSettings": "QR Frame Settings",
+      "types": {
+        "nfcCard": "NFC Card",
+        "linkPage": "Link Page",
+        "qrCode": "QR Code",
+        "background": "Background",
+        "pattern": "Pattern",
+        "qrFrame": "QR Frame"
+      },
+      "categories": {
+        "general": "General",
+        "premium": "Premium",
+        "business": "Business",
+        "creative": "Creative",
+        "tech": "Tech",
+        "lifestyle": "Lifestyle"
+      },
+      "fields": {
+        "name": "Name *",
+        "namePlaceholder": "My Awesome Template",
+        "description": "Description",
+        "descPlaceholder": "Brief description of this template...",
+        "type": "Type",
+        "category": "Category",
+        "tags": "Tags (comma-separated)",
+        "tagsPlaceholder": "modern, minimal, dark",
+        "status": "Status",
+        "featured": "Featured"
+      },
+      "qrFields": {
+        "dataUrl": "Data / URL",
+        "dataPlaceholder": "https://example.com",
+        "dotStyle": "Dot Style",
+        "eyeFrame": "Eye Frame Style",
+        "eyeBall": "Eye Ball Style",
+        "fgColor": "Foreground Color",
+        "bgColor": "Background Color",
+        "gradient": "Gradient",
+        "enableGradient": "Enable foreground gradient",
+        "color1": "Color 1",
+        "color2": "Color 2",
+        "rotation": "Rotation ({{n}}deg)"
+      },
+      "bgFields": {
+        "color": "Color",
+        "angle": "Angle ({{n}}deg)",
+        "presets": "Presets"
+      },
+      "patternFields": {
+        "style": "Pattern Style",
+        "color": "Pattern Color",
+        "opacity": "Opacity ({{n}}%)"
+      },
+      "frameFields": {
+        "style": "Frame Style",
+        "color": "Frame Color",
+        "textColor": "Text Color",
+        "text": "Frame Text",
+        "textPlaceholder": "SCAN ME"
+      },
+      "bgPresets": {
+        "midnight": "Midnight",
+        "ocean": "Ocean",
+        "sunset": "Sunset",
+        "forest": "Forest",
+        "lavender": "Lavender",
+        "peach": "Peach",
+        "slate": "Slate",
+        "cherry": "Cherry",
+        "teal": "Teal",
+        "gold": "Gold"
+      },
+      "typeDescriptions": {
+        "nfcCard": "Design NFC card templates with canvas editor",
+        "linkPage": "Create link-in-bio page templates",
+        "qrCode": "Design customizable QR code templates",
+        "background": "Gradients, solids, and patterns",
+        "pattern": "Decorative overlay patterns",
+        "qrFrame": "Decorative frames for QR codes"
+      }
+    }
+  },
+  "patterns": {
+    "none": "None",
+    "dots": "Dots",
+    "waves": "Waves",
+    "multiWave": "Multi-Wave",
+    "zigzag": "Zigzag",
+    "blobs": "Blobs",
+    "hexGrid": "Hex Grid",
+    "diamonds": "Diamonds",
+    "circles": "Circles",
+    "triangles": "Triangles",
+    "stars": "Stars",
+    "clouds": "Clouds",
+    "nature": "Nature",
+    "luxury": "Luxury",
+    "creative": "Creative",
+    "music": "Music",
+    "space": "Space",
+    "travel": "Travel",
+    "love": "Love",
+    "security": "Security",
+    "shapes": "Shapes",
+    "tools": "Tools",
+    "nautical": "Nautical",
+    "weather": "Weather",
+    "media": "Media",
+    "office": "Office",
+    "sports": "Sports",
+    "comms": "Comms",
+    "magic": "Magic",
+    "random1": "Random 1",
+    "random2": "Random 2",
+    "random3": "Random 3"
+  },
+  "brandColors": {
+    "original": "Original",
+    "solidBlack": "Solid Black",
+    "solidWhite": "Solid White",
+    "silver": "Silver",
+    "gold": "Gold"
+  },
+  "fonts": {
+    "defaultInter": "Default (Inter)",
+    "cinzel": "Cinzel (Elegant)",
+    "lora": "Lora (Classic)",
+    "merriweather": "Merriweather (Bold)",
+    "montserrat": "Montserrat (Modern)",
+    "playfairDisplay": "Playfair Display (Luxury)",
+    "oswald": "Oswald (Condensed)",
+    "roboto": "Roboto (Clean)",
+    "openSans": "Open Sans (Friendly)",
+    "lato": "Lato (Warm)",
+    "poppins": "Poppins (Geometric)",
+    "raleway": "Raleway (Elegant)",
+    "ubuntu": "Ubuntu (Tech)",
+    "dancingScript": "Dancing Script (Handwriting)",
+    "pacifico": "Pacifico (Fun)",
+    "caveat": "Caveat (Casual)",
+    "satisfy": "Satisfy (Brush)",
+    "greatVibes": "Great Vibes (Formal Script)",
+    "righteous": "Righteous (Display)",
+    "lobster": "Lobster (Retro)",
+    "bebasNeue": "Bebas Neue (Impact)",
+    "anton": "Anton (Bold Display)",
+    "josefinSans": "Josefin Sans (Vintage)",
+    "titilliumWeb": "Titillium Web (Square)",
+    "quicksand": "Quicksand (Rounded)",
+    "inconsolata": "Inconsolata (Code)"
+  },
+  "qrPresets": {
+    "classicBlack": "Classic Black",
+    "oceanBreeze": "Ocean Breeze",
+    "neonNight": "Neon Night",
+    "polaroidMemory": "Polaroid Memory",
+    "browserWeb": "Browser Web",
+    "sunsetGlow": "Sunset Glow",
+    "cyberpunk2077": "Cyberpunk 2077",
+    "glacierBlue": "Glacier Blue",
+    "luxuryGold": "Luxury Gold",
+    "mapLocation": "Map Location",
+    "cosmicPurple": "Cosmic Purple",
+    "mintFresh": "Mint Fresh",
+    "retroArcade": "Retro Arcade",
+    "fireAndIce": "Fire & Ice",
+    "darkElegance": "Dark Elegance",
+    "strawberryMilk": "Strawberry Milk",
+    "deepSea": "Deep Sea",
+    "forestCanopy": "Forest Canopy",
+    "sunsetBoulevard": "Sunset Boulevard",
+    "holographic": "Holographic",
+    "midnightExpress": "Midnight Express",
+    "cherryBlossom": "Cherry Blossom",
+    "goldenRatio": "Golden Ratio",
+    "iceCrystal": "Ice Crystal",
+    "toxicSlime": "Toxic Slime",
+    "royalFlush": "Royal Flush",
+    "spaceInvader": "Space Invader",
+    "monochromeWeb": "Monochrome Web",
+    "vaporwave": "Vaporwave",
+    "coffeeShop": "Coffee Shop",
+    "rubySparkle": "Ruby Sparkle",
+    "emeraldCity": "Emerald City",
+    "neonTokyo": "Neon Tokyo",
+    "silverBullet": "Silver Bullet",
+    "lavaFlow": "Lava Flow",
+    "blueSteel": "Blue Steel",
+    "sunnyDay": "Sunny Day",
+    "amethyst": "Amethyst",
+    "forestFire": "Forest Fire",
+    "cottonCandy": "Cotton Candy",
+    "midnightOcean": "Midnight Ocean",
+    "goldenHour": "Golden Hour",
+    "toxicGlow": "Toxic Glow",
+    "bubblegum": "Bubblegum",
+    "bloodMoon": "Blood Moon",
+    "cyberMatrix": "Cyber Matrix",
+    "desertSand": "Desert Sand",
+    "arcticFreeze": "Arctic Freeze",
+    "electricViolet": "Electric Violet",
+    "copperCoin": "Copper Coin",
+    "royalBlue": "Royal Blue",
+    "alienTech": "Alien Tech",
+    "sunsetCruise": "Sunset Cruise",
+    "lemonade": "Lemonade",
+    "midnightRose": "Midnight Rose",
+    "starryNight": "Starry Night",
+    "mintChocolate": "Mint Chocolate",
+    "neonFlux": "Neon Flux",
+    "ghostWhite": "Ghost White",
+    "pumpkinSpice": "Pumpkin Spice",
+    "ninjaStrike": "Ninja Strike",
+    "magicSparkle": "Magic Sparkle",
+    "rainDrop": "Rain Drop",
+    "neonTriangle": "Neon Triangle",
+    "medicalPill": "Medical Pill",
+    "frostedGlass": "Frosted Glass",
+    "cyberGlass": "Cyber Glass",
+    "rubyGlass": "Ruby Glass"
+  },
+  "socialPlatforms": {
+    "none": "None",
+    "wifi": "Wi-Fi",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "twitter": "X (Twitter)",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "paypal": "PayPal",
+    "bitcoin": "Bitcoin",
+    "appStore": "App Store",
+    "playStore": "Play Store",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "reddit": "Reddit",
+    "github": "GitHub",
+    "zoom": "Zoom",
+    "slack": "Slack",
+    "spotify": "Spotify",
+    "twitch": "Twitch",
+    "snapchat": "Snapchat",
+    "pinterest": "Pinterest",
+    "figma": "Figma",
+    "apple": "Apple",
+    "android": "Android",
+    "notion": "Notion",
+    "patreon": "Patreon"
+  },
+  "decorativeIcons": {
+    "categories": {
+      "premium": "Premium",
+      "symbols": "Symbols",
+      "tech": "Tech",
+      "business": "Business",
+      "lifestyle": "Lifestyle"
+    },
+    "icons": {
+      "star": "Star",
+      "crown": "Crown",
+      "diamond": "Diamond",
+      "award": "Award",
+      "shield": "Shield",
+      "bolt": "Bolt",
+      "flame": "Flame",
+      "hexagon": "Hexagon",
+      "triangle": "Triangle",
+      "target": "Target",
+      "biometric": "Biometric",
+      "cpu": "CPU",
+      "heart": "Heart",
+      "smile": "Smile",
+      "feather": "Feather",
+      "compass": "Compass",
+      "anchor": "Anchor",
+      "map": "Map",
+      "flag": "Flag",
+      "circle": "Circle",
+      "square": "Square",
+      "wifi": "WiFi",
+      "activity": "Activity",
+      "code": "Code",
+      "camera": "Camera",
+      "case": "Case",
+      "globe": "Globe",
+      "phone": "Phone",
+      "mail": "Mail",
+      "bell": "Bell",
+      "tag": "Tag",
+      "bookmark": "Bookmark",
+      "clock": "Clock",
+      "music": "Music",
+      "coffee": "Coffee",
+      "arrow": "Arrow",
+      "gem": "Gem",
+      "key": "Key",
+      "umbrella": "Umbrella",
+      "moon": "Moon",
+      "cloud": "Cloud",
+      "snow": "Snow",
+      "scissors": "Scissors",
+      "pen": "Pen",
+      "brush": "Brush",
+      "film": "Film",
+      "video": "Video",
+      "speaker": "Speaker",
+      "mic": "Mic",
+      "headphones": "Headphones",
+      "radio": "Radio",
+      "tv": "TV",
+      "monitor": "Monitor",
+      "tablet": "Tablet",
+      "watch": "Watch"
+    }
   }
 }

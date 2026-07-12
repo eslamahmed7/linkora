@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Bug, ChevronLeft, ChevronRight, X, Save,
   Calendar, User, Monitor, Globe,
@@ -32,6 +33,7 @@ const PRIORITY_DOTS: Record<BugPriority, string> = {
 }
 
 export function AdminBugsPage() {
+  const { t } = useTranslation()
   const [bugs, setBugs] = useState<BugReport[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -88,8 +90,8 @@ export function AdminBugsPage() {
   return (
     <div className="p-4 lg:p-6 space-y-6 max-w-[1600px] mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Bug Reports</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">{total} total bug reports</p>
+        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.bugs.title')}</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">{t('admin.bugs.subtitle', { total })}</p>
       </div>
 
       {/* Filters */}
@@ -103,7 +105,7 @@ export function AdminBugsPage() {
                 : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
             }`}
           >
-            All
+            {t('common.all')}
           </button>
           {STATUS_OPTIONS.map(s => (
             <button
@@ -147,12 +149,12 @@ export function AdminBugsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Bug</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">User</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Priority</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Status</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">Device</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">Date</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.bugs.table.bug')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">{t('admin.bugs.table.user')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.bugs.table.priority')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.bugs.table.status')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">{t('admin.bugs.table.device')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.bugs.table.date')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -161,7 +163,7 @@ export function AdminBugsPage() {
                     <tr key={i}><td colSpan={6} className="px-5 py-4"><div className="h-5 bg-neutral-100 dark:bg-neutral-800 rounded animate-pulse" /></td></tr>
                   ))
                 ) : bugs.length === 0 ? (
-                  <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">No bug reports found</td></tr>
+                  <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">{t('admin.bugs.empty')}</td></tr>
                 ) : bugs.map(bug => (
                   <tr
                     key={bug.id}
@@ -184,7 +186,7 @@ export function AdminBugsPage() {
                         <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-[10px] font-bold text-neutral-600 dark:text-neutral-300 shrink-0">
                           {bug.user?.display_name?.[0] || '?'}
                         </div>
-                        <span className="text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-[120px]">{bug.user?.display_name || 'Unknown'}</span>
+                        <span className="text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-[120px]">{bug.user?.display_name || t('common.unknown')}</span>
                       </div>
                     </td>
                     <td className="px-5 py-3">
@@ -215,7 +217,7 @@ export function AdminBugsPage() {
 
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-5 py-3 border-t border-neutral-100 dark:border-neutral-800">
-              <p className="text-xs text-neutral-500">Page {page} of {totalPages}</p>
+              <p className="text-xs text-neutral-500">{t('common.pageOf', { page, total: totalPages })}</p>
               <div className="flex gap-1">
                 <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                   className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed">
@@ -234,7 +236,7 @@ export function AdminBugsPage() {
         {selected && (
           <div className="w-full lg:w-[420px] shrink-0 bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">Bug Details</h2>
+              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">{t('admin.bugs.detailTitle')}</h2>
               <button onClick={() => setSelected(null)} className="p-1 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-400">
                 <X className="w-4 h-4" />
               </button>
@@ -243,7 +245,7 @@ export function AdminBugsPage() {
               <div>
                 <h3 className="text-lg font-bold text-neutral-900 dark:text-white">{selected.title}</h3>
                 <div className="flex items-center gap-3 mt-2 text-xs text-neutral-500">
-                  <span className="flex items-center gap-1"><User className="w-3 h-3" />{selected.user?.display_name || 'Unknown'}</span>
+                  <span className="flex items-center gap-1"><User className="w-3 h-3" />{selected.user?.display_name || t('common.unknown')}</span>
                   <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{new Date(selected.created_at).toLocaleDateString()}</span>
                 </div>
               </div>
@@ -261,7 +263,7 @@ export function AdminBugsPage() {
 
               {selected.description && (
                 <div>
-                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Description</label>
+                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.description')}</label>
                   <p className="text-sm text-neutral-700 dark:text-neutral-300 mt-1 whitespace-pre-wrap">{selected.description}</p>
                 </div>
               )}
@@ -269,25 +271,25 @@ export function AdminBugsPage() {
               {/* Environment info */}
               {(selected.device || selected.browser || selected.os || selected.url) && (
                 <div>
-                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Environment</label>
+                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.environment')}</label>
                   <div className="mt-1 p-3 rounded-xl bg-neutral-50 dark:bg-neutral-800/50 space-y-1.5">
-                    {selected.device && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">Device:</span> {selected.device}</p>}
-                    {selected.browser && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">Browser:</span> {selected.browser}</p>}
-                    {selected.os && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">OS:</span> {selected.os}</p>}
-                    {selected.url && <p className="text-xs text-neutral-600 dark:text-neutral-400 truncate"><span className="font-medium">URL:</span> {selected.url}</p>}
+                    {selected.device && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">{t('admin.bugs.fields.device')}:</span> {selected.device}</p>}
+                    {selected.browser && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">{t('admin.bugs.fields.browser')}:</span> {selected.browser}</p>}
+                    {selected.os && <p className="text-xs text-neutral-600 dark:text-neutral-400"><span className="font-medium">{t('admin.bugs.fields.os')}:</span> {selected.os}</p>}
+                    {selected.url && <p className="text-xs text-neutral-600 dark:text-neutral-400 truncate"><span className="font-medium">{t('admin.bugs.fields.url')}:</span> {selected.url}</p>}
                   </div>
                 </div>
               )}
 
               {selected.screenshot_url && (
                 <div>
-                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Screenshot</label>
-                  <img src={selected.screenshot_url} alt="Bug screenshot" className="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-800" />
+                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.screenshot')}</label>
+                  <img src={selected.screenshot_url} alt={t('admin.bugs.screenshot')} className="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-800" />
                 </div>
               )}
 
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Status</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.status')}</label>
                 <select
                   value={editStatus}
                   onChange={e => setEditStatus(e.target.value as BugStatus)}
@@ -300,22 +302,22 @@ export function AdminBugsPage() {
               </div>
 
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Fix Version</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.fixVersion')}</label>
                 <input
                   type="text"
                   value={editFixVersion}
                   onChange={e => setEditFixVersion(e.target.value)}
-                  placeholder="e.g. v1.2.0"
+                  placeholder={t('admin.bugs.placeholders.fixVersion')}
                   className="w-full mt-1 px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-accent-600"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Admin Notes</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.bugs.fields.adminNotes')}</label>
                 <textarea
                   value={editNotes}
                   onChange={e => setEditNotes(e.target.value)}
-                  placeholder="Internal notes..."
+                  placeholder={t('admin.bugs.placeholders.internalNotes')}
                   rows={4}
                   className="w-full mt-1 px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-accent-600 resize-none"
                 />
@@ -327,7 +329,7 @@ export function AdminBugsPage() {
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 disabled:opacity-50 text-white text-sm font-medium transition-colors"
               >
                 <Save className="w-4 h-4" />
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? t('common.saving') : t('common.save')}
               </button>
             </div>
           </div>

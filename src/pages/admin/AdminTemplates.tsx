@@ -4,10 +4,12 @@ import {
   Search, Star, Eye, Download, Trash2, MoreHorizontal,
   ChevronLeft, ChevronRight, Palette, Plus, Pencil,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { adminDesigns } from '@/api/admin'
 import { DESIGN_TYPE_LABELS, type DesignMarketplaceItem, type DesignType } from '@/types/admin'
 
 export function AdminTemplatesPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [designs, setDesigns] = useState<DesignMarketplaceItem[]>([])
   const [total, setTotal] = useState(0)
@@ -74,7 +76,7 @@ export function AdminTemplatesPage() {
   }
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Delete this template permanently?')) return
+    if (!window.confirm(t('admin.templates.confirmDelete'))) return
     try {
       await adminDesigns.delete(id)
       setDesigns(d => d.filter(item => item.id !== id))
@@ -91,15 +93,15 @@ export function AdminTemplatesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Templates</h1>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">{total} templates</p>
+          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.templates.title')}</h1>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-0.5">{t('admin.templates.subtitle', { total })}</p>
         </div>
         <button
           onClick={() => navigate('/admin/templates/new')}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold transition-colors"
         >
           <Plus className="w-4 h-4" />
-          Create Template
+          {t('admin.templates.createTemplate')}
         </button>
       </div>
 
@@ -109,7 +111,7 @@ export function AdminTemplatesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
           <input
             type="text"
-            placeholder="Search templates..."
+            placeholder={t('admin.templates.searchPlaceholder')}
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSearch()}
@@ -121,7 +123,7 @@ export function AdminTemplatesPage() {
           onChange={e => { setTypeFilter(e.target.value); setPage(1) }}
           className="px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600"
         >
-          <option value="">All Types</option>
+          <option value="">{t('admin.templates.filters.allTypes')}</option>
           {types.map(t => (
             <option key={t} value={t}>{DESIGN_TYPE_LABELS[t]}</option>
           ))}
@@ -131,7 +133,7 @@ export function AdminTemplatesPage() {
           onChange={e => { setStatusFilter(e.target.value); setPage(1) }}
           className="px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-accent-600"
         >
-          <option value="">All Status</option>
+          <option value="">{t('admin.templates.filters.allStatus')}</option>
           <option value="published">Published</option>
           <option value="draft">Draft</option>
           <option value="archived">Archived</option>
@@ -148,7 +150,7 @@ export function AdminTemplatesPage() {
       ) : designs.length === 0 ? (
         <div className="text-center py-16">
           <Palette className="w-12 h-12 text-neutral-300 dark:text-neutral-600 mx-auto mb-3" />
-          <p className="text-neutral-500 dark:text-neutral-400">No templates found</p>
+          <p className="text-neutral-500 dark:text-neutral-400">{t('admin.templates.empty')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -167,10 +169,10 @@ export function AdminTemplatesPage() {
                 {/* Badges - left */}
                 <div className="absolute top-2 left-2 flex flex-wrap gap-1">
                   {design.is_premium && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500 text-white shadow">PRO</span>
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-500 text-white shadow">{t('common.pro')}</span>
                   )}
                   {design.is_featured && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-accent-600 text-white shadow">Featured</span>
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-accent-600 text-white shadow">{t('common.featured')}</span>
                   )}
                 </div>
                 {/* Status badge - right */}
@@ -200,7 +202,7 @@ export function AdminTemplatesPage() {
                         <span className="text-[10px] text-neutral-500 dark:text-neutral-400">{design.category}</span>
                       )}
                       {design.author && (
-                        <span className="text-[10px] text-neutral-400 dark:text-neutral-500 truncate">by {design.author.display_name}</span>
+                        <span className="text-[10px] text-neutral-400 dark:text-neutral-500 truncate">{t('admin.templates.byAuthor', { author: design.author.display_name })}</span>
                       )}
                     </div>
                   </div>
@@ -220,21 +222,21 @@ export function AdminTemplatesPage() {
                             className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center gap-2 text-neutral-700 dark:text-neutral-300"
                           >
                             <Pencil className="w-3.5 h-3.5" />
-                            Edit in Editor
+                            {t('admin.templates.editInEditor')}
                           </button>
                           <button
                             onClick={() => handleToggleFeatured(design.id, !design.is_featured)}
                             className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center gap-2 text-neutral-700 dark:text-neutral-300"
                           >
                             <Star className={`w-3.5 h-3.5 ${design.is_featured ? 'fill-amber-400 text-amber-400' : ''}`} />
-                            {design.is_featured ? 'Unfeature' : 'Feature'}
+                            {design.is_featured ? t('admin.templates.unfeature') : t('admin.templates.feature')}
                           </button>
                           <button
                             onClick={() => handleTogglePublish(design.id, !design.is_published)}
                             className="w-full text-left px-3 py-1.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800 flex items-center gap-2 text-neutral-700 dark:text-neutral-300"
                           >
                             <Eye className="w-3.5 h-3.5" />
-                            {design.is_published ? 'Unpublish' : 'Publish'}
+                            {design.is_published ? t('admin.templates.unpublish') : t('admin.templates.publish')}
                           </button>
                           <div className="mx-2 my-1 border-t border-neutral-200 dark:border-neutral-800" />
                           <button
@@ -242,7 +244,7 @@ export function AdminTemplatesPage() {
                             className="w-full text-left px-3 py-1.5 text-sm hover:bg-red-50 dark:hover:bg-red-950/20 text-red-600 flex items-center gap-2"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
-                            Delete
+                            {t('admin.templates.delete')}
                           </button>
                         </div>
                       </>
@@ -273,7 +275,7 @@ export function AdminTemplatesPage() {
                   className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-neutral-100 dark:bg-neutral-800 hover:bg-accent-600 dark:hover:bg-accent-600 hover:text-white text-neutral-600 dark:text-neutral-400 text-xs font-semibold transition-colors"
                 >
                   <Pencil className="w-3.5 h-3.5" />
-                  Edit in Editor
+                  {t('admin.templates.editInEditor')}
                 </button>
               </div>
             </div>
@@ -285,7 +287,7 @@ export function AdminTemplatesPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between pt-2">
           <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            Page {page} of {totalPages}
+            {t('common.pageOf', { page, total: totalPages })}
           </p>
           <div className="flex gap-1">
             <button

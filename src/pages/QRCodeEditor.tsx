@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { qrAPI } from '@/api/qr';
 import { useNotification } from '@/hooks/useNotification';
 import { QRGenerator } from '@/components/QRGenerator';
@@ -11,354 +12,354 @@ import {
 } from 'lucide-react';
 import type { QRCode, CreateQRRequest, QRCustomization } from '@/types/qr';
 
-const TABS = [
-  { id: 'content', label: 'Content', icon: Type },
-  { id: 'design', label: 'Design', icon: Settings2 },
-  { id: 'colors', label: 'Branding', icon: Palette },
-  { id: 'frame', label: 'Frame', icon: LayoutTemplate },
-  { id: 'presets', label: 'Presets', icon: LayoutTemplate },
+const getTabs = (t: (key: string) => string) => [
+  { id: 'content', label: t('qrEditor.tabs.content'), icon: Type },
+  { id: 'design', label: t('qrEditor.tabs.design'), icon: Settings2 },
+  { id: 'colors', label: t('qrEditor.tabs.branding'), icon: Palette },
+  { id: 'frame', label: t('qrEditor.tabs.frame'), icon: LayoutTemplate },
+  { id: 'presets', label: t('qrEditor.tabs.presets'), icon: LayoutTemplate },
 ];
 
-const PRESETS = [
+const getPresets = (t: (key: string) => string) => [
   {
-    name: 'Classic Black',
+    name: t('qrEditor.presets.classicBlack'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'square', eyeBallStyle: 'square', gradientEnabled: false, bgGradientEnabled: false, textGradientEnabled: false, frameStyle: 'none', foregroundColor: '#000000', backgroundColor: '#ffffff', backgroundImageUrl: '' }
   },
   {
-    name: 'Ocean Breeze',
+    name: t('qrEditor.presets.oceanBreeze'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'leaf', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, gradientScale: 50, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#00d2ff', foregroundColor2: '#3a7bd5', backgroundColor: '#ffffff', frameStyle: 'none', backgroundImageUrl: '' }
   },
   {
-    name: 'Neon Night',
+    name: t('qrEditor.presets.neonNight'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'hexagon', eyeBallStyle: 'hexagon', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#ff00ff', foregroundColor2: '#00ffff', backgroundColor: '#111111', frameStyle: 'neon', frameColor: '#00ffff', frameTextColor: '#00ffff', backgroundImageUrl: '', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Polaroid Memory',
+    name: t('qrEditor.presets.polaroidMemory'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: false, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#333333', backgroundColor: '#fdfdfd', frameStyle: 'polaroid', frameText: 'SCAN ME', frameFontFamily: 'cursive', backgroundImageUrl: '', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Browser Web',
+    name: t('qrEditor.presets.browserWeb'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: false, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#2b2b2b', backgroundColor: '#ffffff', frameStyle: 'browser', frameColor: '#e0e0e0', frameText: 'linkora.app', frameFontFamily: 'sans-serif', backgroundImageUrl: '', frameTextPosition: 'top' }
   },
   {
-    name: 'Sunset Glow',
+    name: t('qrEditor.presets.sunsetGlow'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: true, gradientType: 'radial', gradientScale: 60, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#ff512f', foregroundColor2: '#f09819', backgroundColor: '#ffffff', frameStyle: 'bubble', frameColor: '#ff512f', frameTextColor: '#ffffff', backgroundImageUrl: '', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Cyberpunk 2077',
+    name: t('qrEditor.presets.cyberpunk2077'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'octagon', eyeBallStyle: 'cross', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 0, textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 90, foregroundColor: '#fcee0a', foregroundColor2: '#00ff00', backgroundColor: '#111111', backgroundColor2: '#330033', frameStyle: 'cyberpunk', frameColor: '#fcee0a', frameTextColor: '#fcee0a', frameTextColor2: '#00ffff', frameFontFamily: 'Impact, fantasy', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Glacier Blue',
+    name: t('qrEditor.presets.glacierBlue'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 80, backgroundColor: '#4facfe', backgroundColor2: '#00f2fe', textGradientEnabled: false, foregroundColor: '#ffffff', foregroundColor2: '#e0e0e0', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#4facfe', backgroundImageUrl: '', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Luxury Gold',
+    name: t('qrEditor.presets.luxuryGold'),
     customization: { dotStyle: 'diamond', eyeFrameStyle: 'diamond', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'radial', gradientScale: 75, bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 100, textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 45, foregroundColor: '#c5b358', foregroundColor2: '#fdf5a9', backgroundColor: '#1a1a1a', backgroundColor2: '#000000', frameStyle: 'solid', frameColor: '#1a1a1a', frameTextColor: '#c5b358', frameTextColor2: '#fdf5a9', frameFontFamily: 'serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Map Location',
+    name: t('qrEditor.presets.mapLocation'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'octagon', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: -45, bgGradientEnabled: false, textGradientEnabled: false, foregroundColor: '#4285F4', foregroundColor2: '#34A853', backgroundColor: '#ffffff', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#333333', backgroundImageUrl: '', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Cosmic Purple',
+    name: t('qrEditor.presets.cosmicPurple'),
     customization: { dotStyle: 'star', eyeFrameStyle: 'star', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 120, foregroundColor: '#ff00cc', foregroundColor2: '#333399', backgroundColor: '#0f0c29', backgroundColor2: '#302b63', frameStyle: 'glowing', frameColor: '#302b63', frameTextColor: '#ff00cc', textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 0, frameTextColor2: '#333399', frameFontFamily: 'sans-serif', frameTextPosition: 'top' }
   },
   {
-    name: 'Mint Fresh',
+    name: t('qrEditor.presets.mintFresh'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#00b09b', foregroundColor2: '#96c93d', bgGradientEnabled: false, backgroundColor: '#f0fff4', frameStyle: 'bubble', frameColor: '#00b09b', frameTextColor: '#ffffff', textGradientEnabled: false, frameTextPosition: 'bottom' }
   },
   {
-    name: 'Retro Arcade',
+    name: t('qrEditor.presets.retroArcade'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'square', eyeBallStyle: 'square', gradientEnabled: false, foregroundColor: '#39ff14', backgroundColor: '#000000', frameStyle: 'retro', frameColor: '#000000', frameTextColor: '#39ff14', textGradientEnabled: false, frameFontFamily: "'Courier New', monospace", frameTextPosition: 'right' }
   },
   {
-    name: 'Fire & Ice',
+    name: t('qrEditor.presets.fireAndIce'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'hexagon', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#ff4b2b', foregroundColor2: '#ff416c', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -45, backgroundColor: '#2193b0', backgroundColor2: '#6dd5ed', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#ff416c', textGradientEnabled: false, frameTextPosition: 'bottom' }
   },
   {
-    name: 'Dark Elegance',
+    name: t('qrEditor.presets.darkElegance'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'diamond', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'radial', gradientScale: 60, foregroundColor: '#ece9e6', foregroundColor2: '#ffffff', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 0, backgroundColor: '#141E30', backgroundColor2: '#243B55', frameStyle: 'minimal', frameColor: '#ffffff', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: "'Times New Roman', serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Strawberry Milk',
+    name: t('qrEditor.presets.strawberryMilk'),
     customization: { dotStyle: 'heart', eyeFrameStyle: 'circle', eyeBallStyle: 'heart', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#ff0844', foregroundColor2: '#ffb199', bgGradientEnabled: false, backgroundColor: '#fff0f5', frameStyle: 'badge', frameColor: '#ff0844', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: "'Comic Sans MS', cursive", frameTextPosition: 'top' }
   },
   {
-    name: 'Deep Sea',
+    name: t('qrEditor.presets.deepSea'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'rounded', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#43c6ac', foregroundColor2: '#191654', bgGradientEnabled: false, backgroundColor: '#f0f8ff', frameStyle: 'solid', frameColor: '#191654', frameTextColor: '#43c6ac', textGradientEnabled: false, frameTextPosition: 'left' }
   },
   {
-    name: 'Forest Canopy',
+    name: t('qrEditor.presets.forestCanopy'),
     customization: { dotStyle: 'leaf', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'radial', gradientScale: 80, foregroundColor: '#134e5e', foregroundColor2: '#71b280', bgGradientEnabled: false, backgroundColor: '#f5f7fa', frameStyle: 'border', frameColor: '#134e5e', frameTextColor: '#134e5e', textGradientEnabled: false, frameTextPosition: 'bottom' }
   },
   {
-    name: 'Sunset Boulevard',
+    name: t('qrEditor.presets.sunsetBoulevard'),
     customization: { dotStyle: 'cross', eyeFrameStyle: 'octagon', eyeBallStyle: 'cross', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#cc2b5e', foregroundColor2: '#753a88', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'ticket', frameColor: '#753a88', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: "'Trebuchet MS', sans-serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Holographic',
+    name: t('qrEditor.presets.holographic'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#00dbde', foregroundColor2: '#fc00ff', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 135, backgroundColor: '#f3e7e9', backgroundColor2: '#e3eeff', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#fc00ff', textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 90, frameTextColor2: '#00dbde', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Midnight Express',
+    name: t('qrEditor.presets.midnightExpress'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'square', eyeBallStyle: 'square', gradientEnabled: false, foregroundColor: '#ffffff', bgGradientEnabled: false, backgroundColor: '#000000', frameStyle: 'solid', frameColor: '#000000', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'right' }
   },
   {
-    name: 'Cherry Blossom',
+    name: t('qrEditor.presets.cherryBlossom'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'radial', gradientScale: 60, foregroundColor: '#f77062', foregroundColor2: '#fe5196', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'bubble', frameColor: '#fe5196', frameTextColor: '#ffffff', textGradientEnabled: false, frameTextPosition: 'bottom' }
   },
   {
-    name: 'Golden Ratio',
+    name: t('qrEditor.presets.goldenRatio'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'hexagon', eyeBallStyle: 'hexagon', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#bf953f', foregroundColor2: '#fcf6ba', bgGradientEnabled: false, backgroundColor: '#2b2b2b', frameStyle: 'vintage', frameColor: '#bf953f', frameTextColor: '#fcf6ba', textGradientEnabled: false, frameFontFamily: "'Times New Roman', serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Ice Crystal',
+    name: t('qrEditor.presets.iceCrystal'),
     customization: { dotStyle: 'diamond', eyeFrameStyle: 'diamond', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#89f7fe', foregroundColor2: '#66a6ff', bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 90, backgroundColor: '#e0c3fc', backgroundColor2: '#8ec5fc', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#66a6ff', textGradientEnabled: false, frameTextPosition: 'bottom' }
   },
   {
-    name: 'Toxic Slime',
+    name: t('qrEditor.presets.toxicSlime'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: true, gradientType: 'linear', gradientRotation: 0, foregroundColor: '#000000', foregroundColor2: '#43a047', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 180, backgroundColor: '#a8ff78', backgroundColor2: '#78ffd6', frameStyle: 'neon', frameColor: '#a8ff78', frameTextColor: '#000000', textGradientEnabled: false, frameFontFamily: "'Comic Sans MS', cursive", frameTextPosition: 'left' }
   },
   {
-    name: 'Royal Flush',
+    name: t('qrEditor.presets.royalFlush'),
     customization: { dotStyle: 'heart', eyeFrameStyle: 'shield', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'radial', gradientScale: 50, foregroundColor: '#e52d27', foregroundColor2: '#b31217', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'solid', frameColor: '#b31217', frameTextColor: '#fcf6ba', textGradientEnabled: false, frameFontFamily: "serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Space Invader',
+    name: t('qrEditor.presets.spaceInvader'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'square', eyeBallStyle: 'square', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#fc00ff', foregroundColor2: '#00dbde', bgGradientEnabled: false, backgroundColor: '#000000', frameStyle: 'cyberpunk', frameColor: '#fc00ff', frameTextColor: '#00dbde', textGradientEnabled: false, frameFontFamily: "'Courier New', monospace", frameTextPosition: 'top' }
   },
   {
-    name: 'Monochrome Web',
+    name: t('qrEditor.presets.monochromeWeb'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: false, foregroundColor: '#000000', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'browser', frameColor: '#e0e0e0', frameTextColor: '#000000', textGradientEnabled: false, frameFontFamily: "sans-serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Vaporwave',
+    name: t('qrEditor.presets.vaporwave'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'octagon', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#00ffff', foregroundColor2: '#ff00ff', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 180, backgroundColor: '#ff00ff', backgroundColor2: '#00ffff', frameStyle: 'glowing', frameColor: '#00ffff', frameTextColor: '#ff00ff', textGradientEnabled: false, frameFontFamily: "'Trebuchet MS', sans-serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Coffee Shop',
+    name: t('qrEditor.presets.coffeeShop'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: true, gradientType: 'radial', gradientScale: 70, foregroundColor: '#5c258d', foregroundColor2: '#4389a2', bgGradientEnabled: false, backgroundColor: '#fdfbfb', frameStyle: 'polaroid', frameColor: '#ffffff', frameTextColor: '#5c258d', textGradientEnabled: false, frameFontFamily: "cursive", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Ruby Sparkle',
+    name: t('qrEditor.presets.rubySparkle'),
     customization: { dotStyle: 'diamond', eyeFrameStyle: 'diamond', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#ff0844', foregroundColor2: '#ffb199', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'shadow', frameColor: '#ff0844', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Emerald City',
+    name: t('qrEditor.presets.emeraldCity'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'linear', gradientRotation: -45, foregroundColor: '#0ba360', foregroundColor2: '#3cba92', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'solid', frameColor: '#0ba360', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Neon Tokyo',
+    name: t('qrEditor.presets.neonTokyo'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'hexagon', eyeBallStyle: 'hexagon', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#f83600', foregroundColor2: '#f9d423', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -135, backgroundColor: '#000000', backgroundColor2: '#111111', frameStyle: 'cyberpunk', frameColor: '#f9d423', frameTextColor: '#f83600', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'right' }
   },
   {
-    name: 'Silver Bullet',
+    name: t('qrEditor.presets.silverBullet'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'radial', gradientScale: 50, foregroundColor: '#2b5876', foregroundColor2: '#4e4376', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 0, backgroundColor: '#e6e9f0', backgroundColor2: '#eef1f5', frameStyle: 'minimal', frameColor: '#4e4376', frameTextColor: '#2b5876', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Lava Flow',
+    name: t('qrEditor.presets.lavaFlow'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'octagon', eyeBallStyle: 'cross', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#ff416c', foregroundColor2: '#ff4b2b', bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 70, backgroundColor: '#2b0000', backgroundColor2: '#000000', frameStyle: 'glowing', frameColor: '#000000', frameTextColor: '#ff4b2b', textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 0, frameTextColor2: '#ff416c', frameFontFamily: 'sans-serif', frameTextPosition: 'top' }
   },
   {
-    name: 'Blue Steel',
+    name: t('qrEditor.presets.blueSteel'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'shield', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#0b8793', foregroundColor2: '#360033', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'border', frameColor: '#360033', frameTextColor: '#360033', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Sunny Day',
+    name: t('qrEditor.presets.sunnyDay'),
     customization: { dotStyle: 'heart', eyeFrameStyle: 'circle', eyeBallStyle: 'heart', gradientEnabled: true, gradientType: 'radial', gradientScale: 60, foregroundColor: '#f6d365', foregroundColor2: '#fda085', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'bubble', frameColor: '#fda085', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: "'Comic Sans MS', cursive", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Amethyst',
+    name: t('qrEditor.presets.amethyst'),
     customization: { dotStyle: 'star', eyeFrameStyle: 'star', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: -90, foregroundColor: '#8E2DE2', foregroundColor2: '#4A00E0', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'badge', frameColor: '#8E2DE2', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Forest Fire',
+    name: t('qrEditor.presets.forestFire'),
     customization: { dotStyle: 'leaf', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#f12711', foregroundColor2: '#f5af19', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -45, backgroundColor: '#11998e', backgroundColor2: '#38ef7d', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#11998e', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Cotton Candy',
+    name: t('qrEditor.presets.cottonCandy'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'rounded', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'radial', gradientScale: 80, foregroundColor: '#ff9a9e', foregroundColor2: '#fecfef', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'polaroid', frameColor: '#ffffff', frameTextColor: '#ff9a9e', textGradientEnabled: false, frameFontFamily: 'cursive', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Midnight Ocean',
+    name: t('qrEditor.presets.midnightOcean'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'circle', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#000046', foregroundColor2: '#1CB5E0', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#000046', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Golden Hour',
+    name: t('qrEditor.presets.goldenHour'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'octagon', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#F2C94C', foregroundColor2: '#F2994A', bgGradientEnabled: false, backgroundColor: '#fafafa', frameStyle: 'minimal', frameColor: '#F2994A', frameTextColor: '#F2994A', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'right' }
   },
   {
-    name: 'Toxic Glow',
+    name: t('qrEditor.presets.toxicGlow'),
     customization: { dotStyle: 'diamond', eyeFrameStyle: 'hexagon', eyeBallStyle: 'cross', gradientEnabled: true, gradientType: 'radial', gradientScale: 75, foregroundColor: '#39FF14', foregroundColor2: '#00ff00', bgGradientEnabled: false, backgroundColor: '#000000', frameStyle: 'neon', frameColor: '#39FF14', frameTextColor: '#39FF14', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'top' }
   },
   {
-    name: 'Bubblegum',
+    name: t('qrEditor.presets.bubblegum'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#FF9A9E', foregroundColor2: '#FECFEF', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'bubble', frameColor: '#FF9A9E', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'cursive', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Blood Moon',
+    name: t('qrEditor.presets.bloodMoon'),
     customization: { dotStyle: 'star', eyeFrameStyle: 'star', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'radial', gradientScale: 60, foregroundColor: '#8A2387', foregroundColor2: '#E94057', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 0, backgroundColor: '#1f0000', backgroundColor2: '#000000', frameStyle: 'glowing', frameColor: '#E94057', frameTextColor: '#F27121', textGradientEnabled: true, textGradientType: 'linear', textGradientRotation: 90, frameTextColor2: '#E94057', frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Cyber Matrix',
+    name: t('qrEditor.presets.cyberMatrix'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'square', eyeBallStyle: 'square', gradientEnabled: false, foregroundColor: '#00FF41', bgGradientEnabled: false, backgroundColor: '#0D0208', frameStyle: 'retro', frameColor: '#0D0208', frameTextColor: '#00FF41', textGradientEnabled: false, frameFontFamily: "'Courier New', monospace", frameTextPosition: 'right' }
   },
   {
-    name: 'Desert Sand',
+    name: t('qrEditor.presets.desertSand'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'octagon', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#C84E89', foregroundColor2: '#F15F79', bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 80, backgroundColor: '#FDFCFB', backgroundColor2: '#E2D1C3', frameStyle: 'vintage', frameColor: '#C84E89', frameTextColor: '#C84E89', textGradientEnabled: false, frameFontFamily: "'Times New Roman', serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Arctic Freeze',
+    name: t('qrEditor.presets.arcticFreeze'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: -45, foregroundColor: '#00C9FF', foregroundColor2: '#92FE9D', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'border', frameColor: '#00C9FF', frameTextColor: '#00C9FF', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Electric Violet',
+    name: t('qrEditor.presets.electricViolet'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'hexagon', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#B224EF', foregroundColor2: '#7579FF', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -90, backgroundColor: '#000000', backgroundColor2: '#1a1a2e', frameStyle: 'cyberpunk', frameColor: '#7579FF', frameTextColor: '#B224EF', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Copper Coin',
+    name: t('qrEditor.presets.copperCoin'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'shield', eyeBallStyle: 'rounded', gradientEnabled: true, gradientType: 'radial', gradientScale: 50, foregroundColor: '#b87333', foregroundColor2: '#ffcc99', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'solid', frameColor: '#b87333', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Royal Blue',
+    name: t('qrEditor.presets.royalBlue'),
     customization: { dotStyle: 'diamond', eyeFrameStyle: 'diamond', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#0000CD', foregroundColor2: '#4169E1', bgGradientEnabled: false, backgroundColor: '#f0f4f8', frameStyle: 'badge', frameColor: '#0000CD', frameTextColor: '#FFD700', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'top' }
   },
   {
-    name: 'Alien Tech',
+    name: t('qrEditor.presets.alienTech'),
     customization: { dotStyle: 'square', eyeFrameStyle: 'octagon', eyeBallStyle: 'cross', gradientEnabled: false, foregroundColor: '#BFFF00', bgGradientEnabled: false, backgroundColor: '#2b2b2b', frameStyle: 'browser', frameColor: '#404040', frameTextColor: '#BFFF00', textGradientEnabled: false, frameFontFamily: "'Courier New', monospace", frameTextPosition: 'top' }
   },
   {
-    name: 'Sunset Cruise',
+    name: t('qrEditor.presets.sunsetCruise'),
     customization: { dotStyle: 'heart', eyeFrameStyle: 'rounded', eyeBallStyle: 'heart', gradientEnabled: true, gradientType: 'linear', gradientRotation: 0, foregroundColor: '#FF5F6D', foregroundColor2: '#FFC371', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'ticket', frameColor: '#FF5F6D', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: "'Trebuchet MS', sans-serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Lemonade',
+    name: t('qrEditor.presets.lemonade'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'circle', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'radial', gradientScale: 70, foregroundColor: '#F9D423', foregroundColor2: '#FF4E50', bgGradientEnabled: false, backgroundColor: '#fffdee', frameStyle: 'polaroid', frameColor: '#ffffff', frameTextColor: '#FF4E50', textGradientEnabled: false, frameFontFamily: 'cursive', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Midnight Rose',
+    name: t('qrEditor.presets.midnightRose'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#800000', foregroundColor2: '#ff0040', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'shadow', frameColor: '#ffffff', frameTextColor: '#800000', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Starry Night',
+    name: t('qrEditor.presets.starryNight'),
     customization: { dotStyle: 'star', eyeFrameStyle: 'star', eyeBallStyle: 'star', gradientEnabled: true, gradientType: 'radial', gradientScale: 100, foregroundColor: '#000080', foregroundColor2: '#000033', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 45, backgroundColor: '#FFD700', backgroundColor2: '#FFA500', frameStyle: 'vintage', frameColor: '#000080', frameTextColor: '#000080', textGradientEnabled: false, frameFontFamily: "'Times New Roman', serif", frameTextPosition: 'bottom' }
   },
   {
-    name: 'Mint Chocolate',
+    name: t('qrEditor.presets.mintChocolate'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'rounded', eyeBallStyle: 'rounded', gradientEnabled: false, foregroundColor: '#3E2723', bgGradientEnabled: true, bgGradientType: 'radial', bgGradientScale: 70, backgroundColor: '#a8e063', backgroundColor2: '#56ab2f', frameStyle: 'minimal', frameColor: '#3E2723', frameTextColor: '#3E2723', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'right' }
   },
   {
-    name: 'Neon Flux',
+    name: t('qrEditor.presets.neonFlux'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'hexagon', eyeBallStyle: 'hexagon', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#FF1493', foregroundColor2: '#00FFFF', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -90, backgroundColor: '#000000', backgroundColor2: '#1C1C1C', frameStyle: 'cyberpunk', frameColor: '#FF1493', frameTextColor: '#00FFFF', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Ghost White',
+    name: t('qrEditor.presets.ghostWhite'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'circle', gradientEnabled: false, foregroundColor: '#ffffff', bgGradientEnabled: false, backgroundColor: '#b3b3b3', frameStyle: 'glowing', frameColor: '#b3b3b3', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Pumpkin Spice',
+    name: t('qrEditor.presets.pumpkinSpice'),
     customization: { dotStyle: 'dots', eyeFrameStyle: 'octagon', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#D35400', foregroundColor2: '#E67E22', bgGradientEnabled: false, backgroundColor: '#FFF5E6', frameStyle: 'bubble', frameColor: '#D35400', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'cursive', frameTextPosition: 'top' }
   },
   {
-    name: 'Ninja Strike',
+    name: t('qrEditor.presets.ninjaStrike'),
     customization: { dotStyle: 'ninja', eyeFrameStyle: 'ninja', eyeBallStyle: 'ninja', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#ff0000', foregroundColor2: '#aa0000', bgGradientEnabled: false, backgroundColor: '#1a1a1a', frameStyle: 'cyberpunk', frameColor: '#ff0000', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'Impact, fantasy', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Magic Sparkle',
+    name: t('qrEditor.presets.magicSparkle'),
     customization: { dotStyle: 'sparkle', eyeFrameStyle: 'sparkle', eyeBallStyle: 'sparkle', gradientEnabled: true, gradientType: 'radial', gradientScale: 80, foregroundColor: '#ffd700', foregroundColor2: '#ff8c00', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'glowing', frameColor: '#ffffff', frameTextColor: '#ffd700', textGradientEnabled: false, frameFontFamily: 'cursive', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Rain Drop',
+    name: t('qrEditor.presets.rainDrop'),
     customization: { dotStyle: 'drop', eyeFrameStyle: 'drop', eyeBallStyle: 'drop', gradientEnabled: true, gradientType: 'linear', gradientRotation: 180, foregroundColor: '#00bfff', foregroundColor2: '#1e90ff', bgGradientEnabled: false, backgroundColor: '#f0f8ff', frameStyle: 'bubble', frameColor: '#1e90ff', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'left' }
   },
   {
-    name: 'Neon Triangle',
+    name: t('qrEditor.presets.neonTriangle'),
     customization: { dotStyle: 'triangle', eyeFrameStyle: 'triangle', eyeBallStyle: 'triangle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 90, foregroundColor: '#00ff00', foregroundColor2: '#00cc00', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: -90, backgroundColor: '#000000', backgroundColor2: '#111111', frameStyle: 'neon', frameColor: '#00ff00', frameTextColor: '#00ff00', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'right' }
   },
   {
-    name: 'Medical Pill',
+    name: t('qrEditor.presets.medicalPill'),
     customization: { dotStyle: 'pill', eyeFrameStyle: 'pill', eyeBallStyle: 'pill', gradientEnabled: true, gradientType: 'linear', gradientRotation: 0, foregroundColor: '#ff6b6b', foregroundColor2: '#4ecdc4', bgGradientEnabled: false, backgroundColor: '#ffffff', frameStyle: 'solid', frameColor: '#4ecdc4', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Frosted Glass',
+    name: t('qrEditor.presets.frostedGlass'),
     customization: { dotStyle: 'rounded', eyeFrameStyle: 'rounded', eyeBallStyle: 'circle', gradientEnabled: true, gradientType: 'linear', gradientRotation: 135, foregroundColor: '#ffffff', foregroundColor2: '#e0e0e0', bgGradientEnabled: true, bgGradientType: 'radial', gradientScale: 100, backgroundColor: '#a8c0ff', backgroundColor2: '#3f2b96', frameStyle: 'glass', frameColor: '#ffffff', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'sans-serif', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Cyber Glass',
+    name: t('qrEditor.presets.cyberGlass'),
     customization: { dotStyle: 'fluid', eyeFrameStyle: 'hexagon', eyeBallStyle: 'diamond', gradientEnabled: true, gradientType: 'linear', gradientRotation: 45, foregroundColor: '#00ffcc', foregroundColor2: '#0066ff', bgGradientEnabled: true, bgGradientType: 'linear', bgGradientRotation: 45, backgroundColor: '#0a0a0a', backgroundColor2: '#1a1a2e', frameStyle: 'glass', frameColor: '#00ffcc', frameTextColor: '#00ffcc', textGradientEnabled: false, frameFontFamily: 'monospace', frameTextPosition: 'bottom' }
   },
   {
-    name: 'Ruby Glass',
+    name: t('qrEditor.presets.rubyGlass'),
     customization: { dotStyle: 'classy', eyeFrameStyle: 'leaf', eyeBallStyle: 'leaf', gradientEnabled: true, gradientType: 'linear', gradientRotation: -45, foregroundColor: '#ff0844', foregroundColor2: '#ffb199', bgGradientEnabled: true, bgGradientType: 'radial', gradientScale: 80, backgroundColor: '#2a0845', backgroundColor2: '#6441A5', frameStyle: 'glass', frameColor: '#ff0844', frameTextColor: '#ffffff', textGradientEnabled: false, frameFontFamily: 'serif', frameTextPosition: 'bottom' }
   }
 ];
 
-const SOCIAL_LOGOS = [
-  { name: 'none', label: 'None', url: '' },
-  { name: 'wifi', label: 'Wi-Fi', url: 'https://cdn-icons-png.flaticon.com/512/93/93158.png', invertInDarkMode: true },
-  { name: 'tiktok', label: 'TikTok', url: 'https://cdn-icons-png.flaticon.com/512/3046/3046121.png', invertInDarkMode: true },
-  { name: 'whatsapp', label: 'WhatsApp', url: 'https://cdn-icons-png.flaticon.com/512/733/733585.png' },
-  { name: 'instagram', label: 'Instagram', url: 'https://cdn-icons-png.flaticon.com/512/174/174855.png' },
-  { name: 'facebook', label: 'Facebook', url: 'https://cdn-icons-png.flaticon.com/512/124/124010.png' },
-  { name: 'twitter', label: 'X (Twitter)', url: 'https://cdn-icons-png.flaticon.com/512/5969/5969020.png', invertInDarkMode: true },
-  { name: 'linkedin', label: 'LinkedIn', url: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-  { name: 'youtube', label: 'YouTube', url: 'https://cdn-icons-png.flaticon.com/512/1384/1384060.png' },
-  { name: 'paypal', label: 'PayPal', url: 'https://cdn-icons-png.flaticon.com/512/174/174861.png' },
-  { name: 'bitcoin', label: 'Bitcoin', url: 'https://cdn-icons-png.flaticon.com/512/5968/5968260.png' },
-  { name: 'appstore', label: 'App Store', url: 'https://cdn-icons-png.flaticon.com/512/731/731985.png', invertInDarkMode: true },
-  { name: 'playstore', label: 'Play Store', url: 'https://cdn-icons-png.flaticon.com/512/732/732208.png' },
-  { name: 'telegram', label: 'Telegram', url: 'https://cdn-icons-png.flaticon.com/512/2111/2111646.png' },
-  { name: 'discord', label: 'Discord', url: 'https://cdn-icons-png.flaticon.com/512/5968/5968756.png' },
-  { name: 'reddit', label: 'Reddit', url: 'https://cdn-icons-png.flaticon.com/512/174/174866.png' },
-  { name: 'github', label: 'GitHub', url: 'https://cdn-icons-png.flaticon.com/512/733/733553.png', invertInDarkMode: true },
-  { name: 'zoom', label: 'Zoom', url: 'https://cdn-icons-png.flaticon.com/512/4401/4401470.png' },
-  { name: 'slack', label: 'Slack', url: 'https://cdn-icons-png.flaticon.com/512/2111/2111615.png' },
-  { name: 'spotify', label: 'Spotify', url: 'https://cdn-icons-png.flaticon.com/512/174/174872.png' },
-  { name: 'twitch', label: 'Twitch', url: 'https://cdn-icons-png.flaticon.com/512/5968/5968819.png' },
-  { name: 'snapchat', label: 'Snapchat', url: 'https://cdn-icons-png.flaticon.com/512/174/174870.png' },
-  { name: 'pinterest', label: 'Pinterest', url: 'https://cdn-icons-png.flaticon.com/512/145/145808.png' },
-  { name: 'figma', label: 'Figma', url: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png' },
-  { name: 'apple', label: 'Apple', url: 'https://cdn-icons-png.flaticon.com/512/0/747.png', invertInDarkMode: true },
-  { name: 'android', label: 'Android', url: 'https://cdn-icons-png.flaticon.com/512/174/174836.png' },
-  { name: 'notion', label: 'Notion', url: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png' },
-  { name: 'patreon', label: 'Patreon', url: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg' }
+const getSocialLogos = (t: (key: string) => string) => [
+  { name: 'none', label: t('socialPlatforms.none'), url: '' },
+  { name: 'wifi', label: t('socialPlatforms.wifi'), url: 'https://cdn-icons-png.flaticon.com/512/93/93158.png', invertInDarkMode: true },
+  { name: 'tiktok', label: t('socialPlatforms.tiktok'), url: 'https://cdn-icons-png.flaticon.com/512/3046/3046121.png', invertInDarkMode: true },
+  { name: 'whatsapp', label: t('socialPlatforms.whatsapp'), url: 'https://cdn-icons-png.flaticon.com/512/733/733585.png' },
+  { name: 'instagram', label: t('socialPlatforms.instagram'), url: 'https://cdn-icons-png.flaticon.com/512/174/174855.png' },
+  { name: 'facebook', label: t('socialPlatforms.facebook'), url: 'https://cdn-icons-png.flaticon.com/512/124/124010.png' },
+  { name: 'twitter', label: t('socialPlatforms.twitter'), url: 'https://cdn-icons-png.flaticon.com/512/5969/5969020.png', invertInDarkMode: true },
+  { name: 'linkedin', label: t('socialPlatforms.linkedin'), url: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
+  { name: 'youtube', label: t('socialPlatforms.youtube'), url: 'https://cdn-icons-png.flaticon.com/512/1384/1384060.png' },
+  { name: 'paypal', label: t('socialPlatforms.paypal'), url: 'https://cdn-icons-png.flaticon.com/512/174/174861.png' },
+  { name: 'bitcoin', label: t('socialPlatforms.bitcoin'), url: 'https://cdn-icons-png.flaticon.com/512/5968/5968260.png' },
+  { name: 'appstore', label: t('socialPlatforms.appstore'), url: 'https://cdn-icons-png.flaticon.com/512/731/731985.png', invertInDarkMode: true },
+  { name: 'playstore', label: t('socialPlatforms.playstore'), url: 'https://cdn-icons-png.flaticon.com/512/732/732208.png' },
+  { name: 'telegram', label: t('socialPlatforms.telegram'), url: 'https://cdn-icons-png.flaticon.com/512/2111/2111646.png' },
+  { name: 'discord', label: t('socialPlatforms.discord'), url: 'https://cdn-icons-png.flaticon.com/512/5968/5968756.png' },
+  { name: 'reddit', label: t('socialPlatforms.reddit'), url: 'https://cdn-icons-png.flaticon.com/512/174/174866.png' },
+  { name: 'github', label: t('socialPlatforms.github'), url: 'https://cdn-icons-png.flaticon.com/512/733/733553.png', invertInDarkMode: true },
+  { name: 'zoom', label: t('socialPlatforms.zoom'), url: 'https://cdn-icons-png.flaticon.com/512/4401/4401470.png' },
+  { name: 'slack', label: t('socialPlatforms.slack'), url: 'https://cdn-icons-png.flaticon.com/512/2111/2111615.png' },
+  { name: 'spotify', label: t('socialPlatforms.spotify'), url: 'https://cdn-icons-png.flaticon.com/512/174/174872.png' },
+  { name: 'twitch', label: t('socialPlatforms.twitch'), url: 'https://cdn-icons-png.flaticon.com/512/5968/5968819.png' },
+  { name: 'snapchat', label: t('socialPlatforms.snapchat'), url: 'https://cdn-icons-png.flaticon.com/512/174/174870.png' },
+  { name: 'pinterest', label: t('socialPlatforms.pinterest'), url: 'https://cdn-icons-png.flaticon.com/512/145/145808.png' },
+  { name: 'figma', label: t('socialPlatforms.figma'), url: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png' },
+  { name: 'apple', label: t('socialPlatforms.apple'), url: 'https://cdn-icons-png.flaticon.com/512/0/747.png', invertInDarkMode: true },
+  { name: 'android', label: t('socialPlatforms.android'), url: 'https://cdn-icons-png.flaticon.com/512/174/174836.png' },
+  { name: 'notion', label: t('socialPlatforms.notion'), url: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png' },
+  { name: 'patreon', label: t('socialPlatforms.patreon'), url: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg' }
 ];
 
-const DATA_TYPES = [
-  { id: 'landing-page', label: 'Landing Page', Icon: Layout },
-  { id: 'url', label: 'URL', Icon: LinkIcon },
-  { id: 'text', label: 'Text', Icon: FileText },
-  { id: 'wifi', label: 'Wi-Fi', Icon: Wifi },
-  { id: 'phone', label: 'Phone', Icon: Phone },
-  { id: 'email', label: 'Email', Icon: Mail },
-  { id: 'sms', label: 'SMS', Icon: MessageSquare },
-  { id: 'vcard', label: 'VCard', Icon: Globe },
-  { id: 'maps', label: 'Maps', Icon: MapPin },
-  { id: 'tiktok', label: 'TikTok', image: 'https://cdn-icons-png.flaticon.com/512/3046/3046121.png', invertInDarkMode: true },
-  { id: 'whatsapp', label: 'WhatsApp', image: 'https://cdn-icons-png.flaticon.com/512/733/733585.png' },
-  { id: 'instagram', label: 'Instagram', image: 'https://cdn-icons-png.flaticon.com/512/174/174855.png' },
-  { id: 'facebook', label: 'Facebook', image: 'https://cdn-icons-png.flaticon.com/512/124/124010.png' },
-  { id: 'twitter', label: 'X', image: 'https://cdn-icons-png.flaticon.com/512/5969/5969020.png', invertInDarkMode: true },
-  { id: 'youtube', label: 'YouTube', image: 'https://cdn-icons-png.flaticon.com/512/1384/1384060.png' },
-  { id: 'linkedin', label: 'LinkedIn', image: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
-  { id: 'snapchat', label: 'Snapchat', image: 'https://cdn-icons-png.flaticon.com/512/174/174870.png' },
-  { id: 'paypal', label: 'PayPal', image: 'https://cdn-icons-png.flaticon.com/512/174/174861.png' },
-  { id: 'bitcoin', label: 'Bitcoin', image: 'https://cdn-icons-png.flaticon.com/512/5968/5968260.png' },
-  { id: 'appstore', label: 'App Store', image: 'https://cdn-icons-png.flaticon.com/512/731/731985.png', invertInDarkMode: true },
-  { id: 'playstore', label: 'Play Store', image: 'https://cdn-icons-png.flaticon.com/512/732/732208.png' },
-  { id: 'telegram', label: 'Telegram', image: 'https://cdn-icons-png.flaticon.com/512/2111/2111646.png' },
-  { id: 'discord', label: 'Discord', image: 'https://cdn-icons-png.flaticon.com/512/5968/5968756.png' },
-  { id: 'reddit', label: 'Reddit', image: 'https://cdn-icons-png.flaticon.com/512/174/174866.png' },
-  { id: 'github', label: 'GitHub', image: 'https://cdn-icons-png.flaticon.com/512/733/733553.png', invertInDarkMode: true },
-  { id: 'zoom', label: 'Zoom', image: 'https://cdn-icons-png.flaticon.com/512/4401/4401470.png' },
-  { id: 'slack', label: 'Slack', image: 'https://cdn-icons-png.flaticon.com/512/2111/2111615.png' },
-  { id: 'spotify', label: 'Spotify', image: 'https://cdn-icons-png.flaticon.com/512/174/174872.png' },
-  { id: 'twitch', label: 'Twitch', image: 'https://cdn-icons-png.flaticon.com/512/5968/5968819.png' },
-  { id: 'pinterest', label: 'Pinterest', image: 'https://cdn-icons-png.flaticon.com/512/145/145808.png' },
-  { id: 'figma', label: 'Figma', image: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png' },
-  { id: 'notion', label: 'Notion', image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png' },
-  { id: 'patreon', label: 'Patreon', image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg' }
+const getDataTypes = (t: (key: string) => string) => [
+  { id: 'landing-page', label: t('qrEditor.dataTypes.landingPage'), Icon: Layout },
+  { id: 'url', label: t('qrEditor.dataTypes.url'), Icon: LinkIcon },
+  { id: 'text', label: t('qrEditor.dataTypes.text'), Icon: FileText },
+  { id: 'wifi', label: t('qrEditor.dataTypes.wifi'), Icon: Wifi },
+  { id: 'phone', label: t('qrEditor.dataTypes.phone'), Icon: Phone },
+  { id: 'email', label: t('qrEditor.dataTypes.email'), Icon: Mail },
+  { id: 'sms', label: t('qrEditor.dataTypes.sms'), Icon: MessageSquare },
+  { id: 'vcard', label: t('qrEditor.dataTypes.vcard'), Icon: Globe },
+  { id: 'maps', label: t('qrEditor.dataTypes.maps'), Icon: MapPin },
+  { id: 'tiktok', label: t('socialPlatforms.tiktok'), image: 'https://cdn-icons-png.flaticon.com/512/3046/3046121.png', invertInDarkMode: true },
+  { id: 'whatsapp', label: t('socialPlatforms.whatsapp'), image: 'https://cdn-icons-png.flaticon.com/512/733/733585.png' },
+  { id: 'instagram', label: t('socialPlatforms.instagram'), image: 'https://cdn-icons-png.flaticon.com/512/174/174855.png' },
+  { id: 'facebook', label: t('socialPlatforms.facebook'), image: 'https://cdn-icons-png.flaticon.com/512/124/124010.png' },
+  { id: 'twitter', label: t('socialPlatforms.twitterX'), image: 'https://cdn-icons-png.flaticon.com/512/5969/5969020.png', invertInDarkMode: true },
+  { id: 'youtube', label: t('socialPlatforms.youtube'), image: 'https://cdn-icons-png.flaticon.com/512/1384/1384060.png' },
+  { id: 'linkedin', label: t('socialPlatforms.linkedin'), image: 'https://cdn-icons-png.flaticon.com/512/174/174857.png' },
+  { id: 'snapchat', label: t('socialPlatforms.snapchat'), image: 'https://cdn-icons-png.flaticon.com/512/174/174870.png' },
+  { id: 'paypal', label: t('socialPlatforms.paypal'), image: 'https://cdn-icons-png.flaticon.com/512/174/174861.png' },
+  { id: 'bitcoin', label: t('socialPlatforms.bitcoin'), image: 'https://cdn-icons-png.flaticon.com/512/5968/5968260.png' },
+  { id: 'appstore', label: t('socialPlatforms.appstore'), image: 'https://cdn-icons-png.flaticon.com/512/731/731985.png', invertInDarkMode: true },
+  { id: 'playstore', label: t('socialPlatforms.playstore'), image: 'https://cdn-icons-png.flaticon.com/512/732/732208.png' },
+  { id: 'telegram', label: t('socialPlatforms.telegram'), image: 'https://cdn-icons-png.flaticon.com/512/2111/2111646.png' },
+  { id: 'discord', label: t('socialPlatforms.discord'), image: 'https://cdn-icons-png.flaticon.com/512/5968/5968756.png' },
+  { id: 'reddit', label: t('socialPlatforms.reddit'), image: 'https://cdn-icons-png.flaticon.com/512/174/174866.png' },
+  { id: 'github', label: t('socialPlatforms.github'), image: 'https://cdn-icons-png.flaticon.com/512/733/733553.png', invertInDarkMode: true },
+  { id: 'zoom', label: t('socialPlatforms.zoom'), image: 'https://cdn-icons-png.flaticon.com/512/4401/4401470.png' },
+  { id: 'slack', label: t('socialPlatforms.slack'), image: 'https://cdn-icons-png.flaticon.com/512/2111/2111615.png' },
+  { id: 'spotify', label: t('socialPlatforms.spotify'), image: 'https://cdn-icons-png.flaticon.com/512/174/174872.png' },
+  { id: 'twitch', label: t('socialPlatforms.twitch'), image: 'https://cdn-icons-png.flaticon.com/512/5968/5968819.png' },
+  { id: 'pinterest', label: t('socialPlatforms.pinterest'), image: 'https://cdn-icons-png.flaticon.com/512/145/145808.png' },
+  { id: 'figma', label: t('socialPlatforms.figma'), image: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png' },
+  { id: 'notion', label: t('socialPlatforms.notion'), image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png' },
+  { id: 'patreon', label: t('socialPlatforms.patreon'), image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg' }
 ];
 
 
@@ -607,9 +608,14 @@ const StyleIcon = ({ type, styleName, active }: { type: 'dot' | 'frame' | 'ball'
 };
 
 export function QRCodeEditorPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const notification = useNotification();
+  const TABS = getTabs(t);
+  const SOCIAL_LOGOS = getSocialLogos(t);
+  const DATA_TYPES = getDataTypes(t);
+  const PRESETS = getPresets(t);
   const [isLoading, setIsLoading] = useState(!!id);
   const [isSaving, setIsSaving] = useState(false);
   const [activeTab, setActiveTab] = useState('content');
@@ -685,7 +691,7 @@ export function QRCodeEditorPage() {
              setCustomization(prev => ({ ...prev, data: { ...prev.data, url: response.qrCode.url } }));
           }
         } catch (error) {
-          notification.error('Failed to load QR code');
+          notification.error(t('qrEditor.toasts.loadFailed'));
           navigate('/qr');
         } finally {
           setIsLoading(false);
@@ -715,12 +721,12 @@ export function QRCodeEditorPage() {
     if (presetCustomization.backgroundColor) {
       setQrCode(prev => ({ ...prev, backgroundColor: presetCustomization.backgroundColor }));
     }
-    notification.success('Preset applied');
+    notification.success(t('qrEditor.toasts.presetApplied'));
   };
 
   const handleSave = async () => {
     if (!qrCode.name) {
-      notification.error('Please enter a name for your QR code');
+      notification.error(t('qrEditor.toasts.nameRequired'));
       return;
     }
 
@@ -741,15 +747,15 @@ export function QRCodeEditorPage() {
       if (id) {
         const { id: _, ...data } = payload;
         await qrAPI.update(id, data);
-        notification.success('QR code updated successfully');
+        notification.success(t('qrEditor.toasts.updated'));
       } else {
         const response = await qrAPI.create(payload as CreateQRRequest);
-        notification.success('QR code created successfully');
+        notification.success(t('qrEditor.toasts.created'));
         navigate(`/qr/${response.qrCode.id}`);
       }
     } catch (error: any) {
       console.error('Failed to save QR code:', error);
-      notification.error(error?.message || 'Failed to save QR code');
+      notification.error(error?.message || t('qrEditor.toasts.saveFailed'));
     } finally {
       setIsSaving(false);
     }
@@ -763,9 +769,9 @@ export function QRCodeEditorPage() {
         const base64 = event.target?.result as string;
         handleCustomizationChange('logoName', 'custom');
         handleCustomizationChange('logoUrl', base64);
-        notification.success('Logo uploaded successfully');
+        notification.success(t('qrEditor.toasts.logoUploaded'));
       };
-      reader.onerror = () => notification.error('Failed to read logo file');
+      reader.onerror = () => notification.error(t('qrEditor.toasts.logoReadFailed'));
       reader.readAsDataURL(file);
     }
   };
@@ -777,9 +783,9 @@ export function QRCodeEditorPage() {
       reader.onload = (event) => {
         const base64 = event.target?.result as string;
         handleCustomizationChange('backgroundImageUrl', base64);
-        notification.success('Background uploaded successfully');
+        notification.success(t('qrEditor.toasts.bgUploaded'));
       };
-      reader.onerror = () => notification.error('Failed to read background file');
+      reader.onerror = () => notification.error(t('qrEditor.toasts.bgReadFailed'));
       reader.readAsDataURL(file);
     }
   };
@@ -807,10 +813,10 @@ export function QRCodeEditorPage() {
           </button>
           <div>
             <h1 className="text-base font-bold text-neutral-900 dark:text-white leading-tight">
-              {id ? 'Edit QR Code' : 'New QR Code'}
+              {id ? t('qrEditor.editTitle') : t('qrEditor.newTitle')}
             </h1>
             <p className="text-xs text-neutral-400">
-              Customize your advanced QR code
+              {t('qrEditor.subtitle')}
             </p>
           </div>
         </div>
@@ -820,7 +826,7 @@ export function QRCodeEditorPage() {
           className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold transition-colors disabled:opacity-50 shadow-sm shadow-accent-600/20"
         >
           <Save className="w-4 h-4" />
-          {isSaving ? 'Saving…' : 'Save'}
+          {isSaving ? t('qrEditor.buttons.saving') : t('qrEditor.buttons.save')}
         </button>
       </div>
 
@@ -857,20 +863,20 @@ export function QRCodeEditorPage() {
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">
-                    QR Code Name (Internal)
+                    {t('qrEditor.fields.name')}
                   </label>
                   <input
                     type="text"
                     value={qrCode.name || ''}
                     onChange={(e) => setQrCode(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="e.g. Main Website"
+                    placeholder={t('qrEditor.fields.namePlaceholder')}
                     className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-3">
-                    Data Type
+                    {t('qrEditor.fields.dataType')}
                   </label>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
                     {DATA_TYPES.map(type => (
@@ -899,7 +905,7 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'landing-page' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Select Landing Page</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.selectLandingPage')}</label>
                         <select
                           value={customization.data?.pageId || ''}
                           onChange={(e) => {
@@ -912,7 +918,7 @@ export function QRCodeEditorPage() {
                           }}
                           className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
                         >
-                          <option value="">— Select a Page —</option>
+                          <option value="">{t('qrEditor.fields.selectPage')}</option>
                           {userPages.map(page => (
                             <option key={page.id} value={page.id}>{page.title} ({page.slug})</option>
                           ))}
@@ -923,12 +929,12 @@ export function QRCodeEditorPage() {
 
                   {['url', 'youtube', 'instagram', 'facebook', 'tiktok', 'twitter', 'linkedin', 'snapchat', 'spotify', 'twitch', 'pinterest', 'appstore', 'playstore', 'reddit', 'github', 'patreon', 'figma', 'notion', 'maps'].includes(customization.dataType || '') && (
                     <div>
-                      <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">URL Link</label>
+                      <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.urlLink')}</label>
                       <input
                         type="url"
                         value={customization.data?.url || ''}
                         onChange={(e) => handleDataChange('url', e.target.value)}
-                        placeholder={customization.dataType === 'maps' ? "https://maps.google.com/..." : "https://..."}
+                        placeholder={customization.dataType === 'maps' ? t('qrEditor.fields.urlPlaceholder') : "https://..."}
                         className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
                       />
                     </div>
@@ -937,7 +943,7 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'wifi' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Network Name (SSID)</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.ssid')}</label>
                         <input
                           type="text"
                           value={customization.data?.ssid || ''}
@@ -946,7 +952,7 @@ export function QRCodeEditorPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Password</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.password')}</label>
                         <input
                           type="text"
                           value={customization.data?.password || ''}
@@ -955,15 +961,15 @@ export function QRCodeEditorPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Encryption</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.encryption')}</label>
                         <select
                           value={customization.data?.encryption || 'WPA'}
                           onChange={(e) => handleDataChange('encryption', e.target.value)}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         >
-                          <option value="WPA">WPA/WPA2</option>
-                          <option value="WEP">WEP</option>
-                          <option value="nopass">None</option>
+                          <option value="WPA">{t('qrEditor.wifi.wpa')}</option>
+                          <option value="WEP">{t('qrEditor.wifi.wep')}</option>
+                          <option value="nopass">{t('qrEditor.wifi.none')}</option>
                         </select>
                       </div>
                     </div>
@@ -971,7 +977,7 @@ export function QRCodeEditorPage() {
 
                   {customization.dataType === 'text' && (
                     <div>
-                      <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Text Content</label>
+                      <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.textContent')}</label>
                       <textarea
                         value={customization.data?.text || ''}
                         onChange={(e) => handleDataChange('text', e.target.value)}
@@ -984,18 +990,18 @@ export function QRCodeEditorPage() {
                   {(customization.dataType === 'phone' || customization.dataType === 'sms' || customization.dataType === 'whatsapp') && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Phone Number</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.phoneNumber')}</label>
                         <input
                           type="tel"
                           value={customization.data?.phone || ''}
                           onChange={(e) => handleDataChange('phone', e.target.value)}
-                          placeholder="+1234567890"
+                          placeholder={t('qrEditor.fields.phonePlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
                       {customization.dataType !== 'phone' && (
                         <div>
-                          <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Message</label>
+                          <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.message')}</label>
                           <textarea
                             value={customization.data?.message || ''}
                             onChange={(e) => handleDataChange('message', e.target.value)}
@@ -1010,7 +1016,7 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'email' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Email Address</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.emailAddress')}</label>
                         <input
                           type="email"
                           value={customization.data?.email || ''}
@@ -1019,7 +1025,7 @@ export function QRCodeEditorPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Subject</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.subject')}</label>
                         <input
                           type="text"
                           value={customization.data?.subject || ''}
@@ -1028,7 +1034,7 @@ export function QRCodeEditorPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Message Body</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.messageBody')}</label>
                         <textarea
                           value={customization.data?.body || ''}
                           onChange={(e) => handleDataChange('body', e.target.value)}
@@ -1042,22 +1048,22 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'paypal' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">PayPal Username</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.paypalUsername')}</label>
                         <input
                           type="text"
                           value={customization.data?.username || ''}
                           onChange={(e) => handleDataChange('username', e.target.value)}
-                          placeholder="johndoe"
+                          placeholder={t('qrEditor.fields.paypalPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Amount (Optional)</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.amountOptional')}</label>
                         <input
                           type="number"
                           value={customization.data?.amount || ''}
                           onChange={(e) => handleDataChange('amount', e.target.value)}
-                          placeholder="20.00"
+                          placeholder={t('qrEditor.fields.paypalAmountPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
@@ -1067,23 +1073,23 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'bitcoin' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Bitcoin Address</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.bitcoinAddress')}</label>
                         <input
                           type="text"
                           value={customization.data?.address || ''}
                           onChange={(e) => handleDataChange('address', e.target.value)}
-                          placeholder="1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2"
+                          placeholder={t('qrEditor.fields.btcPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Amount (Optional BTC)</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.amountOptionalBtc')}</label>
                         <input
                           type="number"
                           step="0.0001"
                           value={customization.data?.amount || ''}
                           onChange={(e) => handleDataChange('amount', e.target.value)}
-                          placeholder="0.05"
+                          placeholder={t('qrEditor.fields.btcAmountPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
@@ -1093,12 +1099,12 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'telegram' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Telegram Username</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.telegramUsername')}</label>
                         <input
                           type="text"
                           value={customization.data?.username || ''}
                           onChange={(e) => handleDataChange('username', e.target.value)}
-                          placeholder="durov"
+                          placeholder={t('qrEditor.fields.telegramPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
@@ -1108,12 +1114,12 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'discord' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Discord Invite Code</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.discordInviteCode')}</label>
                         <input
                           type="text"
                           value={customization.data?.invite || ''}
                           onChange={(e) => handleDataChange('invite', e.target.value)}
-                          placeholder="aBcD123"
+                          placeholder={t('qrEditor.fields.discordPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
@@ -1123,22 +1129,22 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'zoom' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Meeting ID</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.meetingId')}</label>
                         <input
                           type="text"
                           value={customization.data?.meetingId || ''}
                           onChange={(e) => handleDataChange('meetingId', e.target.value)}
-                          placeholder="1234567890"
+                          placeholder={t('qrEditor.fields.zoomMeetingPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Password (Optional)</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.passwordOptional')}</label>
                         <input
                           type="text"
                           value={customization.data?.password || ''}
                           onChange={(e) => handleDataChange('password', e.target.value)}
-                          placeholder="Pass123"
+                          placeholder={t('qrEditor.fields.zoomPasswordPlaceholder')}
                           className="w-full px-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white"
                         />
                       </div>
@@ -1148,14 +1154,14 @@ export function QRCodeEditorPage() {
                   {customization.dataType === 'slack' && (
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Workspace URL</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.fields.workspaceUrl')}</label>
                         <div className="flex items-center">
                           <span className="px-3 py-2.5 rounded-l-xl border border-r-0 border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-500">https://</span>
                           <input
                             type="text"
                             value={customization.data?.workspace || ''}
                             onChange={(e) => handleDataChange('workspace', e.target.value)}
-                            placeholder="my-workspace"
+                            placeholder={t('qrEditor.fields.slackPlaceholder')}
                             className="w-full px-4 py-2.5 border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
                           />
                           <span className="px-3 py-2.5 rounded-r-xl border border-l-0 border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-500">.slack.com</span>
@@ -1173,8 +1179,8 @@ export function QRCodeEditorPage() {
               <div className="space-y-8">
                 <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm">
                   <div className="flex justify-between text-sm font-bold text-neutral-900 dark:text-white mb-4 uppercase tracking-wider">
-                    <span>QR Code Density</span>
-                    <span className="text-accent-600">{!customization.qrVersion || customization.qrVersion === 0 ? 'Auto' : customization.qrVersion}</span>
+                    <span>{t('qrEditor.design.density')}</span>
+                    <span className="text-accent-600">{!customization.qrVersion || customization.qrVersion === 0 ? t('qrEditor.design.auto') : customization.qrVersion}</span>
                   </div>
                   <input
                     type="range"
@@ -1187,13 +1193,13 @@ export function QRCodeEditorPage() {
                     className="w-full accent-accent-600 cursor-pointer h-2 bg-neutral-200 dark:bg-neutral-700 rounded-lg appearance-none"
                   />
                   <div className="flex justify-between text-xs text-neutral-500 mt-3 font-medium px-1">
-                    <span>Auto (Clean)</span>
-                    <span>Proportional Increase (Max Dense)</span>
+                    <span>{t('qrEditor.design.autoClean')}</span>
+                    <span>{t('qrEditor.design.proportionalIncrease')}</span>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Dot Style</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.design.dotStyle')}</h3>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                     {['square', 'dots', 'rounded', 'classy', 'star', 'diamond', 'hexagon', 'fluid', 'cross', 'heart', 'triangle', 'drop', 'ninja', 'sparkle', 'pill'].map((style) => (
                       <button
@@ -1209,7 +1215,7 @@ export function QRCodeEditorPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Eye Outer Frame</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.design.eyeOuterFrame')}</h3>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                     {['square', 'rounded', 'circle', 'leaf', 'octagon', 'star', 'shield', 'hexagon', 'diamond', 'triangle', 'drop', 'ninja', 'sparkle', 'pill'].map((style) => (
                       <button
@@ -1225,7 +1231,7 @@ export function QRCodeEditorPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Eye Inner Ball</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.design.eyeInnerBall')}</h3>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                     {['square', 'rounded', 'circle', 'leaf', 'diamond', 'cross', 'star', 'shield', 'hexagon', 'triangle', 'drop', 'ninja', 'sparkle', 'pill'].map((style) => (
                       <button
@@ -1249,15 +1255,15 @@ export function QRCodeEditorPage() {
                 <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold text-neutral-900 dark:text-white">Background Image</h3>
-                      <p className="text-sm text-neutral-500">Upload a picture behind your QR code</p>
+                      <h3 className="font-bold text-neutral-900 dark:text-white">{t('qrEditor.colors.backgroundImage')}</h3>
+                      <p className="text-sm text-neutral-500">{t('qrEditor.colors.uploadBackgroundDesc')}</p>
                     </div>
                     {customization.backgroundImageUrl && (
                       <button 
                         onClick={() => handleCustomizationChange('backgroundImageUrl', '')}
                         className="text-xs text-red-500 hover:text-red-600 font-medium px-2 py-1 bg-red-50 dark:bg-red-500/10 rounded-md transition-colors"
                       >
-                        Remove
+                        {t('qrEditor.bgUpload.remove')}
                       </button>
                     )}
                   </div>
@@ -1267,13 +1273,13 @@ export function QRCodeEditorPage() {
                       <div className="absolute inset-0">
                         <img src={customization.backgroundImageUrl} alt="Background Preview" className="w-full h-full object-cover opacity-50 group-hover:opacity-30 transition-opacity" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="font-bold text-neutral-900 dark:text-white drop-shadow-md bg-white/80 dark:bg-black/80 px-3 py-1.5 rounded-lg">Change Image</span>
+                          <span className="font-bold text-neutral-900 dark:text-white drop-shadow-md bg-white/80 dark:bg-black/80 px-3 py-1.5 rounded-lg">{t('qrEditor.bgUpload.change')}</span>
                         </div>
                       </div>
                     ) : (
                       <>
                         <Upload className="w-8 h-8 text-neutral-400 group-hover:text-accent-600 transition-colors" />
-                        <span className="font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-accent-600">Choose File</span>
+                        <span className="font-medium text-neutral-600 dark:text-neutral-400 group-hover:text-accent-600">{t('qrEditor.bgUpload.choose')}</span>
                       </>
                     )}
                     <input type="file" accept="image/*" onChange={handleBgUpload} className="hidden" />
@@ -1285,8 +1291,8 @@ export function QRCodeEditorPage() {
                 <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold text-neutral-900 dark:text-white">Foreground Gradient</h3>
-                      <p className="text-sm text-neutral-500">Gradient colors for QR code dots</p>
+                      <h3 className="font-bold text-neutral-900 dark:text-white">{t('qrEditor.colors.foregroundGradient')}</h3>
+                      <p className="text-sm text-neutral-500">{t('qrEditor.colors.foregroundGradientDesc')}</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
@@ -1302,21 +1308,21 @@ export function QRCodeEditorPage() {
                   {customization.gradientEnabled && (
                     <div className="space-y-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Gradient Type</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.gradientType')}</label>
                         <select
                           value={customization.gradientType}
                           onChange={(e) => handleCustomizationChange('gradientType', e.target.value)}
                           className="w-full px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
                         >
-                          <option value="linear">Linear</option>
-                          <option value="radial">Radial</option>
+                          <option value="linear">{t('qrEditor.colors.linear')}</option>
+                          <option value="radial">{t('qrEditor.colors.radial')}</option>
                         </select>
                       </div>
                       
                       {customization.gradientType === 'linear' && (
                         <div>
                           <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                            <span>Gradient Angle</span>
+                            <span>{t('qrEditor.colors.gradientAngle')}</span>
                             <span className="text-accent-600">{customization.gradientRotation || 0}°</span>
                           </div>
                           <input
@@ -1333,7 +1339,7 @@ export function QRCodeEditorPage() {
                       {customization.gradientType === 'radial' && (
                         <div>
                           <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                            <span>Radial Scale (Spread)</span>
+                            <span>{t('qrEditor.colors.radialScale')}</span>
                             <span className="text-accent-600">{customization.gradientScale || 50}%</span>
                           </div>
                           <input
@@ -1352,7 +1358,7 @@ export function QRCodeEditorPage() {
                   <div className="grid grid-cols-2 gap-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
                     <div>
                       <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">
-                        {customization.gradientEnabled ? 'Start Color' : 'Foreground Color'}
+                        {customization.gradientEnabled ? t('qrEditor.colors.startColor') : t('qrEditor.colors.foregroundColor')}
                       </label>
                       <div className="flex items-center gap-3">
                         <input
@@ -1372,7 +1378,7 @@ export function QRCodeEditorPage() {
 
                     {customization.gradientEnabled && (
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">End Color</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.endColor')}</label>
                         <div className="flex items-center gap-3">
                           <input
                             type="color"
@@ -1396,8 +1402,8 @@ export function QRCodeEditorPage() {
                 <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold text-neutral-900 dark:text-white">Background Gradient</h3>
-                      <p className="text-sm text-neutral-500">Gradient colors for the background</p>
+                      <h3 className="font-bold text-neutral-900 dark:text-white">{t('qrEditor.colors.backgroundGradient')}</h3>
+                      <p className="text-sm text-neutral-500">{t('qrEditor.colors.backgroundGradientDesc')}</p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
@@ -1413,21 +1419,21 @@ export function QRCodeEditorPage() {
                   {customization.bgGradientEnabled && (
                     <div className="space-y-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Gradient Type</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.gradientType')}</label>
                         <select
                           value={customization.bgGradientType || 'linear'}
                           onChange={(e) => handleCustomizationChange('bgGradientType', e.target.value)}
                           className="w-full px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
                         >
-                          <option value="linear">Linear</option>
-                          <option value="radial">Radial</option>
+                          <option value="linear">{t('qrEditor.colors.linear')}</option>
+                          <option value="radial">{t('qrEditor.colors.radial')}</option>
                         </select>
                       </div>
                       
                       {customization.bgGradientType === 'linear' && (
                         <div>
                           <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                            <span>Gradient Angle</span>
+                            <span>{t('qrEditor.colors.gradientAngle')}</span>
                             <span className="text-accent-600">{customization.bgGradientRotation || 0}°</span>
                           </div>
                           <input
@@ -1444,7 +1450,7 @@ export function QRCodeEditorPage() {
                       {customization.bgGradientType === 'radial' && (
                         <div>
                           <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                            <span>Radial Scale (Spread)</span>
+                            <span>{t('qrEditor.colors.radialScale')}</span>
                             <span className="text-accent-600">{customization.bgGradientScale || 50}%</span>
                           </div>
                           <input
@@ -1463,7 +1469,7 @@ export function QRCodeEditorPage() {
                   <div className="grid grid-cols-2 gap-6 pt-4 border-t border-neutral-100 dark:border-neutral-800">
                     <div>
                       <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">
-                        {customization.bgGradientEnabled ? 'Start Color' : 'Background Color'}
+                        {customization.bgGradientEnabled ? t('qrEditor.colors.startColor') : t('qrEditor.colors.backgroundColor')}
                       </label>
                       <div className="flex items-center gap-3">
                         <input
@@ -1483,7 +1489,7 @@ export function QRCodeEditorPage() {
 
                     {customization.bgGradientEnabled && (
                       <div>
-                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">End Color</label>
+                        <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.endColor')}</label>
                         <div className="flex items-center gap-3">
                           <input
                             type="color"
@@ -1504,18 +1510,18 @@ export function QRCodeEditorPage() {
                 </div>
                 {/* LOGO SECTION (Merged into Colors) */}
                 <div className="pt-6 border-t border-neutral-200 dark:border-neutral-800">
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Upload Custom Logo</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.logo.uploadCustom')}</h3>
                   <div className="flex items-center gap-4">
                     <label className="flex items-center justify-center gap-2 px-6 py-4 rounded-xl border-2 border-dashed border-neutral-300 dark:border-neutral-700 hover:border-accent-600 hover:bg-neutral-50 dark:hover:bg-neutral-900 cursor-pointer w-full transition-all">
                       <Upload className="w-5 h-5 text-neutral-500" />
-                      <span className="font-medium text-neutral-700 dark:text-neutral-300">Choose Image from Device</span>
+                      <span className="font-medium text-neutral-700 dark:text-neutral-300">{t('qrEditor.logo.chooseImage')}</span>
                       <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
                     </label>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Or Select Built-in Logo</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.logo.builtin')}</h3>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
                     {SOCIAL_LOGOS.map((logo) => (
                       <button
@@ -1530,7 +1536,7 @@ export function QRCodeEditorPage() {
                         {logo.url ? (
                           <img src={logo.url} alt={logo.label} className={`w-8 h-8 object-contain ${logo.invertInDarkMode ? 'dark:invert' : ''}`} />
                         ) : (
-                          <span className="text-sm font-bold text-neutral-500 dark:text-neutral-400">None</span>
+                          <span className="text-sm font-bold text-neutral-500 dark:text-neutral-400">{t('qrEditor.logo.none')}</span>
                         )}
                         {logo.name !== 'none' && <span className="text-xs font-semibold text-neutral-600 dark:text-neutral-400 truncate w-full text-center">{logo.label}</span>}
                       </button>
@@ -1542,7 +1548,7 @@ export function QRCodeEditorPage() {
                   <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-6">
                     <div>
                       <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                        <span>Logo Size</span>
+                        <span>{t('qrEditor.logo.size')}</span>
                         <span className="text-accent-600">{customization.logoSize}%</span>
                       </div>
                       <input
@@ -1557,8 +1563,8 @@ export function QRCodeEditorPage() {
                     
                     <div className="flex items-center justify-between p-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800">
                       <div>
-                        <h3 className="font-bold text-neutral-900 dark:text-white">Clear Background Behind Logo</h3>
-                        <p className="text-sm text-neutral-500">Remove QR dots to make logo readable</p>
+                        <h3 className="font-bold text-neutral-900 dark:text-white">{t('qrEditor.logo.clearBg')}</h3>
+                        <p className="text-sm text-neutral-500">{t('qrEditor.logo.clearBgDesc')}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -1579,7 +1585,7 @@ export function QRCodeEditorPage() {
             {activeTab === 'frame' && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">Frame Style</h3>
+                  <h3 className="text-sm font-bold text-neutral-900 dark:text-white mb-3 uppercase tracking-wider">{t('qrEditor.frame.style')}</h3>
                   <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
                     {['none', 'bubble', 'border', 'badge', 'solid', 'shadow', 'vintage', 'ticket', 'minimal', 'polaroid', 'browser', 'neon', 'glass', 'cyberpunk', 'glowing', 'retro', 'dashed', 'dotted', 'double', 'crosshairs', 'film', 'monitor', 'brackets', 'folded', 'polygon', 'cutout'].map((style) => (
                       <button
@@ -1597,7 +1603,7 @@ export function QRCodeEditorPage() {
                 {customization.frameStyle !== 'none' && (
                   <div className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 space-y-5 shadow-sm">
                     <div>
-                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">Text Position</label>
+                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">{t('qrEditor.frame.textPosition')}</label>
                       <div className="grid grid-cols-4 gap-2">
                         {['top', 'bottom', 'left', 'right'].map((pos) => (
                           <button
@@ -1612,29 +1618,29 @@ export function QRCodeEditorPage() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">Frame Text</label>
+                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">{t('qrEditor.frame.frameText')}</label>
                       <input
                         type="text"
                         value={customization.frameText || ''}
                         onChange={(e) => handleCustomizationChange('frameText', e.target.value)}
-                        placeholder="SCAN ME"
+                        placeholder={t('qrEditor.frame.textDefault')}
                         maxLength={30}
                         className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white shadow-inner focus:outline-none focus:ring-2 focus:ring-accent-600"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">Font Family</label>
+                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">{t('qrEditor.frame.fontFamily')}</label>
                       <select
                         value={customization.frameFontFamily || 'sans-serif'}
                         onChange={(e) => handleCustomizationChange('frameFontFamily', e.target.value)}
                         className="w-full px-4 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
                       >
-                        <option value="sans-serif">Sans Serif (Modern)</option>
-                        <option value="serif">Serif (Classic)</option>
-                        <option value="monospace">Monospace (Code)</option>
-                        <option value="cursive">Cursive (Playful)</option>
-                        <option value="fantasy">Fantasy (Bold)</option>
+                        <option value="sans-serif">{t('qrEditor.frame.fonts.sansSerif')}</option>
+                        <option value="serif">{t('qrEditor.frame.fonts.serif')}</option>
+                        <option value="monospace">{t('qrEditor.frame.fonts.monospace')}</option>
+                        <option value="cursive">{t('qrEditor.frame.fonts.cursive')}</option>
+                        <option value="fantasy">{t('qrEditor.frame.fonts.fantasy')}</option>
                         <option value="Arial, sans-serif">Arial</option>
                         <option value="'Courier New', monospace">Courier New</option>
                         <option value="'Times New Roman', serif">Times New Roman</option>
@@ -1650,7 +1656,7 @@ export function QRCodeEditorPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">Frame Color</label>
+                      <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">{t('qrEditor.frame.color')}</label>
                       <div className="flex items-center gap-3 w-1/2">
                         <input
                           type="color"
@@ -1671,8 +1677,8 @@ export function QRCodeEditorPage() {
                     <div className="pt-6 border-t border-neutral-200 dark:border-neutral-800">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="font-bold text-neutral-900 dark:text-white">Text Gradient & Color</h3>
-                          <p className="text-sm text-neutral-500">Apply gradient to text or change its solid color</p>
+                          <h3 className="font-bold text-neutral-900 dark:text-white">{t('qrEditor.frame.textGradientTitle')}</h3>
+                          <p className="text-sm text-neutral-500">{t('qrEditor.frame.textGradientDesc')}</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -1688,21 +1694,21 @@ export function QRCodeEditorPage() {
                       {customization.textGradientEnabled && (
                         <div className="space-y-4 mb-4">
                           <div>
-                            <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">Gradient Type</label>
+                            <label className="block text-sm font-medium text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.gradientType')}</label>
                             <select
                               value={customization.textGradientType || 'linear'}
                               onChange={(e) => handleCustomizationChange('textGradientType', e.target.value)}
                               className="w-full px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white"
                             >
-                              <option value="linear">Linear</option>
-                              <option value="radial">Radial</option>
+                              <option value="linear">{t('qrEditor.colors.linear')}</option>
+                              <option value="radial">{t('qrEditor.colors.radial')}</option>
                             </select>
                           </div>
                           
                           {customization.textGradientType === 'linear' && (
                             <div>
                               <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                                <span>Gradient Angle</span>
+                            <span>{t('qrEditor.colors.gradientAngle')}</span>
                                 <span className="text-accent-600">{customization.textGradientRotation || 0}°</span>
                               </div>
                               <input
@@ -1719,7 +1725,7 @@ export function QRCodeEditorPage() {
                           {customization.textGradientType === 'radial' && (
                             <div>
                               <div className="flex justify-between text-sm font-medium mb-2 text-neutral-900 dark:text-white">
-                                <span>Radial Scale (Spread)</span>
+                                <span>{t('qrEditor.colors.radialScale')}</span>
                                 <span className="text-accent-600">{customization.textGradientScale || 50}%</span>
                               </div>
                               <input
@@ -1738,7 +1744,7 @@ export function QRCodeEditorPage() {
                       <div className="grid grid-cols-2 gap-6">
                         <div>
                           <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">
-                            {customization.textGradientEnabled ? 'Start Color' : 'Text Base Color'}
+                            {customization.textGradientEnabled ? t('qrEditor.colors.startColor') : t('qrEditor.frame.textBaseColor')}
                           </label>
                           <div className="flex items-center gap-3">
                             <input
@@ -1758,7 +1764,7 @@ export function QRCodeEditorPage() {
 
                         {customization.textGradientEnabled && (
                           <div>
-                            <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">End Color</label>
+                            <label className="block text-sm font-bold text-neutral-900 dark:text-white mb-2">{t('qrEditor.colors.endColor')}</label>
                             <div className="flex items-center gap-3">
                               <input
                                 type="color"
@@ -1823,7 +1829,7 @@ export function QRCodeEditorPage() {
                       }}
                       className="px-6 py-2.5 rounded-xl border-2 border-accent-600 text-accent-600 font-bold hover:bg-accent-50 dark:hover:bg-accent-900/20 transition-all shadow-sm"
                     >
-                      {visiblePresetsCount >= PRESETS.length ? 'Show Less' : 'Show More'}
+                      {visiblePresetsCount >= PRESETS.length ? t('qrEditor.presets.showLess') : t('qrEditor.presets.showMore')}
                     </button>
                   </div>
                 )}
@@ -1835,7 +1841,7 @@ export function QRCodeEditorPage() {
         {/* ── Live preview ── */}
         <div className="flex-1 overflow-y-auto bg-neutral-100 dark:bg-neutral-900 flex items-start justify-center p-6 lg:p-12">
           <div className="w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-neutral-900 dark:text-white hidden sm:block">Live Preview</h2>
+            <h2 className="text-xl font-bold mb-4 text-neutral-900 dark:text-white hidden sm:block">{t('qrEditor.livePreview')}</h2>
             <div className="bg-white dark:bg-neutral-950 p-4 rounded-2xl shadow-sm border border-neutral-200 dark:border-neutral-800">
               <QRGenerator
                 value={finalQRUrl || 'https://linkora.app'}

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { uploadAPI } from '@/api/upload'
 import { useNotification } from '@/hooks/useNotification'
 import { Upload, File as FileIcon, Trash2 } from 'lucide-react'
@@ -14,8 +15,9 @@ interface FileUploaderProps {
 export function FileUploader({
   onFileUploaded,
   multiple = false,
-  label = 'Upload Files',
+  label,
 }: FileUploaderProps) {
+  const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
   const [files, setFiles] = useState<UploadedFile[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -24,13 +26,13 @@ export function FileUploader({
   const handleFileSelect = async (selectedFile: File) => {
     try {
       if (!ALLOWED_FILE_TYPES.includes(selectedFile.type)) {
-        notification.error('File type not allowed')
+        notification.error(t('components.fileUploader.errors.fileTypeNotAllowed'))
         return
       }
 
       if (selectedFile.size > MAX_FILE_SIZE) {
         notification.error(
-          `File too large. Maximum size: ${MAX_FILE_SIZE / 1024 / 1024}MB`
+          t('components.fileUploader.errors.fileTooLarge', { size: MAX_FILE_SIZE / 1024 / 1024 })
         )
         return
       }
@@ -41,9 +43,9 @@ export function FileUploader({
 
       setFiles([...files, uploadedFile])
       onFileUploaded(uploadedFile)
-      notification.success(`${selectedFile.name} uploaded successfully`)
+      notification.success(t('components.fileUploader.toasts.uploadSuccess', { name: selectedFile.name }))
     } catch (error) {
-      notification.error('Failed to upload file')
+      notification.error(t('components.fileUploader.errors.uploadFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -78,16 +80,16 @@ export function FileUploader({
     try {
       await uploadAPI.deleteFile(id)
       setFiles(files.filter((f) => f.id !== id))
-      notification.success('File deleted')
+      notification.success(t('components.fileUploader.toasts.fileDeleted'))
     } catch (error) {
-      notification.error('Failed to delete file')
+      notification.error(t('components.fileUploader.errors.deleteFailed'))
     }
   }
 
   return (
     <div className="space-y-4">
       <label className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-        {label}
+        {label || t('components.fileUploader.defaultLabel')}
       </label>
 
       <div
@@ -98,10 +100,10 @@ export function FileUploader({
       >
         <Upload className="w-12 h-12 mx-auto text-neutral-400 dark:text-neutral-600 mb-3" />
         <p className="font-medium text-neutral-900 dark:text-neutral-50">
-          Click to upload or drag and drop
+          {t('components.fileUploader.dropzone')}
         </p>
         <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-          Max {MAX_FILE_SIZE / 1024 / 1024}MB per file
+          {t('components.fileUploader.maxSize', { size: MAX_FILE_SIZE / 1024 / 1024 })}
         </p>
       </div>
 
@@ -119,7 +121,7 @@ export function FileUploader({
         <div className="text-center py-4">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-accent-600"></div>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">
-            Uploading...
+            {t('components.fileUploader.uploading')}
           </p>
         </div>
       )}
@@ -127,7 +129,7 @@ export function FileUploader({
       {files.length > 0 && (
         <div className="space-y-2">
           <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-            Uploaded Files
+            {t('components.fileUploader.uploadedFiles')}
           </p>
           <div className="space-y-2">
             {files.map((file) => (

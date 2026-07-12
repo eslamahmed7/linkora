@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useNotification } from '@/hooks/useNotification'
 import { authAPI } from '@/api/auth'
 import { Mail, ArrowLeft } from 'lucide-react'
 
 export function ForgotPasswordPage() {
+  const { t } = useTranslation()
   const notification = useNotification()
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -19,11 +21,11 @@ export function ForgotPasswordPage() {
     try {
       await authAPI.requestPasswordReset(email)
       setIsSubmitted(true)
-      notification.success('Password reset link sent to your email')
+      notification.success(t('auth.resetLinkSent'))
     } catch (err: any) {
       const message =
         err.response?.data?.message ||
-        'Failed to send reset link. Please try again.'
+        t('auth.resetLinkFailed')
       setError(message)
       notification.error(message)
     } finally {
@@ -40,16 +42,15 @@ export function ForgotPasswordPage() {
             className="flex items-center gap-2 text-accent-600 dark:text-accent-400 hover:underline mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to login
+            {t('auth.backToLogin')}
           </Link>
 
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-accent-600 dark:text-accent-400 mb-2">
-              Reset Password
+              {t('auth.resetPassword')}
             </h1>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Enter your email address and we&apos;ll send you a link to reset
-              your password
+              {t('auth.loginSubtitle')}
             </p>
           </div>
 
@@ -57,7 +58,7 @@ export function ForgotPasswordPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                  Email Address
+                  {t('auth.emailAddress')}
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 w-5 h-5 text-neutral-400" />
@@ -83,14 +84,13 @@ export function ForgotPasswordPage() {
                 disabled={isLoading}
                 className="w-full mt-6 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Sending...' : 'Send Reset Link'}
+                {isLoading ? t('auth.sending') : t('auth.sendResetLink')}
               </button>
             </form>
           ) : (
             <div className="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 rounded-lg p-4 text-center">
               <p className="text-green-800 dark:text-green-200">
-                Check your email for a password reset link. It may take a few
-                minutes to arrive.
+                {t('auth.resetLinkCheck')}
               </p>
             </div>
           )}

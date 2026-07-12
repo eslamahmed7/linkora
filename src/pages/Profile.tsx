@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useNotification } from '@/hooks/useNotification'
 import { authAPI } from '@/api/auth'
 import { Upload, Camera } from 'lucide-react'
 
 export function ProfilePage() {
+  const { t } = useTranslation()
   const { user, updateUser } = useAuth()
   const notification = useNotification()
   const [isLoading, setIsLoading] = useState(false)
@@ -40,9 +42,9 @@ export function ProfilePage() {
         avatar: URL.createObjectURL(file),
       })
       updateUser(response)
-      notification.success('Avatar updated successfully')
+      notification.success(t('profile.avatarSuccess'))
     } catch (error) {
-      notification.error('Failed to upload avatar')
+      notification.error(t('profile.avatarFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -63,9 +65,9 @@ export function ProfilePage() {
         cover: URL.createObjectURL(file),
       })
       updateUser(response)
-      notification.success('Cover updated successfully')
+      notification.success(t('profile.coverSuccess'))
     } catch (error) {
-      notification.error('Failed to upload cover')
+      notification.error(t('profile.coverFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -78,9 +80,9 @@ export function ProfilePage() {
     try {
       const response = await authAPI.updateProfile(formData)
       updateUser(response)
-      notification.success('Profile updated successfully')
+      notification.success(t('profile.profileSuccess'))
     } catch (error) {
-      notification.error('Failed to update profile')
+      notification.error(t('profile.profileFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -91,10 +93,10 @@ export function ProfilePage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
-          Profile Settings
+          {t('profile.title')}
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400 mt-1">
-          Manage your profile information
+          {t('profile.subtitle')}
         </p>
       </div>
 
@@ -157,7 +159,7 @@ export function ProfilePage() {
                 {user?.email}
               </p>
               <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                Member since{' '}
+                {t('profile.memberSince')}{' '}
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString()
                   : 'N/A'}
@@ -173,7 +175,7 @@ export function ProfilePage() {
           {/* Display Name */}
           <div>
             <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-              Display Name
+              {t('profile.fields.displayName')}
             </label>
             <input
               type="text"
@@ -188,7 +190,7 @@ export function ProfilePage() {
           {/* Username */}
           <div>
             <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-              Username
+              {t('profile.fields.username')}
             </label>
             <input
               type="text"
@@ -203,7 +205,7 @@ export function ProfilePage() {
           {/* Bio */}
           <div>
             <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-              Bio
+              {t('profile.fields.bio')}
             </label>
             <textarea
               name="bio"
@@ -211,14 +213,14 @@ export function ProfilePage() {
               onChange={handleChange}
               rows={4}
               className="w-full px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
-              placeholder="Tell us about yourself..."
+              placeholder={t('profile.bioPlaceholder')}
             />
           </div>
 
           {/* Email (Read-only) */}
           <div>
             <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-              Email
+              {t('profile.fields.email')}
             </label>
             <input
               type="email"
@@ -227,19 +229,19 @@ export function ProfilePage() {
               className="w-full px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 cursor-not-allowed"
             />
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-              Email cannot be changed
+              {t('profile.emailHelper')}
             </p>
           </div>
         </div>
 
         {/* Submit Button */}
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <button
             type="submit"
             disabled={isLoading}
             className="px-6 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Saving...' : 'Save Changes'}
+            {isLoading ? t('profile.saving') : t('profile.saveChanges')}
           </button>
           <button
             type="button"
@@ -253,7 +255,7 @@ export function ProfilePage() {
             }
             className="px-6 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-50 font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
           >
-            Discard
+            {t('profile.discard')}
           </button>
         </div>
       </form>

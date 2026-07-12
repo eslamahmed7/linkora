@@ -6,21 +6,1781 @@
     "delete": "حذف",
     "edit": "تعديل",
     "create": "إنشاء",
-    "loading": "جاري التحميل...",
+    "loading": "جارٍ التحميل...",
     "error": "خطأ",
     "success": "نجح",
-    "welcome": "أهلا وسهلا",
+    "welcome": "مرحباً",
     "logout": "تسجيل الخروج",
     "settings": "الإعدادات",
     "profile": "الملف الشخصي",
     "darkMode": "الوضع الداكن",
-    "lightMode": "الوضع الفاتح"
+    "lightMode": "الوضع الفاتح",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "prev": "السابق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "filters": "التصفيات",
+    "clearAll": "مسح الكل",
+    "selectAll": "تحديد الكل",
+    "selected": "تم تحديد {{count}}",
+    "all": "الكل",
+    "none": "لا شيء",
+    "close": "إغلاق",
+    "yes": "نعم",
+    "no": "لا",
+    "ok": "حسناً",
+    "retry": "إعادة المحاولة",
+    "refresh": "تحديث",
+    "upload": "رفع",
+    "download": "تحميل",
+    "copy": "نسخ",
+    "paste": "لصق",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "duplicate": "تكرار",
+    "archive": "أرشفة",
+    "publish": "نشر",
+    "unpublish": "إلغاء النشر",
+    "feature": "تمييز",
+    "unfeature": "إلغاء التمييز",
+    "activate": "تفعيل",
+    "deactivate": "تعطيل",
+    "pin": "تثبيت",
+    "suspend": "تعليق",
+    "unsuspend": "إلغاء التعليق",
+    "saving": "جارٍ الحفظ...",
+    "creating": "جارٍ الإنشاء...",
+    "submitting": "جارٍ الإرسال...",
+    "updating": "جارٍ التحديث...",
+    "sending": "جارٍ الإرسال...",
+    "unknown": "غير معروف",
+    "draft": "مسودة",
+    "published": "منشور",
+    "archived": "مؤرشف",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "suspended": "معلّق",
+    "pending": "قيد الانتظار",
+    "completed": "مكتمل",
+    "failed": "فشل",
+    "public": "عام",
+    "unlisted": "غير مُدرَج",
+    "private": "خاص",
+    "pro": "احترافي",
+    "featured": "مميّز",
+    "pinned": "مثبّت",
+    "name": "الاسم",
+    "title": "العنوان",
+    "description": "الوصف",
+    "type": "النوع",
+    "status": "الحالة",
+    "date": "التاريخ",
+    "actions": "الإجراءات",
+    "user": "مستخدم",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "role": "الدور",
+    "category": "الفئة",
+    "tags": "الوسوم",
+    "version": "الإصدار",
+    "size": "الحجم",
+    "color": "اللون",
+    "opacity": "الشفافية",
+    "rotation": "الدوران",
+    "preview": "معاينة",
+    "page": "صفحة",
+    "pageOf": "صفحة {{page}} من {{total}}",
+    "noData": "لا توجد بيانات",
+    "noResults": "لا توجد نتائج",
+    "system": "النظام",
+    "pageNotFound": "الصفحة غير موجودة"
   },
   "navigation": {
     "dashboard": "لوحة التحكم",
     "editor": "المحرر",
     "analytics": "التحليلات",
     "settings": "الإعدادات",
-    "help": "المساعدة"
+    "help": "المساعدة",
+    "myPages": "صفحاتي",
+    "qrCodes": "رموز QR",
+    "nfcCards": "بطاقات NFC",
+    "submitTemplate": "تقديم قالب",
+    "adminPanel": "لوحة الإدارة"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "forgotPassword": "نسيت كلمة المرور",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "emailAddress": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "displayName": "الاسم المعروض",
+    "rememberMe": "تذكرني",
+    "loggingIn": "جارٍ تسجيل الدخول...",
+    "creatingAccount": "جارٍ إنشاء الحساب...",
+    "sending": "جارٍ الإرسال...",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginFailed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+    "accountCreated": "تم إنشاء الحساب بنجاح!",
+    "registrationFailed": "فشل التسجيل. يرجى المحاولة مرة أخرى.",
+    "resetLinkSent": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+    "resetLinkFailed": "فشل إرسال رابط إعادة التعيين. يرجى المحاولة مرة أخرى.",
+    "resetLinkCheck": "تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور. قد يستغرق وصوله بضع دقائق.",
+    "noAccount": "ليس لديك حساب؟",
+    "hasAccount": "لديك حساب بالفعل؟",
+    "forgotLink": "نسيت كلمة المرور؟",
+    "backToLogin": "العودة لتسجيل الدخول",
+    "welcomeBack": "مرحباً بعودتك إلى منشئ صفحة الروابط",
+    "createAccount": "أنشئ حسابك للبدء",
+    "loginSubtitle": "أدخل بريدك الإلكتروني وسنرسل لك رابطاً لإعادة تعيين كلمة المرور",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "invalidEmail": "البريد الإلكتروني غير صالح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMinLength": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    "passwordsNoMatch": "كلمتا المرور غير متطابقتين",
+    "nameRequired": "الاسم المعروض مطلوب"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "صباح الخير",
+      "afternoon": "مساء الخير",
+      "evening": "مساء الخير"
+    },
+    "subtitle": "إليك ما يحدث في حساب لينكورا الخاص بك اليوم.",
+    "newPage": "صفحة جديدة",
+    "newQR": "رمز QR جديد",
+    "viewAll": "عرض الكل",
+    "recentActivity": "النشاط الأخير",
+    "gettingStarted": "البدء",
+    "quickActions": "إجراءات سريعة",
+    "stats": {
+      "totalPages": "إجمالي الصفحات",
+      "qrCodes": "رموز QR",
+      "totalScans": "إجمالي المسح",
+      "linkClicks": "نقرات الروابط"
+    },
+    "activity": {
+      "published": "منشور",
+      "draft": "مسودة",
+      "qrCode": "رمز QR"
+    },
+    "actions": {
+      "createNewPage": "إنشاء صفحة جديدة",
+      "generateQRCode": "إنشاء رمز QR",
+      "viewAnalytics": "عرض التحليلات",
+      "nfcCards": "بطاقات NFC"
+    },
+    "empty": "لا يوجد نشاط بعد.",
+    "checklist": {
+      "createFirstPage": "أنشئ صفحتك الأولى",
+      "addLinks": "أضف روابط إلى صفحتك",
+      "createQR": "أنشئ رمز QR",
+      "publishPage": "انشر صفحتك",
+      "createFirstCTA": "أنشئ صفحتك الأولى ←"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "إدارة إعدادات التطبيق",
+    "tabs": {
+      "general": "عام",
+      "appearance": "المظهر",
+      "language": "اللغة"
+    },
+    "password": {
+      "current": "كلمة المرور الحالية",
+      "new": "كلمة المرور الجديدة",
+      "confirm": "تأكيد كلمة المرور",
+      "changeTitle": "تغيير كلمة المرور",
+      "update": "تحديث كلمة المرور",
+      "updating": "جارٍ التحديث...",
+      "success": "تم تغيير كلمة المرور بنجاح",
+      "failed": "فشل تغيير كلمة المرور"
+    },
+    "dangerZone": {
+      "title": "منطقة الخطر",
+      "warning": "لا يمكن التراجع عن الإجراءات في هذا القسم",
+      "logoutAll": "تسجيل الخروج من جميع الأجهزة",
+      "confirmMessage": "هل أنت متأكد أنك تريد تسجيل الخروج من جميع الأجهزة؟",
+      "success": "تم تسجيل الخروج بنجاح"
+    },
+    "theme": {
+      "title": "إعدادات المظهر",
+      "current": "المظهر الحالي: ",
+      "updated": "تم تحديث المظهر",
+      "failed": "فشل تحديث المظهر"
+    },
+    "language": {
+      "title": "إعدادات اللغة",
+      "current": "اللغة الحالية: ",
+      "english": "English",
+      "arabic": "العربية",
+      "updated": "تم تحديث اللغة",
+      "failed": "فشل تحديث اللغة"
+    }
+  },
+  "profile": {
+    "title": "إعدادات الملف الشخصي",
+    "subtitle": "إدارة معلومات ملفك الشخصي",
+    "fields": {
+      "displayName": "الاسم المعروض",
+      "username": "اسم المستخدم",
+      "bio": "النبذة التعريفية",
+      "email": "البريد الإلكتروني",
+      "cover": "صورة الغلاف"
+    },
+    "bioPlaceholder": "أخبرنا عن نفسك...",
+    "saving": "جارٍ الحفظ...",
+    "saveChanges": "حفظ التغييرات",
+    "discard": "تجاهل",
+    "memberSince": "عضو منذ ",
+    "emailHelper": "لا يمكن تغيير البريد الإلكتروني",
+    "avatarSuccess": "تم تحديث الصورة الرمزية بنجاح",
+    "avatarFailed": "فشل رفع الصورة الرمزية",
+    "coverSuccess": "تم تحديث صورة الغلاف بنجاح",
+    "coverFailed": "فشل رفع صورة الغلاف",
+    "profileSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "profileFailed": "فشل تحديث الملف الشخصي"
+  },
+  "myPages": {
+    "title": "صفحاتي",
+    "subtitle": "إدارة صفحات الروابط الخاصة بك",
+    "createPage": "إنشاء صفحة",
+    "searchPlaceholder": "بحث في الصفحات...",
+    "empty": "لا توجد صفحات بعد. أنشئ صفحتك الأولى!",
+    "filters": {
+      "all": "جميع الصفحات",
+      "published": "المنشورة",
+      "draft": "المسودات"
+    },
+    "table": {
+      "title": "العنوان",
+      "slug": "الرابط المختصر",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات"
+    },
+    "actions": {
+      "viewPublic": "عرض الصفحة العامة",
+      "editPage": "تعديل الصفحة",
+      "duplicate": "تكرار",
+      "archive": "أرشفة",
+      "delete": "حذف"
+    },
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذه الصفحة؟",
+    "toasts": {
+      "loadFailed": "فشل تحميل الصفحات",
+      "deleted": "تم حذف الصفحة بنجاح",
+      "deleteFailed": "فشل حذف الصفحة",
+      "duplicated": "تم تكرار الصفحة بنجاح",
+      "duplicateFailed": "فشل تكرار الصفحة",
+      "archived": "تم أرشفة الصفحة بنجاح",
+      "archiveFailed": "فشل أرشفة الصفحة"
+    }
+  },
+  "nfc": {
+    "title": "بطاقات NFC",
+    "subtitle": "أنشئ وخصّص وأدر بطاقات NFC الاحترافية الخاصة بك.",
+    "addCard": "إضافة بطاقة NFC",
+    "createFirst": "أنشئ بطاقتك الأولى",
+    "emptyTitle": "لا توجد بطاقات NFC بعد",
+    "emptyDesc": "أنشئ بطاقتك الاحترافية الأولى من نوع NFC. اختر قالباً وخصّص كل التفاصيل.",
+    "templatePicker": {
+      "title": "اختر قالباً",
+      "subtitle": "اختر تصميمأً أساسياً — يمكنك تخصيصه بالكامل لاحقاً",
+      "using": "المستخدم: "
+    },
+    "cardDetails": "تفاصيل البطاقة",
+    "editCard": "تعديل البطاقة",
+    "fields": {
+      "cardName": "اسم البطاقة *",
+      "description": "الوصف",
+      "destinationPage": "الصفحة الوجهة",
+      "redirectTo": "يُحال إلى:",
+      "noDescription": "لا يوجد وصف",
+      "noPageLinked": "لم يتم ربط أي صفحة",
+      "tagNotLinked": "الوسيطة غير مربوطة",
+      "customDesign": "تصميم مخصص"
+    },
+    "placeholders": {
+      "cardName": "مثال: بطاقتي الذكية",
+      "description": "أين ستستخدم هذه البطاقة؟",
+      "createPageFirst": "أنشئ صفحة أولاً",
+      "editCardName": "بطاقتي الذكية",
+      "editDescription": "أين ستستخدم هذه البطاقة؟"
+    },
+    "stats": {
+      "totalCards": "إجمالي البطاقات",
+      "active": "نشطة",
+      "linkedTags": "الوسيطات المربوطة"
+    },
+    "buttons": {
+      "createAndDesign": "إنشاء وفتح المصمم",
+      "editDesign": "تعديل التصميم",
+      "createDesign": "إنشاء تصميم",
+      "linkTag": "ربط الوسيطة"
+    },
+    "simulator": {
+      "title": "كاتب NFC",
+      "subtitle": "محاكاة ربط رقاقة NFC فعلية",
+      "tagUid": "معرّف الوسيطة NFC",
+      "cardTarget": "هدف البطاقة",
+      "placeholder": "مثال: 04:DE:6F:A2",
+      "random": "عشوائي",
+      "start": "بدء المحاكاة",
+      "writing": "جارٍ كتابة NFC...",
+      "done": "تم",
+      "placePhone": "ضع الهاتف بالقرب من البطاقة",
+      "tagLinked": "تم ربط الوسيطة!",
+      "successText": "تم ربط المعرّف {{uid}} بـ \"{{title}}\"",
+      "simulationFailed": "فشلت المحاكاة"
+    },
+    "confirmDelete": "هل تريد حذف هذه البطاقة؟",
+    "toasts": {
+      "loadFailed": "فشل تحميل البيانات",
+      "created": "تم إنشاء البطاقة! جارٍ فتح المصمم...",
+      "createFailed": "فشل إنشاء بطاقة NFC",
+      "designSaved": "تم حفظ التصميم!",
+      "designFailed": "فشل حفظ التصميم",
+      "activated": "تم تفعيل البطاقة",
+      "deactivated": "تم تعطيل البطاقة",
+      "statusFailed": "فشل تحديث حالة البطاقة",
+      "deleted": "تم حذف البطاقة",
+      "deleteFailed": "فشل حذف البطاقة",
+      "updated": "تم تحديث البطاقة",
+      "updateFailed": "فشل تحديث البطاقة",
+      "tagLinked": "تم ربط وسيطة NFC!"
+    }
+  },
+  "qrPage": {
+    "title": "رموز QR",
+    "subtitle": "أنشئ وأدر رموز QR الخاصة بك",
+    "createQR": "إنشاء رمز QR",
+    "emptyTitle": "لا توجد رموز QR بعد",
+    "emptyDesc": "أنشئ رمز QR الأول الخاص بك للبدء"
+  },
+  "qrList": {
+    "title": "رموز QR",
+    "subtitle": "أدر رموز QR وتابع أداءها",
+    "searchPlaceholder": "بحث في رموز QR...",
+    "empty": "لا توجد رموز QR بعد. أنشئ رمزك الأول!",
+    "linkedTo": "مرتبطة بـ: ",
+    "table": {
+      "name": "الاسم",
+      "url": "الرابط",
+      "scans": "المسحات",
+      "status": "الحالة",
+      "actions": "الإجراءات"
+    },
+    "actions": {
+      "copyUrl": "نسخ الرابط",
+      "deactivate": "تعطيل",
+      "activate": "تفعيل",
+      "delete": "حذف"
+    },
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف رمز QR هذا؟",
+    "toasts": {
+      "loadFailed": "فشل تحميل رموز QR",
+      "deleted": "تم حذف رمز QR بنجاح",
+      "deleteFailed": "فشل حذف رمز QR",
+      "activated": "تم تفعيل رمز QR",
+      "deactivated": "تم تعطيل رمز QR",
+      "statusFailed": "فشل تحديث حالة رمز QR",
+      "urlCopied": "تم نسخ رابط رمز QR إلى الحافظة"
+    }
+  },
+  "qrEditor": {
+    "newTitle": "رمز QR جديد",
+    "editTitle": "تعديل رمز QR",
+    "subtitle": "خصّص رمز QR المتقدم الخاص بك",
+    "tabs": {
+      "content": "المحتوى",
+      "design": "التصميم",
+      "branding": "العلامة التجارية",
+      "frame": "الإطار",
+      "presets": "الإعدادات المسبقة"
+    },
+    "livePreview": "معاينة مباشرة",
+    "fields": {
+      "name": "اسم رمز QR (داخلي)",
+      "namePlaceholder": "مثال: الموقع الرئيسي",
+      "dataType": "نوع البيانات",
+      "selectPage": "اختر صفحة الهبوط",
+      "selectPageDefault": "— اختر صفحة —",
+      "url": "رابط URL",
+      "urlPlaceholder": "https://...",
+      "ssid": "اسم الشبكة (SSID)",
+      "wifiPassword": "كلمة المرور",
+      "encryption": "التشفير",
+      "text": "المحتوى النصي",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "+1234567890",
+      "message": "الرسالة",
+      "emailTo": "البريد الإلكتروني",
+      "subject": "الموضوع",
+      "body": "نص الرسالة",
+      "paypalUsername": "اسم مستخدم PayPal",
+      "paypalPlaceholder": "johndoe",
+      "paypalAmount": "المبلغ (اختياري)",
+      "paypalAmountPlaceholder": "20.00",
+      "btcAddress": "عنوان Bitcoin",
+      "btcPlaceholder": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+      "btcAmount": "المبلغ (BTC اختياري)",
+      "btcAmountPlaceholder": "0.05",
+      "telegramUsername": "اسم مستخدم Telegram",
+      "telegramPlaceholder": "durov",
+      "discordCode": "كود دعوة Discord",
+      "discordPlaceholder": "aBcD123",
+      "zoomMeetingId": "معرّف الاجتماع",
+      "zoomMeetingPlaceholder": "1234567890",
+      "zoomPassword": "كلمة المرور (اختيارية)",
+      "zoomPasswordPlaceholder": "Pass123",
+      "slackWorkspace": "رابط مساحة العمل",
+      "slackPlaceholder": "my-workspace"
+    },
+    "design": {
+      "density": "كثافة رمز QR",
+      "dotStyle": "نمط النقاط",
+      "eyeOuter": "إطار العين الخارجي",
+      "eyeInner": "كرة العين الداخلية",
+      "autoClean": "تلقائي (نظيف)",
+      "autoCleanDesc": "زيادة نسبية (أقصى كثافة)",
+      "auto": "تلقائي"
+    },
+    "colors": {
+      "bgImage": "صورة الخلفية",
+      "bgImageHelp": "ارفع صورة خلف رمز QR",
+      "fgGradient": "تدرج المقدمة",
+      "fgGradientHelp": "ألوان التدرج لنقاط رمز QR",
+      "bgGradient": "تدرج الخلفية",
+      "bgGradientHelp": "ألوان التدرج للخلفية",
+      "gradientType": "نوع التدرج",
+      "gradientAngle": "زاوية التدرج",
+      "radialScale": "الحجم الشعاعي (الانتشار)",
+      "fgColor": "لون المقدمة",
+      "bgColor": "لون الخلفية",
+      "startColor": "اللون الابتدائي",
+      "endColor": "اللون النهائي",
+      "linear": "خطي",
+      "radial": "شعاعي"
+    },
+    "logo": {
+      "uploadTitle": "رفع شعار مخصص",
+      "builtinTitle": "أو اختر شعاراً مدمجاً",
+      "size": "حجم الشعار",
+      "clearBg": "مسح الخلفية خلف الشعار",
+      "clearBgHelp": "إزالة نقاط QR لجعل الشعار مقروءاً",
+      "uploadBtn": "اختر صورة من الجهاز"
+    },
+    "frame": {
+      "style": "نمط الإطار",
+      "textPosition": "موضع النص",
+      "text": "نص الإطار",
+      "textDefault": "امسحني",
+      "fontFamily": "نوع الخط",
+      "frameColor": "لون الإطار",
+      "textGradient": "تدرج النص ولونه",
+      "textBaseColor": "اللون الأساسي للنص",
+      "textHelp": "تطبيق التدرج على النص أو تغيير لونه",
+      "positions": {
+        "top": "أعلى",
+        "bottom": "أسفل",
+        "left": "يسار",
+        "right": "يمين"
+      },
+      "fonts": {
+        "sansSerif": "بدون ذيل (عصري)",
+        "serif": "ذيل (كلاسيكي)",
+        "monospace": "أحادي العرض (شفرات)",
+        "cursive": "منحني (مرح)",
+        "fantasy": "خيالي (جريء)"
+      }
+    },
+    "bgUpload": {
+      "choose": "اختر ملفاً",
+      "change": "تغيير الصورة",
+      "remove": "إزالة"
+    },
+    "presets": {
+      "showLess": "عرض أقل",
+      "showMore": "عرض المزيد"
+    },
+    "buttons": {
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…"
+    },
+    "toasts": {
+      "loadFailed": "فشل تحميل رمز QR",
+      "presetApplied": "تم تطبيق الإعداد المسبق",
+      "nameRequired": "يرجى إدخال اسم لرمز QR",
+      "updated": "تم تحديث رمز QR بنجاح",
+      "created": "تم إنشاء رمز QR بنجاح",
+      "saveFailed": "فشل حفظ رمز QR",
+      "logoUploaded": "تم رفع الشعار بنجاح",
+      "logoFailed": "فشل قراءة ملف الشعار",
+      "bgUploaded": "تم رفع الخلفية بنجاح",
+      "bgFailed": "فشل قراءة ملف الخلفية"
+    },
+    "dataTypes": {
+      "landingPage": "صفحة هبوط",
+      "url": "رابط",
+      "text": "نص",
+      "wifi": "واي فاي",
+      "phone": "هاتف",
+      "email": "بريد إلكتروني",
+      "sms": "رسالة نصية",
+      "vcard": "بطاقة اتصال",
+      "maps": "خرائط"
+    },
+    "wifi": {
+      "wpa": "WPA/WPA2",
+      "wep": "WEP",
+      "none": "لا شيء"
+    }
+  },
+  "pageEditor": {
+    "newPage": "صفحة جديدة",
+    "editPage": "تعديل الصفحة",
+    "fullPreview": "معاينة كاملة",
+    "tabs": {
+      "settings": "الإعدادات",
+      "links": "الروابط",
+      "design": "التصميم"
+    },
+    "tabDescriptions": {
+      "settings": "معلومات الصفحة ومعالج الرابط",
+      "links": "إضافة وإدارة روابطك",
+      "design": "الألوان والخطوط والتخطيط"
+    },
+    "mode": {
+      "edit": "تعديل",
+      "preview": "معاينة"
+    },
+    "publishStatus": {
+      "published": "منشور",
+      "draft": "مسودة"
+    },
+    "buttons": {
+      "save": "حفظ",
+      "saving": "جارٍ الحفظ…"
+    },
+    "loading": "جارٍ تحميل الصفحة...",
+    "designSubtitle": "صمم صفحة الروابط الخاصة بك",
+    "toasts": {
+      "loadFailed": "فشل تحميل الصفحة",
+      "titleRequired": "العنوان مطلوب",
+      "updated": "تم تحديث الصفحة بنجاح",
+      "created": "تم إنشاء الصفحة بنجاح",
+      "saveFailed": "فشل حفظ الصفحة"
+    }
+  },
+  "analytics": {
+    "title": "التحليلات",
+    "subtitle": "تابع النقرات والزوار والتفاعل عبر صفحات الروابط.",
+    "charts": {
+      "viewsOverTime": "مشاهدات الصفحة عبر الزمن",
+      "topLinks": "الروابط الأفضل أداءً"
+    },
+    "stats": {
+      "pageViews": "مشاهدات الصفحة",
+      "linkClicks": "نقرات الروابط",
+      "uniqueVisitors": "الزوار الفريدون"
+    },
+    "ranges": {
+      "7d": "7 أيام",
+      "30d": "30 يوماً",
+      "all": "الكل",
+      "last7": "آخر 7 أيام",
+      "last30": "آخر 30 يوماً",
+      "lastAll": "آخر 14 يوماً"
+    },
+    "noPages": "لا توجد صفحات بعد",
+    "emptyViews": "لا توجد بيانات مشاهدات بعد. شارك صفحتك لبدء التتبع!",
+    "emptyClicks": "لا توجد بيانات نقرات روابط بعد."
+  },
+  "community": {
+    "title": "إنشاء قالب",
+    "submitTitle": "تقديم قالب",
+    "subtitle": "اختر نوع القالب للبدء",
+    "successTitle": "تم تقديم القالب!",
+    "successDesc": "تم تقديم قالبك للمراجعة. سيقوم المشرف بمراجعته قريباً.",
+    "backToDashboard": "العودة للوحة التحكم",
+    "details": "تفاصيل القالب",
+    "meta": {
+      "titleLabel": "العنوان *",
+      "titlePlaceholder": "قالبي المميز",
+      "descLabel": "الوصف",
+      "descPlaceholder": "صف قالبك...",
+      "categoryLabel": "الفئة",
+      "tagsLabel": "الوسوم (مفصولة بفاصلة)",
+      "tagsPlaceholder": "عصري، بسيط، داكن"
+    },
+    "types": {
+      "nfcCard": "بطاقة NFC",
+      "linkPage": "صفحة روابط",
+      "qrCode": "رمز QR",
+      "background": "خلفية",
+      "pattern": "نمط",
+      "qrFrame": "إطار QR",
+      "nfcCardDesc": "تصاميم بطاقات NFC احترافية",
+      "linkPageDesc": "تخطيطات وثيمات صفحات الروابط",
+      "qrCodeDesc": "أنماط مخصصة لرموز QR",
+      "backgroundDesc": "تدرجات وألوان وأنماط",
+      "patternDesc": "أنماط وبُنى بطاقات NFC",
+      "qrFrameDesc": "إطارات زخرفية لرموز QR"
+    },
+    "categories": {
+      "general": "عام",
+      "premium": "مميز",
+      "business": "أعمال",
+      "creative": "إبداعي",
+      "tech": "تقني",
+      "lifestyle": "نمط حياة"
+    },
+    "qrSettings": {
+      "title": "إعدادات رمز QR",
+      "dataUrl": "البيانات / الرابط",
+      "dataPlaceholder": "https://example.com",
+      "dotStyle": "نمط النقاط",
+      "foreground": "المقدمة",
+      "background": "الخلفية"
+    },
+    "bgSettings": {
+      "title": "إعدادات الخلفية",
+      "type": "النوع",
+      "color": "اللون",
+      "color2": "اللون 2",
+      "solid": "مصمت",
+      "linearGradient": "تدرج خطي",
+      "radialGradient": "تدرج شعاعي"
+    },
+    "buttons": {
+      "saveDraft": "حفظ المسودة",
+      "submit": "إرسال",
+      "draft": "مسودة",
+      "submitReview": "إرسال للمراجعة"
+    },
+    "toasts": {
+      "loadFailed": "فشل تحميل التقديم",
+      "draftSaved": "تم حفظ المسودة",
+      "draftFailed": "فشل حفظ المسودة",
+      "submitFailed": "فشل الإرسال"
+    }
+  },
+  "publicPage": {
+    "notFound": "404",
+    "notFoundMsg": "هذه الصفحة غير موجودة أو غير منشورة بعد.",
+    "goBack": "العودة للرئيسية",
+    "noLinks": "لم تتم إضافة روابط بعد.",
+    "fallbackTitle": "اسمك",
+    "fallbackBio": "النبذة التعريفية هنا. أخبر الناس عن نفسك.",
+    "poweredBy": "تشغيلّ بواسطة "
+  },
+  "components": {
+    "layout": {
+      "toggleTheme": "تبديل المظهر",
+      "changeLanguage": "تغيير اللغة",
+      "backToApp": "العودة للتطبيق"
+    },
+    "linkEditor": {
+      "title": "الروابط",
+      "linksCount": "{{count}} روابط",
+      "addLink": "إضافة رابط",
+      "linkTitle": "عنوان الرابط",
+      "urlPlaceholder": "https://example.com",
+      "newLinkTitle": "عنوان الرابط",
+      "newLinkUrl": "الرابط (https://...)",
+      "activeVisible": "نشط (مرئي)",
+      "inactiveHidden": "غير نشط (مخفي)",
+      "chooseIcon": "اختيار أيقونة",
+      "customColor": "لون مخصص للزر"
+    },
+    "cardDesigner": {
+      "title": "مصمم البطاقة",
+      "dragHint": "اسحب العناصر. انقر للتحديد. مرر في اللائحة للمزيد",
+      "selectHint": "انقر على عنصر لتحديده. اسحب للتحريك. قفل لمنع الحركة العشوائية. الشبكة لن تظهر في التصديرات",
+      "noSelected": "لم يتم تحديد عنصر",
+      "selectHelp": "انقر على أي عنصر في البطاقة لتعديل خصائصه. اضغط Shift/Ctrl للتحديد المتعدد.",
+      "tabs": {
+        "template": "القالب الأساسي",
+        "background": "الخلفية",
+        "pattern": "تراكب النمط",
+        "qrContainer": "حاوية QR",
+        "cardInfo": "معلومات البطاقة",
+        "borderGlow": "الإطار والتوهج",
+        "elements": "العناصر",
+        "addIcons": "إضافة أيقونات",
+        "export": "تصدير"
+      },
+      "fields": {
+        "bgColor": "لون الخلفية",
+        "startColor": "اللون الابتدائي",
+        "endColor": "اللون النهائي",
+        "angle": "الزاوية",
+        "overlayColor": "لون التراكب",
+        "blur": "التمويه ({{value}} بكسل)",
+        "overlayOpacity": "شفافية التراكب ({{value}}%)",
+        "patternOpacity": "الشفافية ({{value}}%)",
+        "color": "اللون",
+        "name": "الاسم",
+        "jobTitle": "المسمى الوظيفي",
+        "company": "الشركة",
+        "linkedQR": "رمز QR المربوط",
+        "noQR": "لا يوجد رمز QR —",
+        "brandPreset": "لون العلامة التجارية",
+        "customColor": "لون مخصص",
+        "textColor": "لون النص",
+        "contentText": "نص المحتوى",
+        "textContent": "المحتوى النصي",
+        "fontFamily": "نوع الخط",
+        "fontSize": "حجم الخط",
+        "fontWeight": "الوزن",
+        "size": "الحجم",
+        "opacity": "الشفافية",
+        "rotation": "الدوران",
+        "xPosition": "الموضع أفقياً (%)",
+        "yPosition": "الموضع عمودياً (%)",
+        "borderRadius": "استدارة الحدود ({{value}} بكسل)",
+        "borderStyle": "نمط الحدود",
+        "glowColor": "لون التوهج",
+        "glowIntensity": "شدة التوهج ({{value}}%)",
+        "nfcBadge": "NFC"
+      },
+      "buttons": {
+        "grid": "شبكة",
+        "saveDesign": "حفظ التصميم",
+        "saving": "جارٍ الحفظ...",
+        "loading": "جارٍ التحميل...",
+        "changeImage": "تغيير الصورة",
+        "uploadImage": "رفع صورة",
+        "addText": "إضافة نص مخصص",
+        "resetPositions": "إعادة تعيين جميع المواضع",
+        "exporting": "جارٍ التصدير...",
+        "showFront": "عرض الوجه الأمامي",
+        "showBack": "عرض الوجه الخلفي",
+        "removeSelected": "إزالة المحدد",
+        "removeIcon": "إزالة الأيقونة"
+      },
+      "export": {
+        "png2x": "PNG عادي (2x)",
+        "png4x": "PNG عالي الدقة (4x)",
+        "transparent": "PNG شفاف",
+        "pdf": "طباعة PDF (3.5x2\")"
+      },
+      "defaults": {
+        "yourName": "اسمك",
+        "jobTitle": "المسمى الوظيفي",
+        "company": "الشركة",
+        "newText": "نص جديد"
+      },
+      "borderPresets": {
+        "default": "القالب الافتراضي",
+        "subtleWhite": "أبيض هادئ",
+        "gold": "إطار ذهبي",
+        "silver": "إطار فضي",
+        "indigo": "إطار نيلي",
+        "none": "بدون إطار"
+      }
+    },
+    "designEditor": {
+      "sections": {
+        "themes": "الثيمات والإعدادات المسبقة",
+        "background": "الخلفية والنمط",
+        "buttons": "الأزرار والروابط",
+        "typography": "الطباعة والألوان",
+        "advanced": "الإعدادات المتقدمة"
+      },
+      "fields": {
+        "bgType": "نوع الخلفية",
+        "bgColor": "لون الخلفية",
+        "gradientType": "نوع التدرج",
+        "color1": "اللون 1",
+        "color2": "اللون 2",
+        "rotation": "الدوران",
+        "scale": "الحجم",
+        "glassEffect": "تفعيل تأثير الزجاج",
+        "btnStyle": "نمط الزر (نوع التعبئة)",
+        "btnWidth": "عرض الزر",
+        "btnHeight": "ارتفاع الزر (الحشوة)",
+        "iconPosition": "موضع الأيقونة",
+        "btnShape": "شكل الزر (استدارة الحدود)",
+        "btnShadow": "ظل الزر",
+        "hoverAnim": "تأثير التمرير",
+        "btnColor": "لون الزر",
+        "textColor": "لون النص",
+        "fontFamily": "نوع الخط",
+        "headingColor": "لون العنوان",
+        "bioColor": "لون النبذة",
+        "profileRadius": "استدارة صورة الملف الشخصي",
+        "btnSpacing": "المسافة بين الأزرار",
+        "showBio": "إظهار نبذة الملف الشخصي",
+        "loadAnimations": "تفعيل تأثيرات تحميل الصفحة"
+      },
+      "positions": {
+        "left": "يسار",
+        "right": "يمين"
+      },
+      "themes": {
+        "minimalLight": "فاتح بسيط",
+        "darkMode": "الوضع الداكن",
+        "glassmorphism": "تأثير الزجاج",
+        "cyberpunk": "سايبربانك",
+        "sunsetVibes": "أجواء الغروب",
+        "oceanBreeze": "نسيم المحيط",
+        "forestZen": "زِن الغابة",
+        "neonNights": "ليالٍ نيون",
+        "monochrome": "أحادي اللون",
+        "pastelDream": "حلم الباستيل",
+        "retro90s": "ريترو التسعينيات",
+        "goldLuxury": "فخامة ذهبية",
+        "midnightBlue": "أزرق منتصف الليل",
+        "candyPop": "كاندي بوب",
+        "hackerTerminal": "طرفي المخترق",
+        "frostedMint": "نعناع متجمد",
+        "lavaGlass": "زجاج بركاني",
+        "cyberPulse": "نبض سايبر",
+        "toxicGlow": "توهج سام",
+        "auroraBorealis": "الشفق القطبي"
+      },
+      "btnStyles": {
+        "solid": "مصمت (كلاسيكي)",
+        "outline": "مُحاط (شبحي)",
+        "soft": "ناعم (شفاف)",
+        "pushable": "ثلاثي الأبعاد",
+        "gradient": "تعبئة بتدرج",
+        "neon": "حد نيون",
+        "glass": "زجاج متجمد",
+        "flat": "مسطح بسيط",
+        "duotone": "ثنائي اللون"
+      },
+      "shadows": {
+        "none": "لا شيء",
+        "soft": "ظل ناعم",
+        "hard": "ظل صلب",
+        "neon": "توهج نيون",
+        "neumorphism": "نيومورفيزم (ناعم ثلاثي الأبعاد)",
+        "classic": "ظل كلاسيكي",
+        "heavy": "ظل ثقيل سفلي",
+        "inner": "ظل داخلي (مغروز)",
+        "colored": "ظل ملون ناعم",
+        "retro": "ريترو بوب"
+      },
+      "hoverAnims": {
+        "none": "لا شيء",
+        "pulse": "نبض",
+        "bounce": "ارتداد",
+        "wobble": "اهتزاز",
+        "slide": "انزلاق"
+      }
+    },
+    "pagePreview": {
+      "mobileView": "عرض الهاتف",
+      "tabletView": "عرض الجهاز اللوحي",
+      "desktopView": "عرض سطح المكتب",
+      "noLinks": "لم تتم إضافة روابط بعد"
+    },
+    "pageSettings": {
+      "title": "إعدادات الصفحة",
+      "fields": {
+        "pageTitle": "عنوان الصفحة",
+        "pageTitlePlaceholder": "صفحتي المميزة",
+        "slug": "رابط الصفحة (اسم التطبيق)",
+        "slugPlaceholder": "my-awesome-app",
+        "slugHelper": "سيتم إنشاء رابط عشوائي إذا تم تركه فارغاً",
+        "linkHelper": "استخدم هذا الرابط لربط رمز QR",
+        "description": "الوصف",
+        "descPlaceholder": "وصف مختصر لصفحتك",
+        "bio": "النبذة التعريفية",
+        "bioPlaceholder": "أخبر الناس عن نفسك",
+        "profileImage": "صورة الملف الشخصي",
+        "bgImage": "صورة الخلفية",
+        "sizeScale": "الحجم (القياس)",
+        "position": "الموضع",
+        "linkQR": "ربط برمز QR",
+        "linkQRHelper": "سيتم تحويل مسحات رمز QR تلقائياً إلى هذه الصفحة.",
+        "selectQR": "-- اختر رمز QR للربط --"
+      },
+      "buttons": {
+        "copyLink": "نسخ الرابط",
+        "uploadImage": "رفع صورة",
+        "remove": "إزالة",
+        "uploadBg": "رفع خلفية"
+      },
+      "sizeOptions": {
+        "cover": "غلاف (تعبئة)",
+        "contain": "احتواء (ملاءمة)",
+        "auto": "تلقائي (الأصلي)"
+      },
+      "positionOptions": {
+        "center": "وسط",
+        "top": "أعلى",
+        "bottom": "أسفل",
+        "left": "يسار",
+        "right": "يمين"
+      },
+      "toasts": {
+        "linkCopied": "تم نسخ الرابط إلى الحافظة!",
+        "qrLinked": "تم ربط رمز QR بنجاح!",
+        "qrFailed": "فشل ربط رمز QR"
+      }
+    },
+    "fileUploader": {
+      "defaultLabel": "رفع ملفات",
+      "uploadedFiles": "الملفات المرفوعة",
+      "dropzone": "انقر للرفع أو اسحب وأفلت",
+      "maxSize": "الحد الأقصى {{size}}ميجابايت لكل ملف",
+      "uploading": "جارٍ الرفع...",
+      "errors": {
+        "typeNotAllowed": "نوع الملف غير مسموح",
+        "tooLarge": "الملف كبير جداً. الحد الأقصى: {{size}}ميجابايت",
+        "uploadFailed": "فشل رفع الملف",
+        "deleteFailed": "فشل حذف الملف"
+      },
+      "toasts": {
+        "uploaded": "تم رفع {{name}} بنجاح",
+        "deleted": "تم حذف الملف"
+      }
+    },
+    "imageUploader": {
+      "defaultLabel": "رفع صورة",
+      "dropzone": "انقر للرفع أو اسحب وأفلت",
+      "formats": "PNG، JPG، GIF حتى {{size}}ميجابايت",
+      "uploading": "جارٍ الرفع...",
+      "preview": "معاينة",
+      "errors": {
+        "invalidType": "نوع ملف غير صالح. الأنواع المسموحة: {{types}}",
+        "tooLarge": "الملف كبير جداً. الحد الأقصى: {{size}}ميجابايت",
+        "uploadFailed": "فشل رفع الصورة"
+      },
+      "toasts": {
+        "uploaded": "تم رفع الصورة بنجاح"
+      }
+    },
+    "imageCropper": {
+      "title": "قص الصورة",
+      "zoom": "تكبير",
+      "cancel": "إلغاء",
+      "saveApply": "حفظ وتطبيق"
+    },
+    "iconPicker": {
+      "title": "اختيار أيقونة",
+      "searchPlaceholder": "بحث في الأيقونات (مثال: WhatsApp, TikTok)...",
+      "noResults": "لم يتم العثور على أيقونات لـ \"{{search}}\""
+    },
+    "nfcManager": {
+      "title": "بطاقات NFC",
+      "newCard": "بطاقة جديدة",
+      "createCard": "إنشاء بطاقة",
+      "cardTitlePlaceholder": "عنوان البطاقة",
+      "cardDescPlaceholder": "وصف البطاقة (اختياري)",
+      "loading": "جارٍ التحميل...",
+      "empty": "لا توجد بطاقات NFC بعد. أنشئ واحدة للبدء.",
+      "toasts": {
+        "loadFailed": "فشل تحميل بطاقات NFC",
+        "titleRequired": "العنوان مطلوب",
+        "created": "تم إنشاء بطاقة NFC",
+        "createFailed": "فشل إنشاء بطاقة NFC",
+        "updated": "تم تحديث بطاقة NFC",
+        "updateFailed": "فشل تحديث بطاقة NFC",
+        "deleted": "تم حذف بطاقة NFC",
+        "deleteFailed": "فشل حذف بطاقة NFC"
+      }
+    },
+    "qrGenerator": {
+      "copy": "نسخ",
+      "downloadPNG": "PNG",
+      "downloadSVG": "SVG",
+      "defaultText": "امسحني",
+      "toasts": {
+        "svgDownloaded": "تم تحميل رمز QR بصيغة SVG",
+        "pngDownloaded": "تم تحميل رمز QR بصيغة PNG",
+        "downloadFailed": "فشل تحميل رمز QR",
+        "copied": "تم نسخ رمز QR إلى الحافظة",
+        "copyFailed": "فشل النسخ إلى الحافظة",
+        "copyQrFailed": "فشل نسخ رمز QR"
+      }
+    },
+    "qrLinker": {
+      "title": "ربط برمز QR",
+      "description": "اربط هذه الصفحة بأحد رموز QR الحالية. سيُحال المستخدمون فوراً إلى هذه الصفحة عند مسح الرمز.",
+      "loading": "جارٍ تحميل رموز QR...",
+      "noQr": "لم تنشئ أي رموز QR بعد. انتقل إلى قسم رموز QR لإنشاء واحد أولاً.",
+      "selectPlaceholder": "اختر رمز QR...",
+      "currentlyLinked": "(مربط حالياً)",
+      "linked": "مربط!",
+      "link": "ربط"
+    },
+    "analyticsDashboard": {
+      "totalClicks": "إجمالي النقرات",
+      "uniqueVisitors": "الزوار الفريدون",
+      "avgCTR": "متوسط معدل النقر",
+      "ctrDesc": "معدل النقر إلى الظهور",
+      "deviceSplit": "توزيع الأجهزة",
+      "topLinks": "الروابط الأعلى",
+      "topCountries": "أعلى الدول",
+      "todayClicks": "{{count}} اليوم",
+      "todayVisitors": "{{count}} اليوم",
+      "mobilePercent": "% هاتف",
+      "totalVisits": "{{count}} زيارة إجمالية",
+      "clicksCount": "{{count}} نقرة",
+      "loading": "جارٍ تحميل التحليلات...",
+      "empty": "لا توجد بيانات تحليلات متاحة",
+      "loadFailed": "فشل تحميل التحليلات"
+    },
+    "notifications": {
+      "dismiss": "إغلاق"
+    }
+  },
+  "admin": {
+    "layout": {
+      "groups": {
+        "overview": "نظرة عامة",
+        "management": "إدارة",
+        "feedback": "ملاحظات",
+        "communication": "اتصالات",
+        "system": "نظام"
+      },
+      "nav": {
+        "dashboard": "لوحة التحكم",
+        "analytics": "التحليلات",
+        "users": "المستخدمون",
+        "designMarketplace": "سوق التصاميم",
+        "community": "المجتمع",
+        "assetManager": "مدير الأصول",
+        "fileManager": "مدير الملفات",
+        "suggestions": "الاقتراحات",
+        "featureRequests": "طلبات الميزات",
+        "bugReports": "تقارير الأخطاء",
+        "messages": "الرسائل",
+        "announcements": "الإعلانات",
+        "activityLogs": "سجلات النشاط",
+        "settings": "الإعدادات",
+        "backups": "النسخ الاحتياطية"
+      },
+      "searchPlaceholder": "بحث...",
+      "accessDenied": "تم رفض الوصول",
+      "noPermissions": "ليس لديك صلاحيات إدارية.",
+      "goToDashboard": "الذهاب للوحة التحكم"
+    },
+    "dashboard": {
+      "title": "لوحة تحكم الإدارة",
+      "subtitle": "نظرة عامة على كامل المنصة",
+      "refresh": "تحديث",
+      "sections": {
+        "recentSubmissions": "آخر التقديمات",
+        "recentSuggestions": "آخر الاقتراحات",
+        "recentActivity": "النشاط الأخير"
+      },
+      "stats": {
+        "totalUsers": "إجمالي المستخدمين",
+        "activeUsers": "المستخدمون النشطون",
+        "totalPages": "إجمالي الصفحات",
+        "qrCodes": "رموز QR",
+        "nfcCards": "بطاقات NFC",
+        "designs": "التصاميم",
+        "totalViews": "إجمالي المشاهدات",
+        "totalScans": "إجمالي المسح",
+        "dailyRegistrations": "التسجيلات اليومية",
+        "submissions": "التقديمات",
+        "suggestions": "الاقتراحات",
+        "bugReports": "تقارير الأخطاء"
+      },
+      "empty": {
+        "submissions": "لا توجد تقديمات بعد",
+        "suggestions": "لا توجد اقتراحات بعد",
+        "activity": "لا يوجد نشاط بعد"
+      }
+    },
+    "analytics": {
+      "title": "التحليلات",
+      "subtitle": "أداء المنصة ومقاييس التفاعل",
+      "periods": {
+        "7d": "7 أيام",
+        "30d": "30 يوماً",
+        "90d": "90 يوماً"
+      },
+      "charts": {
+        "viewsScans": "المشاهدات والمسح عبر الزمن",
+        "designsByType": "التصاميم حسب النوع",
+        "submissionsByStatus": "التقديمات حسب الحالة",
+        "bugsByPriority": "الأخطاء حسب الأولوية"
+      },
+      "stats": {
+        "totalViews": "إجمالي المشاهدات",
+        "totalScans": "إجمالي المسح",
+        "dailyRegistrations": "التسجيلات اليومية",
+        "weeklyRegistrations": "التسجيلات الأسبوعية"
+      },
+      "legend": {
+        "views": "المشاهدات",
+        "scans": "المسحات"
+      },
+      "tooltip": "{{date}}: {{views}} مشاهدة، {{scans}} مسحة",
+      "empty": "لا توجد بيانات",
+      "emptyTimeline": "لا توجد بيانات زمنية"
+    },
+    "users": {
+      "title": "إدارة المستخدمين",
+      "subtitle": "{{total}} مستخدم إجمالاً",
+      "searchPlaceholder": "بحث عن مستخدمين...",
+      "changeRole": "تغيير الدور",
+      "empty": "لم يتم العثور على مستخدمين",
+      "noName": "بدون اسم",
+      "confirmDelete": "هل تريد حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.",
+      "roles": {
+        "all": "جميع الأدوار"
+      },
+      "filters": {
+        "all": "جميع الحالات",
+        "active": "نشط",
+        "suspended": "معلّق"
+      },
+      "table": {
+        "user": "المستخدم",
+        "email": "البريد الإلكتروني",
+        "role": "الدور",
+        "status": "الحالة",
+        "joined": "تاريخ الانضمام",
+        "actions": "الإجراءات"
+      }
+    },
+    "templates": {
+      "title": "القوالب",
+      "subtitle": "{{total}} قالب",
+      "createTemplate": "إنشاء قالب",
+      "editInEditor": "تعديل في المحرر",
+      "searchPlaceholder": "بحث في القوالب...",
+      "empty": "لم يتم العثور على قوالب",
+      "confirmDelete": "هل تريد حذف هذا القالب نهائياً؟",
+      "filters": {
+        "allTypes": "جميع الأنواع",
+        "allStatus": "جميع الحالات"
+      },
+      "byAuthor": "بواسطة {{author}}"
+    },
+    "community": {
+      "title": "قوالب المجتمع",
+      "subtitle": "مراجعة وإدارة تقديمات المستخدمين",
+      "searchPlaceholder": "بحث بالعنوان أو الوصف أو المستخدم...",
+      "submissionCount": "{{total}} تقديم (تقديمات)",
+      "empty": "لم يتم العثور على تقديمات",
+      "approve": "موافقة ونشر",
+      "reject": "رفض",
+      "requestChanges": "طلب تغييرات",
+      "openInEditor": "فتح في المحرر",
+      "openInTemplateEditor": "فتح في محرر القوالب",
+      "adminReply": "رد الإدارة: ",
+      "modals": {
+        "approveTitle": "الموافقة على التقديم",
+        "rejectTitle": "رفض التقديم",
+        "changesTitle": "طلب تغييرات",
+        "approveMsg": "سيتم نشر \"{{title}}\" في السوق.",
+        "rejectMsg": "إبلاغ منشئ \"{{title}}\" بالرفض.",
+        "changesMsg": "طلب تغييرات على \"{{title}}\".",
+        "approvePlaceholder": "اكتب رداً عاماً للمنشئ (اختياري)...",
+        "rejectPlaceholder": "اشرح سبب الرفض (اختياري)...",
+        "changesPlaceholder": "صف التغييرات المطلوبة..."
+      }
+    },
+    "suggestions": {
+      "title": "الاقتراحات",
+      "subtitle": "{{total}} اقتراح إجمالاً",
+      "empty": "لم يتم العثور على اقتراحات",
+      "detailTitle": "تفاصيل الاقتراح",
+      "votesCount": "{{count}} صوت (أصوات)",
+      "table": {
+        "suggestion": "الاقتراح",
+        "user": "المستخدم",
+        "votes": "الأصوات",
+        "status": "الحالة",
+        "date": "التاريخ"
+      },
+      "fields": {
+        "description": "الوصف",
+        "status": "الحالة",
+        "adminNotes": "ملاحظات الإدارة"
+      },
+      "notesPlaceholder": "ملاحظات داخلية..."
+    },
+    "features": {
+      "title": "طلبات الميزات",
+      "subtitle": "{{total}} طلب ميزات إجمالاً",
+      "empty": "لم يتم العثور على طلبات ميزات",
+      "detailTitle": "تفاصيل الميزة",
+      "votesCount": "{{count}} صوت (أصوات)",
+      "table": {
+        "feature": "الميزة",
+        "user": "المستخدم",
+        "votes": "الأصوات",
+        "status": "الحالة",
+        "date": "التاريخ"
+      },
+      "fields": {
+        "description": "الوصف",
+        "status": "الحالة",
+        "scheduledDate": "التاريخ المحدد",
+        "adminNotes": "ملاحظات الإدارة"
+      },
+      "notesPlaceholder": "ملاحظات داخلية..."
+    },
+    "bugs": {
+      "title": "تقارير الأخطاء",
+      "subtitle": "{{total}} تقرير أخطاء إجمالاً",
+      "empty": "لم يتم العثور على تقارير أخطاء",
+      "detailTitle": "تفاصيل الخطأ",
+      "screenshot": "لقطة شاشة للخطأ",
+      "table": {
+        "bug": "الخطأ",
+        "user": "المستخدم",
+        "priority": "الأولوية",
+        "status": "الحالة",
+        "device": "الجهاز",
+        "date": "التاريخ"
+      },
+      "fields": {
+        "description": "الوصف",
+        "environment": "البيئة",
+        "screenshotLabel": "لقطة شاشة",
+        "status": "الحالة",
+        "fixVersion": "إصدار الإصلاح",
+        "adminNotes": "ملاحظات الإدارة",
+        "device": "الجهاز:",
+        "browser": "المتصفح:",
+        "os": "نظام التشغيل:",
+        "url": "الرابط:"
+      },
+      "placeholders": {
+        "fixVersion": "مثال: v1.2.0",
+        "notes": "ملاحظات داخلية..."
+      }
+    },
+    "messages": {
+      "title": "الرسائل",
+      "subtitle": "{{total}} رسالة إجمالاً",
+      "unreadIndicator": "({{count}} غير مقروءة)",
+      "empty": "لم يتم العثور على رسائل",
+      "noSubject": "(بدون موضوع)",
+      "detailTitle": "الرسالة",
+      "table": {
+        "from": "من",
+        "email": "البريد الإلكتروني",
+        "subject": "الموضوع",
+        "message": "الرسالة",
+        "status": "الحالة",
+        "date": "التاريخ"
+      },
+      "fields": {
+        "subject": "الموضوع",
+        "message": "الرسالة",
+        "status": "الحالة",
+        "adminReply": "رد الإدارة"
+      },
+      "replyPlaceholder": "اكتب ردك...",
+      "saveReply": "حفظ وإرسال الرد"
+    },
+    "announcements": {
+      "title": "الإعلانات",
+      "subtitle": "{{count}} إعلان إجمالاً",
+      "newAnnouncement": "إعلان جديد",
+      "editTitle": "تعديل الإعلان",
+      "createTitle": "إعلان جديد",
+      "empty": "لا توجد إعلانات بعد",
+      "table": {
+        "title": "العنوان",
+        "content": "المحتوى",
+        "type": "النوع",
+        "target": "الهدف",
+        "channel": "القناة",
+        "active": "نشط",
+        "date": "التاريخ",
+        "actions": "الإجراءات"
+      },
+      "fields": {
+        "title": "العنوان",
+        "content": "المحتوى",
+        "type": "النوع",
+        "target": "الهدف",
+        "channel": "القناة",
+        "startsAt": "يبدأ في",
+        "expiresAt": "ينتهي في"
+      },
+      "placeholders": {
+        "title": "عنوان الإعلان",
+        "content": "محتوى الإعلان..."
+      }
+    },
+    "activity": {
+      "title": "سجلات النشاط",
+      "subtitle": "{{total}} سجل نشاط إجمالاً",
+      "searchPlaceholder": "بحث في الإجراءات...",
+      "empty": "لم يتم العثور على سجلات نشاط",
+      "filters": {
+        "allTypes": "جميع الأنواع"
+      },
+      "fields": {
+        "entityType": "نوع الكيان",
+        "dateFrom": "من التاريخ",
+        "dateTo": "إلى التاريخ"
+      },
+      "table": {
+        "user": "المستخدم",
+        "action": "الإجراء",
+        "entity": "الكيان",
+        "entityId": "معرّف الكيان",
+        "ipAddress": "عنوان IP",
+        "timestamp": "الوقت"
+      }
+    },
+    "settings": {
+      "title": "إعدادات الموقع",
+      "subtitle": "تكوين تطبيقك",
+      "saved": "تم الحفظ!",
+      "discard": "تجاهل",
+      "lastUpdated": "آخر تحديث: {{date}}",
+      "emptyCategory": "لا توجد إعدادات في هذا التصنيف",
+      "categories": {
+        "general": "عام",
+        "seo": "تحسين محركات البحث",
+        "mail": "البريد",
+        "storage": "التخزين",
+        "authentication": "المصادقة",
+        "maintenance": "الصيانة",
+        "feature_flags": "ميزات متغيرة"
+      }
+    },
+    "backups": {
+      "title": "النسخ الاحتياطية",
+      "subtitle": "{{count}} نسخة احتياطية · {{size}} إجمالاً",
+      "newBackup": "نسخة جديدة",
+      "creating": "جارٍ الإنشاء...",
+      "createBackup": "إنشاء نسخة احتياطية",
+      "empty": "لا توجد نسخ احتياطية بعد",
+      "never": "أبداً",
+      "fields": {
+        "backupName": "اسم النسخة (اختياري)",
+        "namePlaceholder": "مثال: نسخة قبل التحديث",
+        "type": "النوع"
+      },
+      "types": {
+        "full": "نسخة كاملة",
+        "database": "قاعدة البيانات فقط",
+        "media": "الوسائط فقط"
+      },
+      "stats": {
+        "totalBackups": "إجمالي النسخ",
+        "totalSize": "الحجم الكلي",
+        "lastBackup": "آخر نسخة"
+      },
+      "table": {
+        "name": "الاسم",
+        "type": "النوع",
+        "size": "الحجم",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء"
+      }
+    },
+    "assets": {
+      "title": "مدير الأصول",
+      "subtitle": "{{count}} أصل · مكتبة مركزية لجميع المحررين",
+      "newAsset": "أصل جديد",
+      "searchPlaceholder": "بحث في الأصول...",
+      "empty": "لم يتم العثور على أصول. أنشئ أول أصل للبدء.",
+      "confirmDelete": "هل تريد حذف هذا الأصل؟",
+      "confirmForceDelete": "هذا الأصل قيد الاستخدام. هل تريد الحذف بالقوة؟",
+      "editTitle": "تعديل الأصل",
+      "createTitle": "أصل جديد",
+      "addTag": "إضافة وسم...",
+      "moduleHelper": "فارغ = متوافق مع جميع الوحدات",
+      "bulkSelected": "{{count}} محدد",
+      "pagination": "صفحة {{page}} من {{total}}",
+      "table": {
+        "name": "الاسم",
+        "type": "النوع",
+        "category": "الفئة",
+        "modules": "الوحدات",
+        "uses": "الاستخدامات",
+        "status": "الحالة"
+      },
+      "fields": {
+        "name": "الاسم *",
+        "slug": "الرابط المختصر",
+        "description": "الوصف",
+        "type": "النوع *",
+        "category": "الفئة",
+        "version": "الإصدار",
+        "previewUrl": "رابط المعاينة",
+        "thumbnailUrl": "رابط الصورة المصغرة",
+        "dataJson": "البيانات (JSON)",
+        "tags": "الوسوم",
+        "modules": "الوحدات المتوافقة",
+        "premium": "مميز",
+        "featured": "مميّز",
+        "active": "نشط",
+        "pinned": "مثبّت",
+        "visibility": "الرؤية"
+      },
+      "invalidJson": "JSON غير صالح"
+    },
+    "files": {
+      "title": "مدير الملفات",
+      "subtitle": "إدارة الملفات والوسائط المرفوعة عبر Supabase Storage",
+      "upload": "رفع",
+      "filterPlaceholder": "تصفية...",
+      "root": "الجذر",
+      "empty": "هذا المجلد فارغ",
+      "emptyUpload": "لم يتم رفع ملفات بعد",
+      "uploading": "جارٍ الرفع...",
+      "dropzone": "أسقط الملفات هنا",
+      "dropzoneAlt": "اسحب وأفلت الملفات هنا",
+      "browseHelper": "أو انقر للتصفح (حد أقصى 10 ميجابايت)",
+      "deleteFolder": "حذف المجلد",
+      "deleteFile": "حذف الملف",
+      "confirmDelete": "هل أنت متأكد أنك تريد حذف {{name}}؟",
+      "deleteWarning": "هذا الإجراء لا يمكن التراجع عنه.",
+      "deleteFolderWarning": "جميع المحتويات ستُحذف أيضاً.",
+      "stats": {
+        "totalSize": "الحجم الكلي",
+        "images": "الصور",
+        "documents": "المستندات",
+        "files": "الملفات"
+      },
+      "toasts": {
+        "bucketNotFound": "لم يتم العثور على دلو التخزين \"uploads\". أنشئه في لوحة تحكم Supabase > التخزين.",
+        "uploaded": "تم رفع {{count}} ملف (ملفات)",
+        "deleted": "تم حذف {{name}}",
+        "deleteFailed": "فشل الحذف: {{error}}"
+      }
+    },
+    "templateEditor": {
+      "newTemplate": "إنشاء قالب جديد",
+      "editTemplate": "تعديل القالب",
+      "newTemplateHeader": "قالب جديد",
+      "loading": "جارٍ تحميل القالب...",
+      "preview": "معاينة",
+      "livePreview": "معاينة مباشرة",
+      "metadata": "تفاصيل القالب",
+      "qrSettings": "إعدادات رمز QR",
+      "bgSettings": "إعدادات الخلفية",
+      "patternSettings": "إعدادات النمط",
+      "frameSettings": "إعدادات إطار QR",
+      "types": {
+        "nfcCard": "بطاقة NFC",
+        "linkPage": "صفحة روابط",
+        "qrCode": "رمز QR",
+        "background": "خلفية",
+        "pattern": "نمط",
+        "qrFrame": "إطار QR"
+      },
+      "categories": {
+        "general": "عام",
+        "premium": "مميز",
+        "business": "أعمال",
+        "creative": "إبداعي",
+        "tech": "تقني",
+        "lifestyle": "نمط حياة"
+      },
+      "fields": {
+        "name": "الاسم *",
+        "namePlaceholder": "قالبي المميز",
+        "description": "الوصف",
+        "descPlaceholder": "وصف مختصر لهذا القالب...",
+        "type": "النوع",
+        "category": "الفئة",
+        "tags": "الوسوم (مفصولة بفاصلة)",
+        "tagsPlaceholder": "عصري، بسيط، داكن",
+        "status": "الحالة",
+        "featured": "مميّز"
+      },
+      "qrFields": {
+        "dataUrl": "البيانات / الرابط",
+        "dataPlaceholder": "https://example.com",
+        "dotStyle": "نمط النقاط",
+        "eyeFrame": "نمط إطار العين",
+        "eyeBall": "نمط كرة العين",
+        "fgColor": "لون المقدمة",
+        "bgColor": "لون الخلفية",
+        "gradient": "التدرج",
+        "enableGradient": "تفعيل تدرج المقدمة",
+        "color1": "اللون 1",
+        "color2": "اللون 2",
+        "rotation": "الدوران ({{n}}°)"
+      },
+      "bgFields": {
+        "color": "اللون",
+        "angle": "الزاوية ({{n}}°)",
+        "presets": "الإعدادات المسبقة"
+      },
+      "patternFields": {
+        "style": "نمط الزخرفة",
+        "color": "لون النمط",
+        "opacity": "الشفافية ({{n}}%)"
+      },
+      "frameFields": {
+        "style": "نمط الإطار",
+        "color": "لون الإطار",
+        "textColor": "لون النص",
+        "text": "نص الإطار",
+        "textPlaceholder": "امسحني"
+      },
+      "bgPresets": {
+        "midnight": "منتصف الليل",
+        "ocean": "المحيط",
+        "sunset": "الغروب",
+        "forest": "الغابة",
+        "lavender": "الخزامى",
+        "peach": "الخوخ",
+        "slate": "الشيت",
+        "cherry": "الكرز",
+        "teal": "الأزرق المخضر",
+        "gold": "الذهب"
+      },
+      "typeDescriptions": {
+        "nfcCard": "تصميم قوالب بطاقات NFC بمحرر الرسم",
+        "linkPage": "إنشاء قوالب صفحات الروابط الشخصية",
+        "qrCode": "تصميم قوالب رموز QR قابلة للتخصيص",
+        "background": "تدرجات وألوان صلبة وأنماط",
+        "pattern": "أنماط تراكبية زخرفية",
+        "qrFrame": "إطارات زخرفية لرموز QR"
+      }
+    }
+  },
+  "patterns": {
+    "none": "لا شيء",
+    "dots": "نقاط",
+    "waves": "أمواج",
+    "multiWave": "أمواج متعددة",
+    "zigzag": "متعرج",
+    "blobs": "بقع",
+    "hexGrid": "شبكة سداسية",
+    "diamonds": "معينات",
+    "circles": "دوائر",
+    "triangles": "مثلثات",
+    "stars": "نجوم",
+    "clouds": "غيوم",
+    "nature": "طبيعة",
+    "luxury": "فخامة",
+    "creative": "إبداعي",
+    "music": "موسيقى",
+    "space": "فضاء",
+    "travel": "سفر",
+    "love": "حب",
+    "security": "أمن",
+    "shapes": "أشكال",
+    "tools": "أدوات",
+    "nautical": "بحري",
+    "weather": "طقس",
+    "media": "وسائط",
+    "office": "مكتب",
+    "sports": "رياضة",
+    "comms": "اتصالات",
+    "magic": "سحر",
+    "random1": "عشوائي 1",
+    "random2": "عشوائي 2",
+    "random3": "عشوائي 3"
+  },
+  "brandColors": {
+    "original": "الأصلي",
+    "solidBlack": "أسود صلب",
+    "solidWhite": "أبيض صلب",
+    "silver": "فضي",
+    "gold": "ذهبي"
+  },
+  "fonts": {
+    "defaultInter": "الافتراضي (Inter)",
+    "cinzel": "Cinzel (أنيق)",
+    "lora": "Lora (كلاسيكي)",
+    "merriweather": "Merriweather (جريء)",
+    "montserrat": "Montserrat (عصري)",
+    "playfairDisplay": "Playfair Display (فاخر)",
+    "oswald": "Oswald (مضغوط)",
+    "roboto": "Roboto (نظيف)",
+    "openSans": "Open Sans (ودود)",
+    "lato": "Lato (دافئ)",
+    "poppins": "Poppins (هندسي)",
+    "raleway": "Raleway (أنيق)",
+    "ubuntu": "Ubuntu (تقني)",
+    "dancingScript": "Dancing Script (خط يدوي)",
+    "pacifico": "Pacifico (مвес)",
+    "caveat": "Caveat (عفوي)",
+    "satisfy": "Satisfy (فرشاة)",
+    "greatVibes": "Great Vibes (خط رسمي)",
+    "righteous": "Righteous (عرضي)",
+    "lobster": "Lobster (ريترو)",
+    "bebasNeue": "Bebas Neue (تأثيري)",
+    "anton": "Anton (جريء)",
+    "josefinSans": "Josefin Sans (كلاسيكي حديث)",
+    "titilliumWeb": "Titillium Web (مربع)",
+    "quicksand": "Quicksand (دائري)",
+    "inconsolata": "Inconsolata (شفرات)"
+  },
+  "qrPresets": {
+    "classicBlack": "كلاسيكي أسود",
+    "oceanBreeze": "نسيم المحيط",
+    "neonNight": "ليل نيون",
+    "polaroidMemory": "ذاكرة بولارويد",
+    "browserWeb": "متصفح الويب",
+    "sunsetGlow": "توهج الغروب",
+    "cyberpunk2077": "سايبربانك 2077",
+    "glacierBlue": "أزرق النهر الجليدي",
+    "luxuryGold": "ذهب فاخر",
+    "mapLocation": "موقع الخريطة",
+    "cosmicPurple": "بنفسجي كوني",
+    "mintFresh": "نعناع منعش",
+    "retroArcade": "ريترو آركيد",
+    "fireAndIce": "نار وجليد",
+    "darkElegance": "أناقة داكنة",
+    "strawberryMilk": "حليب الفراولة",
+    "deepSea": "العميق",
+    "forestCanopy": "مظلة الغابة",
+    "sunsetBoulevard": "شارع الغروب",
+    "holographic": "هولوغرافي",
+    "midnightExpress": "قطارة منتصف الليل",
+    "cherryBlossom": "زهرة الكرز",
+    "goldenRatio": "النسبة الذهبية",
+    "iceCrystal": "بلورة جليدية",
+    "toxicSlime": "صمغ سام",
+    "royalFlush": "رويال فلش",
+    "spaceInvader": "غازي الفضاء",
+    "monochromeWeb": "أحادي اللون",
+    "vaporwave": "فيبويف",
+    "coffeeShop": "محل قهوة",
+    "rubySparkle": "بريق ياقوتي",
+    "emeraldCity": "مدينة الزمرد",
+    "neonTokyo": "نيون طوكيو",
+    "silverBullet": "الرصاصة الفضية",
+    "lavaFlow": "تدفق الحمم",
+    "blueSteel": "فولاذ أزرق",
+    "sunnyDay": "يوم مشمس",
+    "amethyst": "جمشت",
+    "forestFire": "حريق غابة",
+    "cottonCandy": "قرمشة قطنية",
+    "midnightOcean": "محيط منتصف الليل",
+    "goldenHour": "الساعة الذهبية",
+    "toxicGlow": "توهج سام",
+    "bubblegum": "علكة",
+    "bloodMoon": "قمر الدم",
+    "cyberMatrix": "مصفوفة سايبر",
+    "desertSand": "رمال الصحراء",
+    "arcticFreeze": "تجمد قطبي",
+    "electricViolet": "بنفسجي كهربائي",
+    "copperCoin": "عملة نحاسية",
+    "royalBlue": "أزرق ملكي",
+    "alienTech": "تقنية فضائية",
+    "sunsetCruise": "رحلة الغروب",
+    "lemonade": "ليموناضة",
+    "midnightRose": "وردة منتصف الليل",
+    "starryNight": "ليلة مرصعة بالنجوم",
+    "mintChocolate": "شوكولاتة نعناعية",
+    "neonFlux": "تدفق نيون",
+    "ghostWhite": "أبيض شبحي",
+    "pumpkinSpice": "توابل اليقطين",
+    "ninjaStrike": "strike النينجا",
+    "magicSparkle": "بريق سحري",
+    "rainDrop": "قطرة مطر",
+    "neonTriangle": "مثلث نيون",
+    "medicalPill": "دواء طبي",
+    "frostedGlass": "زجاج متجمد",
+    "cyberGlass": "زجاج سايبر",
+    "rubyGlass": "زجاج ياقوتي"
+  },
+  "socialPlatforms": {
+    "none": "لا شيء",
+    "wifi": "واي فاي",
+    "tiktok": "TikTok",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "twitter": "X (Twitter)",
+    "linkedin": "LinkedIn",
+    "youtube": "YouTube",
+    "paypal": "PayPal",
+    "bitcoin": "Bitcoin",
+    "appStore": "App Store",
+    "playStore": "Play Store",
+    "telegram": "Telegram",
+    "discord": "Discord",
+    "reddit": "Reddit",
+    "github": "GitHub",
+    "zoom": "Zoom",
+    "slack": "Slack",
+    "spotify": "Spotify",
+    "twitch": "Twitch",
+    "snapchat": "Snapchat",
+    "pinterest": "Pinterest",
+    "figma": "Figma",
+    "apple": "Apple",
+    "android": "Android",
+    "notion": "Notion",
+    "patreon": "Patreon"
+  },
+  "decorativeIcons": {
+    "categories": {
+      "premium": "مميز",
+      "symbols": "رموز",
+      "tech": "تقني",
+      "business": "أعمال",
+      "lifestyle": "نمط حياة"
+    },
+    "icons": {
+      "star": "نجمة",
+      "crown": "تاج",
+      "diamond": "ماسة",
+      "award": "جوائز",
+      "shield": "درع",
+      "bolt": "برق",
+      "flame": "لهب",
+      "hexagon": "سداسي",
+      "triangle": "مثلث",
+      "target": "هدف",
+      "biometric": "بيومتري",
+      "cpu": "معالج",
+      "heart": "قلب",
+      "smile": "ابتسامة",
+      "feather": "ريشة",
+      "compass": "بوصلة",
+      "anchor": "مرساة",
+      "map": "خريطة",
+      "flag": "علم",
+      "circle": "دائرة",
+      "square": "مربع",
+      "wifi": "واي فاي",
+      "activity": "نشاط",
+      "code": "شفرة",
+      "camera": "كاميرا",
+      "case": "حقيبة",
+      "globe": "كرة أرضية",
+      "phone": "هاتف",
+      "mail": "بريد",
+      "bell": "جرس",
+      "tag": "وسم",
+      "bookmark": "علامة مرجعية",
+      "clock": "ساعة",
+      "music": "موسيقى",
+      "coffee": "قهوة",
+      "arrow": "سهم",
+      "gem": "جوهرة",
+      "key": "مفتاح",
+      "umbrella": "شمسية",
+      "moon": "قمر",
+      "cloud": "سحابة",
+      "snow": "ثلج",
+      "scissors": "مقص",
+      "pen": "قلم",
+      "brush": "فرشاة",
+      "film": "فيلم",
+      "video": "فيديو",
+      "speaker": "مكبر صوت",
+      "mic": "ميكروفون",
+      "headphones": "سماعات",
+      "radio": "راديو",
+      "tv": "تلفاز",
+      "monitor": "شاشة",
+      "tablet": "جهاز لوحي",
+      "watch": "ساعة يد"
+    }
   }
 }

@@ -32,7 +32,7 @@ export class LinkPageService {
         description: pageData.description,
         bio: pageData.bio,
         theme: pageData.theme || 'dark',
-        isPublished: false,
+        isPublished: true,
         isNFCEnabled: false,
       });
     } catch (error) {

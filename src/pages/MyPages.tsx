@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { pagesAPI } from '@/api/pages'
 import { useNotification } from '@/hooks/useNotification'
 import { Plus, Search, Copy, Trash2, Archive, Eye, Edit2 } from 'lucide-react'
@@ -14,6 +15,7 @@ interface Page {
 }
 
 export function MyPagesPage() {
+  const { t } = useTranslation()
   const notification = useNotification()
   const [allPages, setAllPages] = useState<Page[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -39,23 +41,23 @@ export function MyPagesPage() {
       const response = await pagesAPI.list()
       setAllPages(response.pages)
     } catch (error) {
-      notification.error('Failed to load pages')
+      notification.error(t('myPages.toasts.loadFailed'))
     } finally {
       setIsLoading(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this page?')) {
+    if (!window.confirm(t('myPages.confirmDelete'))) {
       return
     }
 
     try {
       await pagesAPI.delete(id)
       setAllPages((prev) => prev.filter((p) => p.id !== id))
-      notification.success('Page deleted successfully')
+      notification.success(t('myPages.toasts.deleted'))
     } catch (error) {
-      notification.error('Failed to delete page')
+      notification.error(t('myPages.toasts.deleteFailed'))
     }
   }
 
@@ -63,9 +65,9 @@ export function MyPagesPage() {
     try {
       const response = await pagesAPI.duplicate(id)
       setAllPages((prev) => [response.page as any as Page, ...prev])
-      notification.success('Page duplicated successfully')
+      notification.success(t('myPages.toasts.duplicated'))
     } catch (error) {
-      notification.error('Failed to duplicate page')
+      notification.error(t('myPages.toasts.duplicateFailed'))
     }
   }
 
@@ -75,9 +77,9 @@ export function MyPagesPage() {
       setAllPages((prev) =>
         prev.filter((p) => p.id !== id)
       )
-      notification.success('Page archived successfully')
+      notification.success(t('myPages.toasts.archived'))
     } catch (error) {
-      notification.error('Failed to archive page')
+      notification.error(t('myPages.toasts.archiveFailed'))
     }
   }
 
@@ -87,10 +89,10 @@ export function MyPagesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
-            My Pages
+            {t('myPages.title')}
           </h1>
           <p className="text-neutral-600 dark:text-neutral-400 mt-1">
-            Manage your link pages
+            {t('myPages.subtitle')}
           </p>
         </div>
         <Link
@@ -98,7 +100,7 @@ export function MyPagesPage() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors"
         >
           <Plus className="w-5 h-5" />
-          Create Page
+          {t('myPages.createPage')}
         </Link>
       </div>
 
@@ -110,7 +112,7 @@ export function MyPagesPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search pages..."
+            placeholder={t('myPages.searchPlaceholder')}
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
           />
         </div>
@@ -120,9 +122,9 @@ export function MyPagesPage() {
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
         >
-          <option value="all">All Pages</option>
-          <option value="published">Published</option>
-          <option value="draft">Draft</option>
+          <option value="all">{t('myPages.filters.all')}</option>
+          <option value="published">{t('myPages.filters.published')}</option>
+          <option value="draft">{t('myPages.filters.draft')}</option>
         </select>
       </div>
 
@@ -142,19 +144,19 @@ export function MyPagesPage() {
             <thead className="border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900">
               <tr>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                  Title
+                  {t('myPages.table.title')}
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                  Slug
+                  {t('myPages.table.slug')}
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                  Status
+                  {t('myPages.table.status')}
                 </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                  Created
+                  {t('myPages.table.created')}
                 </th>
                 <th className="px-6 py-3 text-right text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-                  Actions
+                  {t('myPages.table.actions')}
                 </th>
               </tr>
             </thead>
@@ -195,7 +197,7 @@ export function MyPagesPage() {
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
-                        title="View Public Page"
+                        title={t('myPages.actions.viewPublic')}
                       >
                         <Eye className="w-4 h-4" />
                       </a>
@@ -203,28 +205,28 @@ export function MyPagesPage() {
                         to={`/pages/${page.id}`}
                         onClick={(e) => e.stopPropagation()}
                         className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
-                        title="Edit Page"
+                        title={t('myPages.actions.editPage')}
                       >
                         <Edit2 className="w-4 h-4" />
                       </Link>
                       <button
                         onClick={() => handleDuplicate(page.id)}
                         className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
-                        title="Duplicate"
+                        title={t('myPages.actions.duplicate')}
                       >
                         <Copy className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleArchive(page.id)}
                         className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400"
-                        title="Archive"
+                        title={t('myPages.actions.archive')}
                       >
                         <Archive className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(page.id)}
                         className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400"
-                        title="Delete"
+                        title={t('myPages.actions.delete')}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -238,14 +240,14 @@ export function MyPagesPage() {
       ) : (
         <div className="text-center py-12">
           <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-            No pages yet. Create your first one!
+            {t('myPages.empty')}
           </p>
           <Link
             to="/pages/new"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors"
           >
             <Plus className="w-5 h-5" />
-            Create Page
+            {t('myPages.createPage')}
           </Link>
         </div>
       )}

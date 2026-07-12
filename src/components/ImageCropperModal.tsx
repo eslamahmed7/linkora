@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import Cropper from 'react-easy-crop'
 import { X, Check } from 'lucide-react'
 
@@ -60,6 +61,7 @@ export function ImageCropperModal({
   onCancel,
   circularCrop = false,
 }: ImageCropperModalProps) {
+  const { t } = useTranslation()
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
@@ -87,7 +89,7 @@ export function ImageCropperModal({
       <div className="bg-white dark:bg-neutral-900 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col h-[80vh] max-h-[700px]">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">Crop Image</h3>
+          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">{t('components.imageCropper.title')}</h3>
           <button
             onClick={onCancel}
             className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg text-neutral-500 transition-colors"
@@ -115,7 +117,7 @@ export function ImageCropperModal({
         <div className="p-6 space-y-6 border-t border-neutral-200 dark:border-neutral-800">
           <div>
             <label className="flex justify-between text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-3">
-              <span>Zoom</span>
+              <span>{t('components.imageCropper.zoom')}</span>
               <span className="text-accent-600">{Math.round(zoom * 100)}%</span>
             </label>
             <input
@@ -135,7 +137,7 @@ export function ImageCropperModal({
               onClick={onCancel}
               className="flex-1 px-4 py-2.5 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 font-medium transition-colors"
             >
-              Cancel
+              {t('components.imageCropper.cancel')}
             </button>
             <button
               onClick={handleSave}
@@ -147,7 +149,7 @@ export function ImageCropperModal({
               ) : (
                 <>
                   <Check className="w-5 h-5" />
-                  Save & Apply
+                  {t('components.imageCropper.saveApply')}
                 </>
               )}
             </button>

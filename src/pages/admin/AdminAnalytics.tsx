@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Eye, QrCode, Users, TrendingUp, Palette, Layers, Bug,
   RefreshCw, BarChart3,
@@ -16,10 +17,10 @@ interface AnalyticsData {
   viewsOverTime?: Array<{ date: string; views: number; scans: number }>
 }
 
-const PERIOD_OPTIONS = [
-  { value: '7d', label: '7 Days' },
-  { value: '30d', label: '30 Days' },
-  { value: '90d', label: '90 Days' },
+const getPeriodOptions = (t: (key: string) => string) => [
+  { value: '7d', label: t('admin.analytics.periods.7d') },
+  { value: '30d', label: t('admin.analytics.periods.30d') },
+  { value: '90d', label: t('admin.analytics.periods.90d') },
 ] as const
 
 const CHART_COLORS: Record<string, string> = {
@@ -61,11 +62,12 @@ const PRIORITY_COLORS: Record<string, string> = {
 }
 
 function MiniBarChart({ data, colorMap }: { data: Record<string, number>; colorMap: Record<string, string> }) {
+  const { t } = useTranslation()
   const entries = Object.entries(data).sort((a, b) => b[1] - a[1])
   const max = Math.max(...entries.map(e => e[1]), 1)
 
   if (entries.length === 0) {
-    return <p className="text-sm text-neutral-400 text-center py-4">No data</p>
+    return <p className="text-sm text-neutral-400 text-center py-4">{t('admin.analytics.empty')}</p>
   }
 
   return (
@@ -87,10 +89,11 @@ function MiniBarChart({ data, colorMap }: { data: Record<string, number>; colorM
 }
 
 function TimeChart({ data }: { data: Array<{ date: string; views: number; scans: number }> }) {
+  const { t } = useTranslation()
   const max = Math.max(...data.map(d => Math.max(d.views, d.scans)), 1)
 
   if (data.length === 0) {
-    return <p className="text-sm text-neutral-400 text-center py-8">No timeline data</p>
+    return <p className="text-sm text-neutral-400 text-center py-8">{t('admin.analytics.emptyTimeline')}</p>
   }
 
   return (
@@ -122,9 +125,12 @@ function TimeChart({ data }: { data: Array<{ date: string; views: number; scans:
 }
 
 export function AdminAnalyticsPage() {
+  const { t } = useTranslation()
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
   const [period, setPeriod] = useState<string>('30d')
   const [isLoading, setIsLoading] = useState(true)
+
+  const PERIOD_OPTIONS = getPeriodOptions(t)
 
   useEffect(() => { loadAnalytics() }, [period])
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useParams, Link } from 'react-router-dom'
 import { apiClient } from '@/api/client'
 import { ExternalLink } from 'lucide-react'
@@ -27,6 +28,7 @@ interface PublicPage {
 }
 
 export function PublicPageView() {
+  const { t } = useTranslation()
   const { handle } = useParams<{ handle: string }>()
   const [page, setPage] = useState<PublicPage | null>(null)
   const [links, setLinks] = useState<PublicLink[]>([])
@@ -60,9 +62,9 @@ export function PublicPageView() {
   if (notFound || !page) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-neutral-950 text-white gap-4">
-        <h1 className="text-4xl font-bold text-neutral-400">404</h1>
-        <p className="text-neutral-500">This page doesn't exist or is not published yet.</p>
-        <Link to="/" className="text-accent-400 hover:underline text-sm">Go back home</Link>
+        <h1 className="text-4xl font-bold text-neutral-400">{t('publicPage.notFound')}</h1>
+        <p className="text-neutral-500">{t('publicPage.notFoundMsg')}</p>
+        <Link to="/" className="text-accent-400 hover:underline text-sm">{t('publicPage.goBack')}</Link>
       </div>
     )
   }
@@ -233,7 +235,7 @@ export function PublicPageView() {
             fontFamily: design.fontFamily,
           }}
         >
-          {page.title || 'Your Name'}
+          {page.title || t('publicPage.fallbackTitle')}
         </h1>
 
         {/* Bio */}
@@ -303,15 +305,15 @@ export function PublicPageView() {
               )
             })
           ) : (
-            <p className="text-center opacity-50 text-sm mt-4" style={{ color: design.textColor || '#ffffff' }}>No links added yet.</p>
+            <p className="text-center opacity-50 text-sm mt-4" style={{ color: design.textColor || '#ffffff' }}>{t('publicPage.noLinks')}</p>
           )}
         </div>
 
         {/* Footer */}
         <p className="mt-8 text-xs text-white/30" style={{ color: design.textColor || '#ffffff', opacity: 0.5 }}>
-          Powered by{' '}
+          {t('publicPage.poweredBy')}{' '}
           <a href="/" className="hover:opacity-100 transition-colors underline">
-            Linkora
+            {t('common.appName')}
           </a>
         </p>
       </div>

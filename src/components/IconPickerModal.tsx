@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { X, Search } from 'lucide-react'
 import { AVAILABLE_ICONS } from '../utils/iconMap'
 
@@ -8,6 +9,7 @@ interface IconPickerModalProps {
 }
 
 export function IconPickerModal({ onSelect, onClose }: IconPickerModalProps) {
+  const { t } = useTranslation()
   const [search, setSearch] = useState('')
 
   const filteredIcons = useMemo(() => {
@@ -22,7 +24,7 @@ export function IconPickerModal({ onSelect, onClose }: IconPickerModalProps) {
         
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-800">
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">Choose Icon</h3>
+          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">{t('components.iconPicker.title')}</h3>
           <button
             onClick={onClose}
             className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg text-neutral-500 transition-colors"
@@ -37,7 +39,7 @@ export function IconPickerModal({ onSelect, onClose }: IconPickerModalProps) {
             <Search className="w-5 h-5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search icons (e.g. WhatsApp, TikTok)..."
+              placeholder={t('components.iconPicker.searchPlaceholder')}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-neutral-100 dark:bg-neutral-800 border-none rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-accent-600 outline-none"
@@ -66,7 +68,7 @@ export function IconPickerModal({ onSelect, onClose }: IconPickerModalProps) {
           })}
           {filteredIcons.length === 0 && (
             <div className="col-span-full text-center py-8 text-neutral-500">
-              No icons found for "{search}"
+              {t('components.iconPicker.noResults', { search })}
             </div>
           )}
         </div>

@@ -88,10 +88,31 @@ select:focus-visible {
 /* RTL support */
 [dir="rtl"] {
   direction: rtl;
+  text-align: right;
 }
+
+[dir="rtl"] .start-0 { left: auto; right: 0; }
+[dir="rtl"] .start-3 { left: auto; right: 0.75rem; }
+[dir="rtl"] .end-0 { right: auto; left: 0; }
+[dir="rtl"] .end-3 { right: auto; left: 0.75rem; }
+[dir="rtl"] .start-4 { left: auto; right: 1rem; }
+[dir="rtl"] .end-4 { right: auto; left: 1rem; }
+[dir="rtl"] .start-6 { left: auto; right: 1.5rem; }
+[dir="rtl"] .end-6 { right: auto; left: 1.5rem; }
 
 [dir="ltr"] {
   direction: ltr;
+  text-align: left;
+}
+
+/* Safe area for mobile notch */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
 }
 
 /* Responsive helpers */

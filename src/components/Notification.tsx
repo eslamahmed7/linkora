@@ -36,15 +36,15 @@ export function NotificationContainer() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2 pointer-events-none">
+    <div className="fixed top-4 inset-x-4 sm:inset-x-auto sm:right-4 sm:left-auto z-50 space-y-2 pointer-events-none">
       {notifications.map((notification) => (
         <div
           key={notification.id}
-          className={`${getBg(notification.type)} border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 flex items-start gap-3 shadow-lg pointer-events-auto animate-in fade-in slide-in-from-top-2`}
+          className={`${getBg(notification.type)} border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 flex items-start gap-3 shadow-lg pointer-events-auto animate-in fade-in slide-in-from-top-2 max-w-sm sm:max-w-md ms-auto`}
         >
           <div className="flex-shrink-0">{getIcon(notification.type)}</div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50 break-words">
               {notification.message}
             </p>
           </div>

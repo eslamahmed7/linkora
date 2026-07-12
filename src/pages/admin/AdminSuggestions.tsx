@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Lightbulb, ChevronLeft, ChevronRight, X, Save,
   ThumbsUp, Calendar, User,
@@ -17,6 +18,7 @@ const STATUS_STYLES: Record<SuggestionStatus, string> = {
 }
 
 export function AdminSuggestionsPage() {
+  const { t } = useTranslation()
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -69,8 +71,8 @@ export function AdminSuggestionsPage() {
     <div className="p-4 lg:p-6 space-y-6 max-w-[1600px] mx-auto">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Suggestions</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">{total} total suggestions</p>
+        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.suggestions.title')}</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">{t('admin.suggestions.subtitle', { total })}</p>
       </div>
 
       {/* Filters */}
@@ -84,7 +86,7 @@ export function AdminSuggestionsPage() {
                 : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
             }`}
           >
-            All
+            {t('common.all')}
           </button>
           {STATUS_OPTIONS.map(s => (
             <button
@@ -109,11 +111,11 @@ export function AdminSuggestionsPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Suggestion</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">User</th>
-                  <th className="text-center px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Votes</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Status</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">Date</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.suggestions.table.suggestion')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">{t('admin.suggestions.table.user')}</th>
+                  <th className="text-center px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.suggestions.table.votes')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.suggestions.table.status')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.suggestions.table.date')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -122,7 +124,7 @@ export function AdminSuggestionsPage() {
                     <tr key={i}><td colSpan={5} className="px-5 py-4"><div className="h-5 bg-neutral-100 dark:bg-neutral-800 rounded animate-pulse" /></td></tr>
                   ))
                 ) : suggestions.length === 0 ? (
-                  <tr><td colSpan={5} className="px-5 py-12 text-center text-sm text-neutral-400">No suggestions found</td></tr>
+                  <tr><td colSpan={5} className="px-5 py-12 text-center text-sm text-neutral-400">{t('admin.suggestions.empty')}</td></tr>
                 ) : suggestions.map(sug => (
                   <tr
                     key={sug.id}
@@ -145,7 +147,7 @@ export function AdminSuggestionsPage() {
                         <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-[10px] font-bold text-neutral-600 dark:text-neutral-300 shrink-0">
                           {sug.user?.display_name?.[0] || '?'}
                         </div>
-                        <span className="text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-[120px]">{sug.user?.display_name || 'Unknown'}</span>
+                        <span className="text-sm text-neutral-600 dark:text-neutral-400 truncate max-w-[120px]">{sug.user?.display_name || t('common.unknown')}</span>
                       </div>
                     </td>
                     <td className="px-5 py-3">
@@ -170,7 +172,7 @@ export function AdminSuggestionsPage() {
 
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-5 py-3 border-t border-neutral-100 dark:border-neutral-800">
-              <p className="text-xs text-neutral-500">Page {page} of {totalPages}</p>
+              <p className="text-xs text-neutral-500">{t('common.pageOf', { page, total: totalPages })}</p>
               <div className="flex gap-1">
                 <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                   className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed">
@@ -189,7 +191,7 @@ export function AdminSuggestionsPage() {
         {selected && (
           <div className="w-full lg:w-[400px] shrink-0 bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">Suggestion Details</h2>
+              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">{t('admin.suggestions.detailTitle')}</h2>
               <button onClick={() => setSelected(null)} className="p-1 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-400">
                 <X className="w-4 h-4" />
               </button>
@@ -199,23 +201,23 @@ export function AdminSuggestionsPage() {
               <div>
                 <h3 className="text-lg font-bold text-neutral-900 dark:text-white">{selected.title}</h3>
                 <div className="flex items-center gap-3 mt-2 text-xs text-neutral-500">
-                  <span className="flex items-center gap-1"><User className="w-3 h-3" />{selected.user?.display_name || 'Unknown'}</span>
+                  <span className="flex items-center gap-1"><User className="w-3 h-3" />{selected.user?.display_name || t('common.unknown')}</span>
                   <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{new Date(selected.created_at).toLocaleDateString()}</span>
-                  <span className="flex items-center gap-1"><ThumbsUp className="w-3 h-3" />{selected.vote_count} votes</span>
+                  <span className="flex items-center gap-1"><ThumbsUp className="w-3 h-3" />{t('admin.suggestions.votesCount', { count: selected.vote_count })}</span>
                 </div>
               </div>
 
               {/* Description */}
               {selected.description && (
                 <div>
-                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Description</label>
+                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.suggestions.fields.description')}</label>
                   <p className="text-sm text-neutral-700 dark:text-neutral-300 mt-1 whitespace-pre-wrap">{selected.description}</p>
                 </div>
               )}
 
               {/* Status */}
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Status</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.suggestions.fields.status')}</label>
                 <select
                   value={editStatus}
                   onChange={e => setEditStatus(e.target.value as SuggestionStatus)}
@@ -229,11 +231,11 @@ export function AdminSuggestionsPage() {
 
               {/* Admin Notes */}
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Admin Notes</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.suggestions.fields.adminNotes')}</label>
                 <textarea
                   value={editNotes}
                   onChange={e => setEditNotes(e.target.value)}
-                  placeholder="Internal notes..."
+                  placeholder={t('admin.suggestions.notesPlaceholder')}
                   rows={4}
                   className="w-full mt-1 px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-accent-600 resize-none"
                 />
@@ -246,7 +248,7 @@ export function AdminSuggestionsPage() {
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 disabled:opacity-50 text-white text-sm font-medium transition-colors"
               >
                 <Save className="w-4 h-4" />
-                {isSaving ? 'Saving...' : 'Save Changes'}
+                {isSaving ? t('common.saving') : t('common.save')}
               </button>
             </div>
           </div>

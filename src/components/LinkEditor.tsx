@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { usePageBuilderStore } from '@/stores/pageBuilderStore'
 import { Link as LinkIcon, Plus, Trash2, Eye, EyeOff, SmilePlus, Palette } from 'lucide-react'
 import { IconPickerModal } from './IconPickerModal'
 import { getIconData } from '../utils/iconMap'
 
 export function LinkEditor() {
+  const { t } = useTranslation()
   const { page, addLink, updateLink, deleteLink } = usePageBuilderStore()
   const [isAdding, setIsAdding] = useState(false)
   const [newLink, setNewLink] = useState({ title: '', url: '' })
@@ -26,9 +28,9 @@ export function LinkEditor() {
     <div className="bg-white dark:bg-neutral-950 rounded-lg border border-neutral-200 dark:border-neutral-800 p-6">
       <div className="flex items-center gap-2 mb-4">
         <LinkIcon className="w-5 h-5 text-accent-600" />
-        <h2 className="text-lg font-bold">Links</h2>
+        <h2 className="text-lg font-bold">{t('components.linkEditor.title')}</h2>
         <span className="ml-auto text-sm text-neutral-500 dark:text-neutral-400">
-          {page.links.length} links
+          {t('components.linkEditor.linksCount', { count: page.links.length })}
         </span>
       </div>
 
@@ -41,7 +43,7 @@ export function LinkEditor() {
             <button
               onClick={() => updateLink(link.id, { isActive: !link.isActive })}
               className={`p-2 rounded-lg transition-colors ${link.isActive ? 'text-accent-600 bg-accent-50 dark:bg-accent-900/20' : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300'}`}
-              title={link.isActive ? 'Active (Visible)' : 'Inactive (Hidden)'}
+              title={link.isActive ? t('components.linkEditor.activeVisible') : t('components.linkEditor.inactiveHidden')}
             >
               {link.isActive ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
             </button>
@@ -51,14 +53,14 @@ export function LinkEditor() {
                   value={link.title}
                   onChange={(e) => updateLink(link.id, { title: e.target.value })}
                   className="w-full bg-transparent font-medium text-neutral-900 dark:text-white focus:outline-none placeholder:text-neutral-400"
-                  placeholder="Link Title"
+                  placeholder={t('components.linkEditor.linkTitle')}
                 />
                 <input
                   type="text"
                   value={link.url}
                   onChange={(e) => updateLink(link.id, { url: e.target.value })}
                   className="w-full bg-transparent text-sm text-neutral-500 dark:text-neutral-400 focus:outline-none placeholder:text-neutral-500"
-                  placeholder="https://example.com"
+                  placeholder={t('components.linkEditor.urlPlaceholder')}
                 />
               </div>
 
@@ -67,7 +69,7 @@ export function LinkEditor() {
                 <button
                   onClick={() => setPickingIconForLinkId(link.id)}
                   className="w-8 h-8 flex items-center justify-center rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-600 hover:text-accent-600 transition-colors"
-                  title="Choose Icon"
+                  title={t('components.linkEditor.chooseIcon')}
                 >
                   {link.icon ? (
                     (() => {
@@ -84,7 +86,7 @@ export function LinkEditor() {
                 </button>
                 
                 {/* Color Picker Button */}
-                <div className="relative w-8 h-8 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer" title="Custom Button Color">
+                <div className="relative w-8 h-8 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-hidden cursor-pointer" title={t('components.linkEditor.customColor')}>
                    <input 
                      type="color" 
                      value={link.color || '#000000'} 
@@ -111,7 +113,7 @@ export function LinkEditor() {
         <div className="mb-4 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 space-y-3">
           <input
             type="text"
-            placeholder="Link title"
+            placeholder={t('components.linkEditor.newLinkTitle')}
             value={newLink.title}
             onChange={(e) =>
               setNewLink({ ...newLink, title: e.target.value })
@@ -120,7 +122,7 @@ export function LinkEditor() {
           />
           <input
             type="url"
-            placeholder="URL (https://...)"
+            placeholder={t('components.linkEditor.newLinkUrl')}
             value={newLink.url}
             onChange={(e) => setNewLink({ ...newLink, url: e.target.value })}
             className="w-full px-3 py-2 rounded border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
@@ -131,7 +133,7 @@ export function LinkEditor() {
               disabled={!newLink.title || !newLink.url}
               className="flex-1 px-4 py-2 rounded bg-accent-600 hover:bg-accent-700 text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Add Link
+              {t('components.linkEditor.addLink')}
             </button>
             <button
               onClick={() => {
@@ -140,7 +142,7 @@ export function LinkEditor() {
               }}
               className="flex-1 px-4 py-2 rounded border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-neutral-50"
             >
-              Cancel
+              {t('common.cancel')}
             </button>
           </div>
         </div>
@@ -152,7 +154,7 @@ export function LinkEditor() {
           className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded border border-dashed border-neutral-300 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900"
         >
           <Plus className="w-4 h-4" />
-          Add Link
+          {t('components.linkEditor.addLink')}
         </button>
       )}
 

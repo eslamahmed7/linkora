@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { usePageBuilderStore } from '@/stores/pageBuilderStore'
 import { useNotification } from '@/hooks/useNotification'
 import { pagesAPI } from '@/api/pages'
@@ -14,13 +15,14 @@ import {
 
 type SidebarTab = 'settings' | 'links' | 'design'
 
-const SIDEBAR_TABS: { id: SidebarTab; label: string; icon: any; desc: string }[] = [
-  { id: 'settings', label: 'Settings', icon: Settings2, desc: 'Page info & URL handle' },
-  { id: 'links',    label: 'Links',    icon: Link2,     desc: 'Add & manage your links' },
-  { id: 'design',   label: 'Design',   icon: Palette,   desc: 'Colors, fonts & layout' },
+const getSidebarTabs = (t: (key: string) => string): { id: SidebarTab; label: string; icon: any; desc: string }[] => [
+  { id: 'settings', label: t('pageEditor.tabs.settings'), icon: Settings2, desc: t('pageEditor.tabDescriptions.settings') },
+  { id: 'links',    label: t('pageEditor.tabs.links'),    icon: Link2,     desc: t('pageEditor.tabDescriptions.links') },
+  { id: 'design',   label: t('pageEditor.tabs.design'),   icon: Palette,   desc: t('pageEditor.tabDescriptions.design') },
 ]
 
 export function PageEditorPage() {
+  const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
   const notification = useNotification()
@@ -28,6 +30,8 @@ export function PageEditorPage() {
   const [isLoading, setIsLoading] = useState(!!id)
   const [isSaving, setIsSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<SidebarTab>('settings')
+
+  const SIDEBAR_TABS = getSidebarTabs(t)
 
   useEffect(() => {
     if (id) {
@@ -69,7 +73,7 @@ export function PageEditorPage() {
           }
           setPage(pageState)
         } catch (error) {
-          notification.error('Failed to load page')
+          notification.error(t('pageEditor.toasts.loadFailed'))
           navigate('/pages')
         } finally {
           setIsLoading(false)
@@ -81,7 +85,7 @@ export function PageEditorPage() {
 
   const handleSave = async () => {
     if (!page.settings.title) {
-      notification.error('Title is required')
+      notification.error(t('pageEditor.toasts.titleRequired'))
       return
     }
 
@@ -93,19 +97,19 @@ export function PageEditorPage() {
           links: page.links,
           design: page.design,
         })
-        notification.success('Page updated successfully')
+        notification.success(t('pageEditor.toasts.updated'))
       } else {
         const response = await pagesAPI.create({
           handle: page.settings.slug || '',
           title: page.settings.title,
           description: page.settings.description || '',
         })
-        notification.success('Page created successfully')
+        notification.success(t('pageEditor.toasts.created'))
         navigate(`/pages/${response.page.id}`)
       }
     } catch (error: any) {
       console.error('Failed to save page:', error)
-      notification.error(error?.message || 'Failed to save page')
+      notification.error(error?.message || t('pageEditor.toasts.saveFailed'))
     } finally {
       setIsSaving(false)
     }
@@ -116,7 +120,7 @@ export function PageEditorPage() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center space-y-3">
           <div className="w-10 h-10 border-2 border-accent-600 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm text-neutral-500">Loading page...</p>
+          <p className="text-sm text-neutral-500">{t('pageEditor.loading')}</p>
         </div>
       </div>
     )
@@ -136,10 +140,10 @@ export function PageEditorPage() {
           </button>
           <div>
             <h1 className="text-base font-bold text-neutral-900 dark:text-white leading-tight">
-              {id ? (page.settings.title || 'Edit Page') : 'New Page'}
+              {id ? (page.settings.title || t('pageEditor.editPage')) : t('pageEditor.newPage')}
             </h1>
             <p className="text-xs text-neutral-400">
-              {id ? `linkora.app/p/${page.settings.slug || '...'}` : 'Design your link page'}
+              {id ? `linkora.app/p/${page.settings.slug || '...'}` : t('pageEditor.designSubtitle')}
             </p>
           </div>
         </div>
@@ -152,7 +156,7 @@ export function PageEditorPage() {
               : 'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400'
           }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${page.settings.status === 'published' ? 'bg-green-500' : 'bg-neutral-400'}`} />
-            {page.settings.status === 'published' ? 'Published' : 'Draft'}
+            {page.settings.status === 'published' ? t('pageEditor.publishStatus.published') : t('pageEditor.publishStatus.draft')}
           </span>
 
           <button
@@ -160,7 +164,7 @@ export function PageEditorPage() {
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-sm font-medium transition-colors"
           >
             {previewMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            <span className="hidden sm:inline">{previewMode ? 'Edit' : 'Preview'}</span>
+            <span className="hidden sm:inline">{previewMode ? t('pageEditor.mode.edit') : t('pageEditor.mode.preview')}</span>
           </button>
 
           <button
@@ -169,7 +173,7 @@ export function PageEditorPage() {
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-sm font-semibold transition-colors disabled:opacity-50 shadow-sm shadow-accent-600/20"
           >
             <Save className="w-4 h-4" />
-            {isSaving ? 'Saving…' : 'Save'}
+            {isSaving ? t('pageEditor.buttons.saving') : t('pageEditor.buttons.save')}
           </button>
         </div>
       </div>
@@ -216,7 +220,7 @@ export function PageEditorPage() {
               className="flex items-center gap-3 mx-2 px-3 py-2.5 rounded-xl text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-white transition-all"
             >
               <Monitor className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:block text-sm font-medium">Full Preview</span>
+              <span className="hidden sm:block text-sm font-medium">{t('pageEditor.fullPreview')}</span>
             </button>
           </div>
 

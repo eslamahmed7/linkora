@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Users, FileText, QrCode, Zap, Palette, Layers, Eye, Download,
   TrendingUp, Activity, Lightbulb,
@@ -8,6 +9,7 @@ import { adminDashboard } from '@/api/admin'
 import type { DashboardStats } from '@/types/admin'
 
 export function AdminDashboard() {
+  const { t } = useTranslation()
   const [stats, setStats] = useState<DashboardStats | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -38,30 +40,30 @@ export function AdminDashboard() {
   if (!stats) return null
 
   const statCards = [
-    { label: 'Total Users', value: stats.totalUsers, icon: <Users className="w-5 h-5" />, color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30' },
-    { label: 'Active Users', value: stats.activeUsers, icon: <TrendingUp className="w-5 h-5" />, color: 'text-green-600 bg-green-50 dark:bg-green-950/30' },
-    { label: 'Total Pages', value: stats.totalPages, icon: <FileText className="w-5 h-5" />, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/30' },
-    { label: 'QR Codes', value: stats.totalQRCodes, icon: <QrCode className="w-5 h-5" />, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30' },
-    { label: 'NFC Cards', value: stats.totalNFCCards, icon: <Zap className="w-5 h-5" />, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30' },
-    { label: 'Designs', value: stats.totalDesigns, icon: <Palette className="w-5 h-5" />, color: 'text-pink-600 bg-pink-50 dark:bg-pink-950/30' },
-    { label: 'Total Views', value: stats.totalViews, icon: <Eye className="w-5 h-5" />, color: 'text-cyan-600 bg-cyan-50 dark:bg-cyan-950/30' },
-    { label: 'Total Scans', value: stats.totalScans, icon: <Download className="w-5 h-5" />, color: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30' },
-    { label: 'Daily Registrations', value: stats.dailyRegistrations, icon: <Users className="w-5 h-5" />, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30' },
-    { label: 'Submissions', value: stats.totalSubmissions, icon: <Layers className="w-5 h-5" />, color: 'text-violet-600 bg-violet-50 dark:bg-violet-950/30' },
-    { label: 'Suggestions', value: stats.totalSuggestions, icon: <Lightbulb className="w-5 h-5" />, color: 'text-yellow-600 bg-yellow-50 dark:bg-yellow-950/30' },
-    { label: 'Bug Reports', value: stats.totalBugReports, icon: <Bug className="w-5 h-5" />, color: 'text-red-600 bg-red-50 dark:bg-red-950/30' },
+    { label: t('admin.dashboard.stats.totalUsers'), value: stats.totalUsers, icon: <Users className="w-5 h-5" />, color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/30' },
+    { label: t('admin.dashboard.stats.activeUsers'), value: stats.activeUsers, icon: <TrendingUp className="w-5 h-5" />, color: 'text-green-600 bg-green-50 dark:bg-green-950/30' },
+    { label: t('admin.dashboard.stats.totalPages'), value: stats.totalPages, icon: <FileText className="w-5 h-5" />, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/30' },
+    { label: t('admin.dashboard.stats.qrCodes'), value: stats.totalQRCodes, icon: <QrCode className="w-5 h-5" />, color: 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30' },
+    { label: t('admin.dashboard.stats.nfcCards'), value: stats.totalNFCCards, icon: <Zap className="w-5 h-5" />, color: 'text-amber-600 bg-amber-50 dark:bg-amber-950/30' },
+    { label: t('admin.dashboard.stats.designs'), value: stats.totalDesigns, icon: <Palette className="w-5 h-5" />, color: 'text-pink-600 bg-pink-50 dark:bg-pink-950/30' },
+    { label: t('admin.dashboard.stats.totalViews'), value: stats.totalViews, icon: <Eye className="w-5 h-5" />, color: 'text-cyan-600 bg-cyan-50 dark:bg-cyan-950/30' },
+    { label: t('admin.dashboard.stats.totalScans'), value: stats.totalScans, icon: <Download className="w-5 h-5" />, color: 'text-teal-600 bg-teal-50 dark:bg-teal-950/30' },
+    { label: t('admin.dashboard.stats.dailyRegistrations'), value: stats.dailyRegistrations, icon: <Users className="w-5 h-5" />, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30' },
+    { label: t('admin.dashboard.stats.submissions'), value: stats.totalSubmissions, icon: <Layers className="w-5 h-5" />, color: 'text-violet-600 bg-violet-50 dark:bg-violet-950/30' },
+    { label: t('admin.dashboard.stats.suggestions'), value: stats.totalSuggestions, icon: <Lightbulb className="w-5 h-5" />, color: 'text-yellow-600 bg-yellow-50 dark:bg-yellow-950/30' },
+    { label: t('admin.dashboard.stats.bugReports'), value: stats.totalBugReports, icon: <Bug className="w-5 h-5" />, color: 'text-red-600 bg-red-50 dark:bg-red-950/30' },
   ]
 
   return (
     <div className="p-4 lg:p-6 space-y-6 max-w-[1600px] mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Admin Dashboard</h1>
-          <p className="text-sm text-neutral-500 mt-0.5">Overview of your entire platform</p>
+          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.dashboard.title')}</h1>
+          <p className="text-sm text-neutral-500 mt-0.5">{t('admin.dashboard.subtitle')}</p>
         </div>
         <button onClick={loadStats} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-900 text-sm font-medium text-neutral-600 dark:text-neutral-400 transition-colors">
           <RefreshCw className="w-4 h-4" />
-          Refresh
+          {t('common.refresh')}
         </button>
       </div>
 
@@ -83,12 +85,12 @@ export function AdminDashboard() {
         {/* Recent Submissions */}
         <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-            <h2 className="font-bold text-neutral-900 dark:text-white">Recent Submissions</h2>
+            <h2 className="font-bold text-neutral-900 dark:text-white">{t('admin.dashboard.sections.recentSubmissions')}</h2>
             <span className="text-xs text-neutral-400">{stats.recentSubmissions.length}</span>
           </div>
           <div className="divide-y divide-neutral-100 dark:divide-neutral-800 max-h-[400px] overflow-y-auto">
             {stats.recentSubmissions.length === 0 ? (
-              <p className="p-5 text-sm text-neutral-400 text-center">No submissions yet</p>
+              <p className="p-5 text-sm text-neutral-400 text-center">{t('admin.dashboard.empty.submissions')}</p>
             ) : stats.recentSubmissions.map(sub => (
               <div key={sub.id} className="flex items-center gap-3 px-5 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                 <div className="w-8 h-8 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-xs font-bold text-neutral-600 dark:text-neutral-300 shrink-0">
@@ -111,12 +113,12 @@ export function AdminDashboard() {
         {/* Recent Suggestions */}
         <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-            <h2 className="font-bold text-neutral-900 dark:text-white">Recent Suggestions</h2>
+            <h2 className="font-bold text-neutral-900 dark:text-white">{t('admin.dashboard.sections.recentSuggestions')}</h2>
             <span className="text-xs text-neutral-400">{stats.recentSuggestions.length}</span>
           </div>
           <div className="divide-y divide-neutral-100 dark:divide-neutral-800 max-h-[400px] overflow-y-auto">
             {stats.recentSuggestions.length === 0 ? (
-              <p className="p-5 text-sm text-neutral-400 text-center">No suggestions yet</p>
+              <p className="p-5 text-sm text-neutral-400 text-center">{t('admin.dashboard.empty.suggestions')}</p>
             ) : stats.recentSuggestions.map(sug => (
               <div key={sug.id} className="flex items-center gap-3 px-5 py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                 <div className="flex flex-col items-center justify-center w-10 shrink-0">
@@ -140,12 +142,12 @@ export function AdminDashboard() {
         {/* Recent Activity */}
         <div className="bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 lg:col-span-2">
           <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-            <h2 className="font-bold text-neutral-900 dark:text-white">Recent Activity</h2>
+            <h2 className="font-bold text-neutral-900 dark:text-white">{t('admin.dashboard.sections.recentActivity')}</h2>
             <Activity className="w-4 h-4 text-neutral-400" />
           </div>
           <div className="divide-y divide-neutral-100 dark:divide-neutral-800 max-h-[300px] overflow-y-auto">
             {stats.recentActivity.length === 0 ? (
-              <p className="p-5 text-sm text-neutral-400 text-center">No activity yet</p>
+              <p className="p-5 text-sm text-neutral-400 text-center">{t('admin.dashboard.empty.activity')}</p>
             ) : stats.recentActivity.map(log => (
               <div key={log.id} className="flex items-center gap-3 px-5 py-2.5 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                 <div className="w-8 h-8 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-xs shrink-0 overflow-hidden">

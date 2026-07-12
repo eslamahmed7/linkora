@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { apiClient } from '@/api/client'
 import { pagesAPI, LinkPage } from '@/api/pages'
 import { TrendingUp, Eye, MousePointerClick, Users, BarChart2, Calendar } from 'lucide-react'
@@ -31,6 +32,7 @@ function BarChart({ data }: { data: { label: string; value: number }[] }) {
 }
 
 export function AnalyticsPage() {
+  const { t } = useTranslation()
   const [pages, setPages] = useState<LinkPage[]>([])
   const [selectedPage, setSelectedPage] = useState<string>('')
   const [range, setRange] = useState<Range>('7d')
@@ -84,10 +86,10 @@ export function AnalyticsPage() {
         <div>
           <h1 className="text-3xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
             <BarChart2 className="w-7 h-7 text-accent-600" />
-            Analytics
+            {t('analytics.title')}
           </h1>
           <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1">
-            Track clicks, visitors, and engagement across your link pages.
+            {t('analytics.subtitle')}
           </p>
         </div>
 
@@ -100,13 +102,13 @@ export function AnalyticsPage() {
             disabled={pagesLoading}
             className="text-sm bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-xl px-3 py-2 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
           >
-            {pages.length === 0 && <option value="">No pages yet</option>}
+            {pages.length === 0 && <option value="">{t('analytics.noPages')}</option>}
             {pages.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
           </select>
 
           {/* Range */}
           <div className="flex rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden bg-white dark:bg-neutral-900">
-            {([['7d', '7D'], ['30d', '30D'], ['all', 'All']] as [Range, string][]).map(([v, l]) => (
+            {([['7d', t('analytics.ranges.7d')], ['30d', t('analytics.ranges.30d')], ['all', t('analytics.ranges.all')]] as [Range, string][]).map(([v, l]) => (
               <button
                 key={v}
                 onClick={() => setRange(v)}
@@ -126,9 +128,9 @@ export function AnalyticsPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {[
-          { label: 'Page Views', value: stats?.totalViews ?? '—', icon: Eye, color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/40 dark:text-blue-400' },
-          { label: 'Link Clicks', value: stats?.totalClicks ?? '—', icon: MousePointerClick, color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/40 dark:text-purple-400' },
-          { label: 'Unique Visitors', value: stats?.uniqueVisitors ?? '—', icon: Users, color: 'text-green-600 bg-green-100 dark:bg-green-900/40 dark:text-green-400' },
+          { label: t('analytics.stats.pageViews'), value: stats?.totalViews ?? '—', icon: Eye, color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/40 dark:text-blue-400' },
+          { label: t('analytics.stats.linkClicks'), value: stats?.totalClicks ?? '—', icon: MousePointerClick, color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/40 dark:text-purple-400' },
+          { label: t('analytics.stats.uniqueVisitors'), value: stats?.uniqueVisitors ?? '—', icon: Users, color: 'text-green-600 bg-green-100 dark:bg-green-900/40 dark:text-green-400' },
         ].map(card => (
           <div key={card.label} className="bg-white dark:bg-neutral-950 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 flex items-center gap-4">
             <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${card.color}`}>
@@ -149,11 +151,11 @@ export function AnalyticsPage() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-neutral-900 dark:text-white flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-accent-600" />
-            Page Views Over Time
+            {t('analytics.charts.viewsOverTime')}
           </h2>
           <div className="flex items-center gap-1 text-xs text-neutral-400">
             <Calendar className="w-3.5 h-3.5" />
-            Last {range === 'all' ? '14 days' : range === '7d' ? '7 days' : '30 days'}
+            {range === 'all' ? t('analytics.ranges.lastAll') : range === '7d' ? t('analytics.ranges.last7') : t('analytics.ranges.last30')}
           </div>
         </div>
         {loading ? (
@@ -168,19 +170,19 @@ export function AnalyticsPage() {
           </>
         )}
         {!loading && chartData.every(d => d.value === 0) && (
-          <p className="text-center text-sm text-neutral-400 mt-4">No view data yet. Share your page to start tracking!</p>
+          <p className="text-center text-sm text-neutral-400 mt-4">{t('analytics.emptyViews')}</p>
         )}
       </div>
 
       {/* Top Links */}
       <div className="bg-white dark:bg-neutral-950 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-6">
-        <h2 className="font-bold text-neutral-900 dark:text-white mb-4">Top Performing Links</h2>
+        <h2 className="font-bold text-neutral-900 dark:text-white mb-4">{t('analytics.charts.topLinks')}</h2>
         {loading ? (
           <div className="space-y-3">
             {[...Array(3)].map((_, i) => <div key={i} className="h-10 bg-neutral-100 dark:bg-neutral-800 rounded-xl animate-pulse" />)}
           </div>
         ) : (stats?.topLinks || []).length === 0 ? (
-          <p className="text-neutral-400 text-sm">No link click data yet.</p>
+          <p className="text-neutral-400 text-sm">{t('analytics.emptyClicks')}</p>
         ) : (
           <div className="space-y-3">
             {(stats?.topLinks || []).map((link, i) => {

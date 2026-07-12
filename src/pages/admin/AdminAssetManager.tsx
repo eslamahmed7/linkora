@@ -364,7 +364,7 @@ export function AdminAssetManagerPage() {
       </div>
 
       <div className="flex gap-4 flex-wrap">
-        <div className="flex-1 min-w-[200px]">
+        <div className="flex-1 min-w-0 sm:min-w-[200px]">
           <div className="relative">
             <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input value={filters.search || ''} onChange={e => setFilters({ search: e.target.value })} placeholder="Search assets..." className="w-full pl-10 pr-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-xl text-sm text-neutral-900 dark:text-white" />

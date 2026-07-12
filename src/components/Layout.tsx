@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 import {
@@ -25,6 +26,7 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { t } = useTranslation()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const { user, logout } = useAuth()
   const { theme, toggleTheme, language, setLanguage } = useTheme()
@@ -32,17 +34,17 @@ export function Layout({ children }: LayoutProps) {
   const navigate = useNavigate()
 
   const menuItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: Home },
-    { path: '/pages', label: 'My Pages', icon: FileText },
-    { path: '/qr', label: 'QR Codes', icon: QrCode },
-    { path: '/nfc', label: 'NFC Cards', icon: Zap },
-    { path: '/analytics', label: 'Analytics', icon: BarChart3 },
-    { path: '/community/submit', label: 'Submit Template', icon: Sparkles },
-    { path: '/settings', label: 'Settings', icon: Settings },
+    { path: '/dashboard', label: t('navigation.dashboard'), icon: Home },
+    { path: '/pages', label: t('navigation.myPages'), icon: FileText },
+    { path: '/qr', label: t('navigation.qrCodes'), icon: QrCode },
+    { path: '/nfc', label: t('navigation.nfcCards'), icon: Zap },
+    { path: '/analytics', label: t('navigation.analytics'), icon: BarChart3 },
+    { path: '/community/submit', label: t('navigation.submitTemplate'), icon: Sparkles },
+    { path: '/settings', label: t('navigation.settings'), icon: Settings },
   ]
 
   if (user?.role && ['super_admin', 'admin', 'editor', 'support', 'designer', 'viewer'].includes(user.role)) {
-    menuItems.push({ path: '/admin', label: 'Admin Panel', icon: Shield })
+    menuItems.push({ path: '/admin', label: t('navigation.adminPanel'), icon: Shield })
   }
 
   const handleLogout = () => {
@@ -143,7 +145,7 @@ export function Layout({ children }: LayoutProps) {
             <button
               onClick={toggleTheme}
               className="flex-1 flex justify-center p-2.5 rounded-xl border border-neutral-205 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-600 dark:text-neutral-400 transition-all active:scale-95"
-              title="Toggle theme"
+              title={t('components.layout.toggleTheme')}
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
@@ -152,7 +154,7 @@ export function Layout({ children }: LayoutProps) {
             <button
               onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
               className="flex-1 flex justify-center p-2.5 rounded-xl border border-neutral-205 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900 text-neutral-600 dark:text-neutral-400 transition-all active:scale-95"
-              title="Change language"
+              title={t('components.layout.changeLanguage')}
             >
               <Globe className="w-4 h-4" />
             </button>
@@ -161,7 +163,7 @@ export function Layout({ children }: LayoutProps) {
             <button
               onClick={handleLogout}
               className="flex-1 flex justify-center p-2.5 rounded-xl border border-red-200 dark:border-red-950 hover:bg-red-50 dark:hover:bg-red-900/10 text-red-500 transition-all active:scale-95"
-              title="Logout"
+              title={t('common.logout')}
             >
               <LogOut className="w-4 h-4" />
             </button>

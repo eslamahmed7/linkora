@@ -1,4 +1,5 @@
 import { useRef, useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import * as QRCodeLib from 'qrcode';
 import { Download, Copy } from 'lucide-react';
 import { useNotification } from '@/hooks/useNotification';
@@ -23,6 +24,7 @@ export function QRGenerator({
   errorCorrectionLevel = 'H',
   previewMode = false,
 }: QRGeneratorProps) {
+  const { t } = useTranslation();
   const notification = useNotification();
   const [isDownloading, setIsDownloading] = useState(false);
   const [base64Images, setBase64Images] = useState<Record<string, string>>({});
@@ -272,7 +274,7 @@ export function QRGenerator({
         link.download = `${name}.svg`;
         link.click();
         URL.revokeObjectURL(url);
-        notification.success('QR code downloaded as SVG');
+        notification.success(t('components.qrGenerator.toasts.downloadedSvg'));
       } else {
         const canvas = document.createElement('canvas');
         const scale = 4;
@@ -295,7 +297,7 @@ export function QRGenerator({
             link.download = `${name}.png`;
             link.click();
             URL.revokeObjectURL(url);
-            notification.success('QR code downloaded as PNG');
+            notification.success(t('components.qrGenerator.toasts.downloadedPng'));
           }
           setIsDownloading(false);
         };
@@ -303,7 +305,7 @@ export function QRGenerator({
         return; // Don't set isDownloading to false yet
       }
     } catch (e) {
-      notification.error('Failed to download QR code');
+      notification.error(t('components.qrGenerator.toasts.downloadFailed'));
     }
     setIsDownloading(false);
   };
@@ -330,8 +332,8 @@ export function QRGenerator({
           canvas.toBlob((blob) => {
             if (blob) {
               navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-                .then(() => notification.success('QR code copied to clipboard'))
-                .catch(() => notification.error('Failed to copy to clipboard'));
+                .then(() => notification.success(t('components.qrGenerator.toasts.copied')))
+                .catch(() => notification.error(t('components.qrGenerator.toasts.copyFailed')));
             }
           });
           URL.revokeObjectURL(url);
@@ -339,7 +341,7 @@ export function QRGenerator({
       };
       img.src = url;
     } catch (e) {
-      notification.error('Failed to copy QR code');
+      notification.error(t('components.qrGenerator.toasts.copyFailed'));
     }
   };
 
@@ -644,7 +646,7 @@ export function QRGenerator({
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 text-neutral-900 dark:text-white transition-colors text-sm font-medium"
           >
             <Copy className="w-4 h-4" />
-            Copy
+            {t('components.qrGenerator.copy')}
           </button>
           <button
             onClick={() => handleDownload('png')}
@@ -652,7 +654,7 @@ export function QRGenerator({
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white transition-colors disabled:opacity-50 text-sm font-medium shadow-sm shadow-accent-600/20"
           >
             <Download className="w-4 h-4" />
-            PNG
+            {t('components.qrGenerator.downloadPNG')}
           </button>
           <button
             onClick={() => handleDownload('svg')}
@@ -660,7 +662,7 @@ export function QRGenerator({
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-900 dark:bg-white dark:hover:bg-neutral-100 dark:text-neutral-900 text-white transition-colors disabled:opacity-50 text-sm font-medium"
           >
             <Download className="w-4 h-4" />
-            SVG
+            {t('components.qrGenerator.downloadSVG')}
           </button>
         </div>
       )}

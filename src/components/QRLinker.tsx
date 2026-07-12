@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { QrCode, Link as LinkIcon, CheckCircle2 } from 'lucide-react'
 import { qrAPI } from '@/api/qr'
 import type { QRCode } from '@/types/qr'
 import { usePageBuilderStore } from '@/stores/pageBuilderStore'
 
 export function QRLinker() {
+  const { t } = useTranslation()
   const { page } = usePageBuilderStore()
   const [qrCodes, setQrCodes] = useState<QRCode[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -69,18 +71,18 @@ export function QRLinker() {
     <div className="mt-6 border-t border-neutral-200 dark:border-neutral-800 pt-6">
       <div className="flex items-center gap-2 mb-4">
         <QrCode className="w-5 h-5 text-accent-600" />
-        <h3 className="text-md font-bold text-neutral-900 dark:text-white">Link to QR Code</h3>
+        <h3 className="text-md font-bold text-neutral-900 dark:text-white">{t('components.qrLinker.title')}</h3>
       </div>
       
       <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
-        Connect this page to one of your existing QR codes. Scanning the QR code will instantly redirect users to this page.
+        {t('components.qrLinker.description')}
       </p>
 
       {isLoading ? (
-        <div className="text-sm text-neutral-500">Loading your QR codes...</div>
+        <div className="text-sm text-neutral-500">{t('components.qrLinker.loading')}</div>
       ) : qrCodes.length === 0 ? (
         <div className="text-sm text-neutral-500 bg-neutral-50 dark:bg-neutral-900 p-3 rounded-lg border border-neutral-200 dark:border-neutral-800">
-          You haven't created any QR codes yet. Go to the QR section to create one first.
+          {t('components.qrLinker.noQr')}
         </div>
       ) : (
         <div className="flex gap-3">
@@ -89,10 +91,10 @@ export function QRLinker() {
             onChange={(e) => setSelectedQrId(e.target.value)}
             className="flex-1 min-w-0 px-3 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-600"
           >
-            <option value="" disabled>Select a QR Code...</option>
+            <option value="" disabled>{t('components.qrLinker.selectPlaceholder')}</option>
             {qrCodes.map((qr) => (
               <option key={qr.id} value={qr.id}>
-                {qr.name} {qr.url === pageUrl ? '(Currently Linked)' : ''}
+                {qr.name} {qr.url === pageUrl ? t('components.qrLinker.currentlyLinked') : ''}
               </option>
             ))}
           </select>
@@ -107,12 +109,12 @@ export function QRLinker() {
             ) : linkedSuccess ? (
               <>
                 <CheckCircle2 className="w-4 h-4" />
-                Linked!
+                {t('components.qrLinker.linked')}
               </>
             ) : (
               <>
                 <LinkIcon className="w-4 h-4" />
-                Link
+                {t('components.qrLinker.link')}
               </>
             )}
           </button>

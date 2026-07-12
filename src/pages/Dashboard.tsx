@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { dashboardAPI, DashboardStats, RecentActivity } from '@/api/dashboard'
 import {
@@ -30,14 +31,8 @@ function StatCard({ label, value, icon: Icon, color, sub }: {
   )
 }
 
-function getGreeting() {
-  const h = new Date().getHours()
-  if (h < 12) return 'Good morning'
-  if (h < 17) return 'Good afternoon'
-  return 'Good evening'
-}
-
 export function DashboardPage() {
+  const { t } = useTranslation()
   const { user } = useAuth()
   const navigate = useNavigate()
   const [stats, setStats] = useState<DashboardStats | null>(null)
@@ -57,10 +52,10 @@ export function DashboardPage() {
   const firstName = user?.displayName?.split(' ')[0] || 'there'
 
   const checklist = [
-    { label: 'Create your first page', done: (stats?.pagesCount ?? 0) > 0, href: '/pages/new' },
-    { label: 'Add links to your page', done: (stats?.clickCount ?? 0) >= 0 && (stats?.pagesCount ?? 0) > 0, href: '/pages' },
-    { label: 'Create a QR code', done: (stats?.qrCount ?? 0) > 0, href: '/qr/new' },
-    { label: 'Publish your page', done: activities.some(a => a.type === 'page' && a.isPublished), href: '/pages' },
+    { label: t('dashboard.checklist.createFirstPage'), done: (stats?.pagesCount ?? 0) > 0, href: '/pages/new' },
+    { label: t('dashboard.checklist.addLinks'), done: (stats?.clickCount ?? 0) >= 0 && (stats?.pagesCount ?? 0) > 0, href: '/pages' },
+    { label: t('dashboard.checklist.createQR'), done: (stats?.qrCount ?? 0) > 0, href: '/qr/new' },
+    { label: t('dashboard.checklist.publishPage'), done: activities.some(a => a.type === 'page' && a.isPublished), href: '/pages' },
   ]
   const doneCount = checklist.filter(c => c.done).length
   const progress = Math.round((doneCount / checklist.length) * 100)
@@ -90,23 +85,23 @@ export function DashboardPage() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="w-4 h-4 text-yellow-300" />
-              <span className="text-sm text-white/70">{getGreeting()}</span>
+              <span className="text-sm text-white/70">{(() => { const h = new Date().getHours(); return h < 12 ? t('dashboard.greeting.morning') : h < 17 ? t('dashboard.greeting.afternoon') : t('dashboard.greeting.evening'); })()}</span>
             </div>
             <h1 className="text-3xl font-bold">{firstName}! 👋</h1>
-            <p className="text-white/70 mt-1 text-sm">Here's what's happening with your Linkora today.</p>
+            <p className="text-white/70 mt-1 text-sm">{t('dashboard.subtitle')}</p>
           </div>
           <div className="flex gap-3">
             <button
               onClick={() => navigate('/pages/new')}
               className="flex items-center gap-2 bg-white text-accent-700 font-semibold text-sm px-4 py-2.5 rounded-xl hover:bg-white/90 transition-all shadow-sm"
             >
-              <Plus className="w-4 h-4" /> New Page
+              <Plus className="w-4 h-4" /> {t('dashboard.newPage')}
             </button>
             <button
               onClick={() => navigate('/qr/new')}
               className="flex items-center gap-2 bg-white/20 border border-white/30 text-white font-medium text-sm px-4 py-2.5 rounded-xl hover:bg-white/30 transition-all"
             >
-              <QrCode className="w-4 h-4" /> New QR
+              <QrCode className="w-4 h-4" /> {t('dashboard.newQR')}
             </button>
           </div>
         </div>
@@ -115,25 +110,25 @@ export function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          label="Total Pages"
+          label={t('dashboard.stats.totalPages')}
           value={stats?.pagesCount ?? 0}
           icon={FileText}
           color="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
         />
         <StatCard
-          label="QR Codes"
+          label={t('dashboard.stats.qrCodes')}
           value={stats?.qrCount ?? 0}
           icon={QrCode}
           color="bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400"
         />
         <StatCard
-          label="Total Scans"
+          label={t('dashboard.stats.totalScans')}
           value={stats?.scansCount ?? 0}
           icon={TrendingUp}
           color="bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400"
         />
         <StatCard
-          label="Link Clicks"
+          label={t('dashboard.stats.linkClicks')}
           value={stats?.clickCount ?? 0}
           icon={MousePointerClick}
           color="bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400"
@@ -145,9 +140,9 @@ export function DashboardPage() {
         {/* Recent Pages / Activity */}
         <div className="lg:col-span-2 bg-white dark:bg-neutral-950 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-bold text-lg text-neutral-900 dark:text-white">Recent Activity</h2>
+            <h2 className="font-bold text-lg text-neutral-900 dark:text-white">{t('dashboard.recentActivity')}</h2>
             <Link to="/pages" className="text-sm text-accent-600 hover:underline flex items-center gap-1">
-              View all <ArrowRight className="w-3.5 h-3.5" />
+              {t('dashboard.viewAll')} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
           {activities.length === 0 ? (
@@ -155,12 +150,12 @@ export function DashboardPage() {
               <div className="w-14 h-14 bg-neutral-100 dark:bg-neutral-800 rounded-2xl flex items-center justify-center">
                 <Globe className="w-7 h-7 text-neutral-400" />
               </div>
-              <p className="text-neutral-500 dark:text-neutral-400 text-sm">No activity yet.</p>
+              <p className="text-neutral-500 dark:text-neutral-400 text-sm">{t('dashboard.empty')}</p>
               <button
                 onClick={() => navigate('/pages/new')}
                 className="text-sm text-accent-600 font-medium hover:underline"
               >
-                Create your first page →
+                {t('dashboard.checklist.createFirstCTA')}
               </button>
             </div>
           ) : (
@@ -177,7 +172,7 @@ export function DashboardPage() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-neutral-900 dark:text-white text-sm truncate">{a.title}</p>
                     <p className="text-xs text-neutral-400">
-                      {a.type === 'page' ? (a.isPublished ? '🟢 Published' : '⚪ Draft') : 'QR Code'} &nbsp;·&nbsp;
+                      {a.type === 'page' ? (a.isPublished ? `🟢 ${t('dashboard.activity.published')}` : `⚪ ${t('dashboard.activity.draft')}` : t('dashboard.activity.qrCode')} &nbsp;·&nbsp;
                       {new Date(a.createdAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -203,7 +198,7 @@ export function DashboardPage() {
           {/* Onboarding Checklist */}
           <div className="bg-white dark:bg-neutral-950 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Getting Started</h3>
+              <h3 className="font-bold text-neutral-900 dark:text-white text-sm">{t('dashboard.gettingStarted')}</h3>
               <span className="text-xs font-semibold text-accent-600">{progress}%</span>
             </div>
             <div className="w-full h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full mb-4">
@@ -231,13 +226,13 @@ export function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="bg-white dark:bg-neutral-950 rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5">
-            <h3 className="font-bold text-neutral-900 dark:text-white text-sm mb-3">Quick Actions</h3>
+            <h3 className="font-bold text-neutral-900 dark:text-white text-sm mb-3">{t('dashboard.quickActions')}</h3>
             <div className="space-y-2">
               {[
-                { label: 'Create New Page', icon: Plus, href: '/pages/new', color: 'text-blue-600' },
-                { label: 'Generate QR Code', icon: QrCode, href: '/qr/new', color: 'text-purple-600' },
-                { label: 'View Analytics', icon: TrendingUp, href: '/analytics', color: 'text-green-600' },
-                { label: 'NFC Cards', icon: Zap, href: '/nfc', color: 'text-orange-600' },
+                { label: t('dashboard.actions.createNewPage'), icon: Plus, href: '/pages/new', color: 'text-blue-600' },
+                { label: t('dashboard.actions.generateQRCode'), icon: QrCode, href: '/qr/new', color: 'text-purple-600' },
+                { label: t('dashboard.actions.viewAnalytics'), icon: TrendingUp, href: '/analytics', color: 'text-green-600' },
+                { label: t('dashboard.actions.nfcCards'), icon: Zap, href: '/nfc', color: 'text-orange-600' },
               ].map(action => (
                 <Link
                   key={action.label}

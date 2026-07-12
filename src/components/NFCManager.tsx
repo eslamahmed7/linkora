@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { nfcAPI } from '@/api/nfc'
 import { useNotification } from '@/hooks/useNotification'
 import { Plus, Trash2, Power } from 'lucide-react'
@@ -9,6 +10,7 @@ interface NFCManagerProps {
 }
 
 export function NFCManager({ pageId }: NFCManagerProps) {
+  const { t } = useTranslation()
   const [cards, setCards] = useState<NFCCard[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -25,7 +27,7 @@ export function NFCManager({ pageId }: NFCManagerProps) {
       const response = await nfcAPI.list()
       setCards(response.cards)
     } catch (error) {
-      notification.error('Failed to load NFC cards')
+      notification.error(t('components.nfcManager.toasts.loadFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -34,7 +36,7 @@ export function NFCManager({ pageId }: NFCManagerProps) {
   const handleCreate = async () => {
     try {
       if (!formData.title.trim()) {
-        notification.error('Title is required')
+        notification.error(t('components.nfcManager.toasts.titleRequired'))
         return
       }
 
@@ -51,9 +53,9 @@ export function NFCManager({ pageId }: NFCManagerProps) {
       setCards([...cards, newCard.card])
       setFormData({ title: '', description: '' })
       setShowCreateForm(false)
-      notification.success('NFC card created')
+      notification.success(t('components.nfcManager.toasts.created'))
     } catch (error) {
-      notification.error('Failed to create NFC card')
+      notification.error(t('components.nfcManager.toasts.createFailed'))
     }
   }
 
@@ -61,9 +63,9 @@ export function NFCManager({ pageId }: NFCManagerProps) {
     try {
       const updated = await nfcAPI.toggleActive(id)
       setCards(cards.map((c) => (c.id === id ? updated.card : c)))
-      notification.success('NFC card updated')
+      notification.success(t('components.nfcManager.toasts.updated'))
     } catch (error) {
-      notification.error('Failed to update NFC card')
+      notification.error(t('components.nfcManager.toasts.updateFailed'))
     }
   }
 
@@ -71,22 +73,22 @@ export function NFCManager({ pageId }: NFCManagerProps) {
     try {
       await nfcAPI.delete(id)
       setCards(cards.filter((c) => c.id !== id))
-      notification.success('NFC card deleted')
+      notification.success(t('components.nfcManager.toasts.deleted'))
     } catch (error) {
-      notification.error('Failed to delete NFC card')
+      notification.error(t('components.nfcManager.toasts.deleteFailed'))
     }
   }
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">NFC Cards</h3>
+        <h3 className="text-lg font-semibold">{t('components.nfcManager.title')}</h3>
         <button
           onClick={() => setShowCreateForm(!showCreateForm)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white transition-colors"
         >
           <Plus className="w-4 h-4" />
-          New Card
+          {t('components.nfcManager.newCard')}
         </button>
       </div>
 
@@ -94,7 +96,7 @@ export function NFCManager({ pageId }: NFCManagerProps) {
         <div className="p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 space-y-4">
           <input
             type="text"
-            placeholder="Card title"
+            placeholder={t('components.nfcManager.cardTitlePlaceholder')}
             value={formData.title}
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
@@ -102,7 +104,7 @@ export function NFCManager({ pageId }: NFCManagerProps) {
             className="w-full px-3 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder-neutral-500 dark:placeholder-neutral-400"
           />
           <textarea
-            placeholder="Card description (optional)"
+            placeholder={t('components.nfcManager.cardDescPlaceholder')}
             value={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
@@ -114,23 +116,23 @@ export function NFCManager({ pageId }: NFCManagerProps) {
               onClick={handleCreate}
               className="flex-1 px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white transition-colors"
             >
-              Create Card
+              {t('components.nfcManager.createCard')}
             </button>
             <button
               onClick={() => setShowCreateForm(false)}
               className="flex-1 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors"
             >
-              Cancel
+              {t('common.cancel')}
             </button>
           </div>
         </div>
       )}
 
       {isLoading ? (
-        <div className="text-center py-8 text-neutral-500">Loading...</div>
+        <div className="text-center py-8 text-neutral-500">{t('components.nfcManager.loading')}</div>
       ) : cards.length === 0 ? (
         <div className="text-center py-8 text-neutral-500">
-          No NFC cards yet. Create one to get started.
+          {t('components.nfcManager.empty')}
         </div>
       ) : (
         <div className="grid gap-4">

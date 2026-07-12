@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
 import { Save, RotateCcw, Settings as SettingsIcon, Check } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { adminSettings } from '@/api/admin'
 import type { SiteSetting } from '@/types/admin'
 
 const CATEGORIES = [
-  { id: 'general', label: 'General' },
-  { id: 'seo', label: 'SEO' },
-  { id: 'mail', label: 'Mail' },
-  { id: 'storage', label: 'Storage' },
-  { id: 'auth', label: 'Authentication' },
-  { id: 'maintenance', label: 'Maintenance' },
-  { id: 'feature_flags', label: 'Feature Flags' },
+  { id: 'general', labelKey: 'admin.settings.categories.general' },
+  { id: 'seo', labelKey: 'admin.settings.categories.seo' },
+  { id: 'mail', labelKey: 'admin.settings.categories.mail' },
+  { id: 'storage', labelKey: 'admin.settings.categories.storage' },
+  { id: 'auth', labelKey: 'admin.settings.categories.authentication' },
+  { id: 'maintenance', labelKey: 'admin.settings.categories.maintenance' },
+  { id: 'feature_flags', labelKey: 'admin.settings.categories.featureFlags' },
 ]
 
 function parseValue(val: unknown): { type: 'boolean' | 'number' | 'text'; display: string | boolean | number } {
@@ -27,6 +28,7 @@ function parseValue(val: unknown): { type: 'boolean' | 'number' | 'text'; displa
 }
 
 export function AdminSiteSettingsPage() {
+  const { t } = useTranslation()
   const [settings, setSettings] = useState<SiteSetting[]>([])
   const [activeCategory, setActiveCategory] = useState('general')
   const [edits, setEdits] = useState<Record<string, unknown>>({})
@@ -68,20 +70,20 @@ export function AdminSiteSettingsPage() {
     <div className="p-4 lg:p-6 space-y-6 max-w-[1400px] mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Site Settings</h1>
-          <p className="text-sm text-neutral-500 mt-0.5">Configure your application</p>
+          <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.settings.title')}</h1>
+          <p className="text-sm text-neutral-500 mt-0.5">{t('admin.settings.subtitle')}</p>
         </div>
         <div className="flex gap-2">
           {hasChanges && (
             <>
               <button onClick={handleDiscard}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800 text-sm font-medium hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors">
-                <RotateCcw className="w-4 h-4" /> Discard
+                <RotateCcw className="w-4 h-4" /> {t('common.undo')}
               </button>
               <button onClick={handleSave} disabled={isSaving}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 text-white text-sm font-bold hover:bg-accent-700 transition-all disabled:opacity-50">
                 {saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-                {saved ? 'Saved!' : isSaving ? 'Saving...' : 'Save Changes'}
+                {saved ? t('admin.settings.saved') : isSaving ? t('common.saving') : t('common.save')}
               </button>
             </>
           )}
@@ -99,7 +101,7 @@ export function AdminSiteSettingsPage() {
                   : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800'
               }`}>
               <SettingsIcon className="w-4 h-4" />
-              {cat.label}
+              {t(cat.labelKey)}
             </button>
           ))}
         </div>

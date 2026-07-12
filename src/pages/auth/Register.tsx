@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
 import { useNotification } from '@/hooks/useNotification'
 import { Mail, Lock, User } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 
 export function RegisterPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { register } = useAuth()
   const notification = useNotification()
@@ -30,23 +32,23 @@ export function RegisterPage() {
     const newErrors: Record<string, string> = {}
 
     if (!formData.displayName.trim()) {
-      newErrors.displayName = 'Display name is required'
+      newErrors.displayName = t('auth.displayNameRequired')
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = t('auth.emailRequired')
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email address'
+      newErrors.email = t('auth.invalidEmail')
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required'
+      newErrors.password = t('auth.passwordRequired')
     } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
+      newErrors.password = t('auth.passwordMinLength')
     }
 
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
+      newErrors.confirmPassword = t('auth.passwordMismatch')
     }
 
     setErrors(newErrors)
@@ -68,13 +70,13 @@ export function RegisterPage() {
         formData.password,
         formData.displayName
       )
-      notification.success('Account created successfully!')
+      notification.success(t('auth.accountCreated'))
       navigate('/dashboard')
     } catch (error: any) {
       const message =
         error.message ||
         error.response?.data?.message ||
-        'Registration failed. Please try again.'
+        t('auth.registrationFailed')
       notification.error(message)
       if (error.response?.data?.errors) {
         setErrors(error.response.data.errors)
@@ -91,7 +93,7 @@ export function RegisterPage() {
           <div className="flex flex-col items-center justify-center text-center mb-8">
             <Logo imageSize="h-16 w-auto" textSize="text-3xl" className="mb-2" />
             <p className="text-neutral-600 dark:text-neutral-400">
-              Create your account to get started
+              {t('auth.createAccount')}
             </p>
           </div>
 
@@ -99,7 +101,7 @@ export function RegisterPage() {
             {/* Display Name */}
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                Display Name
+                {t('auth.displayName')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-3 w-5 h-5 text-neutral-400" />
@@ -109,7 +111,7 @@ export function RegisterPage() {
                   value={formData.displayName}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
-                  placeholder="John Doe"
+                  placeholder={t('auth.displayName')}
                   required
                 />
               </div>
@@ -123,7 +125,7 @@ export function RegisterPage() {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                Email Address
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 w-5 h-5 text-neutral-400" />
@@ -133,7 +135,7 @@ export function RegisterPage() {
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
-                  placeholder="you@example.com"
+                  placeholder={t('auth.emailAddress')}
                   required
                 />
               </div>
@@ -145,7 +147,7 @@ export function RegisterPage() {
             {/* Password */}
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                Password
+                {t('auth.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-neutral-400" />
@@ -167,7 +169,7 @@ export function RegisterPage() {
             {/* Confirm Password */}
             <div>
               <label className="block text-sm font-medium text-neutral-900 dark:text-neutral-50 mb-2">
-                Confirm Password
+                {t('auth.confirmPassword')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 w-5 h-5 text-neutral-400" />
@@ -194,18 +196,18 @@ export function RegisterPage() {
               disabled={isLoading}
               className="w-full mt-6 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Creating account...' : 'Sign Up'}
+              {isLoading ? t('auth.creatingAccount') : t('auth.signUp')}
             </button>
           </form>
 
           <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-800">
             <p className="text-center text-sm text-neutral-600 dark:text-neutral-400">
-              Already have an account?{' '}
+              {t('auth.hasAccount')}{' '}
               <Link
                 to="/auth/login"
                 className="text-accent-600 dark:text-accent-400 font-medium hover:underline"
               >
-                Login
+                {t('auth.login')}
               </Link>
             </p>
           </div>

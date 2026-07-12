@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { usePageBuilderStore } from '@/stores/pageBuilderStore'
 import { ExternalLink, Monitor, Smartphone, Tablet } from 'lucide-react'
 import { getIconData } from '../utils/iconMap'
 
 export function PagePreview() {
+  const { t } = useTranslation()
   const { page } = usePageBuilderStore()
   const { settings, design, links } = page
   const [viewMode, setViewMode] = useState<'mobile' | 'tablet' | 'desktop'>('mobile')
@@ -139,21 +141,21 @@ export function PagePreview() {
         <button
           onClick={() => setViewMode('mobile')}
           className={`p-2 rounded-lg transition-colors ${viewMode === 'mobile' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
-          title="Mobile View"
+          title={t('components.pagePreview.mobileView')}
         >
           <Smartphone className="w-5 h-5" />
         </button>
         <button
           onClick={() => setViewMode('tablet')}
           className={`p-2 rounded-lg transition-colors ${viewMode === 'tablet' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
-          title="Tablet View"
+          title={t('components.pagePreview.tabletView')}
         >
           <Tablet className="w-5 h-5" />
         </button>
         <button
           onClick={() => setViewMode('desktop')}
           className={`p-2 rounded-lg transition-colors ${viewMode === 'desktop' ? 'bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100' : 'text-neutral-500 hover:bg-neutral-100 dark:hover:bg-neutral-800'}`}
-          title="Desktop View"
+          title={t('components.pagePreview.desktopView')}
         >
           <Monitor className="w-5 h-5" />
         </button>
@@ -163,9 +165,9 @@ export function PagePreview() {
         {/* Responsive Frame */}
         <div 
           className={`relative transition-all duration-300 ease-in-out ${
-            viewMode === 'mobile' ? 'w-full max-w-[400px] h-[800px] max-h-full rounded-[40px] shadow-2xl border-[12px] border-neutral-900 dark:border-black' :
-            viewMode === 'tablet' ? 'w-[768px] h-[1024px] max-h-full max-w-full rounded-[30px] shadow-xl border-[16px] border-neutral-900 dark:border-black' :
-            'w-full max-w-[1200px] h-full rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-700'
+            viewMode === 'mobile' ? 'h-full max-h-[850px] aspect-[9/19] rounded-[40px] shadow-2xl border-[12px] border-neutral-900 dark:border-black' :
+            viewMode === 'tablet' ? 'h-full max-h-[1024px] aspect-[3/4] rounded-[30px] shadow-xl border-[16px] border-neutral-900 dark:border-black' :
+            'w-full max-w-[1200px] aspect-[16/9] max-h-full rounded-xl shadow-lg border-[12px] border-neutral-900 dark:border-black'
           } overflow-hidden bg-white dark:bg-black`}
         >
           {/* Mobile Notch (only in mobile view) */}
@@ -213,7 +215,7 @@ export function PagePreview() {
                 fontFamily: design.fontFamily,
               }}
             >
-              {settings.title || 'Your Name'}
+              {settings.title || t('components.pagePreview.fallbackTitle')}
             </h1>
 
             {/* Bio */}
@@ -226,7 +228,7 @@ export function PagePreview() {
                   fontFamily: design.fontFamily,
                 }}
               >
-                {settings.bio || settings.description || 'Your bio goes here. Tell people about yourself.'}
+                {settings.bio || settings.description || t('components.pagePreview.fallbackBio')}
               </p>
             )}
 
@@ -283,7 +285,7 @@ export function PagePreview() {
                   })
               ) : (
                 <div className="text-center opacity-50 text-sm mt-10" style={{ color: design.textColor }}>
-                  No links added yet
+                  {t('components.pagePreview.noLinks')}
                 </div>
               )}
             </div>

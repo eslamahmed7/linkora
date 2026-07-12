@@ -4,6 +4,7 @@ import {
   User, FileText, Paintbrush, MessageSquare, Megaphone,
   Settings, Bug, Send,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { adminActivity } from '@/api/admin'
 import type { ActivityLog } from '@/types/admin'
 
@@ -32,6 +33,7 @@ const ENTITY_STYLES: Record<string, string> = {
 }
 
 export function AdminActivityPage() {
+  const { t } = useTranslation()
   const [logs, setLogs] = useState<ActivityLog[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -71,8 +73,8 @@ export function AdminActivityPage() {
   return (
     <div className="p-4 lg:p-6 space-y-6 max-w-[1600px] mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Activity Logs</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">{total} total activity entries</p>
+        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.activity.title')}</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">{t('admin.activity.subtitle', { total })}</p>
       </div>
 
       {/* Search & Filters */}
@@ -85,7 +87,7 @@ export function AdminActivityPage() {
               value={actionSearch}
               onChange={e => setActionSearch(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
-              placeholder="Search actions..."
+              placeholder={t('admin.activity.searchPlaceholder')}
               className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-accent-600"
             />
           </div>
@@ -93,9 +95,8 @@ export function AdminActivityPage() {
             onClick={handleSearch}
             className="px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 text-white text-sm font-medium transition-colors"
           >
-            Search
+            {t('common.search')}
           </button>
-          <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
               showFilters
@@ -104,27 +105,27 @@ export function AdminActivityPage() {
             }`}
           >
             <Filter className="w-4 h-4" />
-            Filters
+            {t('common.filters')}
           </button>
         </div>
 
         {showFilters && (
           <div className="flex flex-wrap gap-3 p-4 bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800">
             <div>
-              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Entity Type</label>
+              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{t('admin.activity.fields.entityType')}</label>
               <select
                 value={entityFilter}
                 onChange={e => { setEntityFilter(e.target.value); setPage(1) }}
                 className="w-full mt-1 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 focus:outline-none focus:ring-2 focus:ring-accent-600"
               >
-                <option value="">All types</option>
+                <option value="">{t('admin.activity.filters.allTypes')}</option>
                 {ENTITY_TYPES.filter(Boolean).map(t => (
                   <option key={t} value={t}>{t}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Date From</label>
+              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{t('admin.activity.fields.dateFrom')}</label>
               <input
                 type="date"
                 value={dateFrom}
@@ -133,7 +134,7 @@ export function AdminActivityPage() {
               />
             </div>
             <div>
-              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">Date To</label>
+              <label className="text-[10px] font-bold text-neutral-500 uppercase tracking-wider">{t('admin.activity.fields.dateTo')}</label>
               <input
                 type="date"
                 value={dateTo}
@@ -146,7 +147,7 @@ export function AdminActivityPage() {
                 onClick={() => { setActionSearch(''); setEntityFilter(''); setDateFrom(''); setDateTo(''); setPage(1) }}
                 className="px-3 py-2 rounded-xl text-sm text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
               >
-                Clear all
+                {t('common.clearAll')}
               </button>
             </div>
           </div>
@@ -159,12 +160,12 @@ export function AdminActivityPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">User</th>
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Action</th>
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">Entity</th>
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">Entity ID</th>
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">IP Address</th>
-                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Timestamp</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.activity.table.user')}</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.activity.table.action')}</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">{t('admin.activity.table.entity')}</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.activity.table.entityId')}</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.activity.table.ipAddress')}</th>
+                <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.activity.table.timestamp')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -173,7 +174,7 @@ export function AdminActivityPage() {
                   <tr key={i}><td colSpan={6} className="px-5 py-4"><div className="h-5 bg-neutral-100 dark:bg-neutral-800 rounded animate-pulse" /></td></tr>
                 ))
               ) : logs.length === 0 ? (
-                <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">No activity logs found</td></tr>
+                <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">{t('admin.activity.empty')}</td></tr>
               ) : logs.map(log => {
                 const EntityIcon = log.entity_type ? ENTITY_ICONS[log.entity_type] || FileText : FileText
                 return (
@@ -188,7 +189,7 @@ export function AdminActivityPage() {
                           </div>
                         )}
                         <span className="text-sm text-neutral-700 dark:text-neutral-300 truncate max-w-[120px]">
-                          {log.user?.display_name || 'System'}
+                          {log.user?.display_name || t('common.system')}
                         </span>
                       </div>
                     </td>
@@ -225,7 +226,7 @@ export function AdminActivityPage() {
 
         {totalPages > 1 && (
           <div className="flex items-center justify-between px-5 py-3 border-t border-neutral-100 dark:border-neutral-800">
-            <p className="text-xs text-neutral-500">Page {page} of {totalPages}</p>
+            <p className="text-xs text-neutral-500">{t('common.pageOf', { page, total: totalPages })}</p>
             <div className="flex gap-1">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                 className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed">

@@ -3,6 +3,7 @@ import {
   Mail, ChevronLeft, ChevronRight, X, Send,
   Calendar, CircleDot, Archive, CheckCircle2,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { adminMessages } from '@/api/admin'
 import type { ContactMessage } from '@/types/admin'
 
@@ -25,6 +26,7 @@ const STATUS_ICONS: Record<MessageStatus, typeof Mail> = {
 }
 
 export function AdminMessagesPage() {
+  const { t } = useTranslation()
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
@@ -88,9 +90,9 @@ export function AdminMessagesPage() {
   return (
     <div className="p-4 lg:p-6 space-y-6 max-w-[1600px] mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">Messages</h1>
+        <h1 className="text-2xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{t('admin.messages.title')}</h1>
         <p className="text-sm text-neutral-500 mt-0.5">
-          {total} total messages{unreadCount > 0 && <span className="ml-1 text-blue-500 font-medium">({unreadCount} unread)</span>}
+          {t('admin.messages.subtitle', { total })}{unreadCount > 0 && <span className="ml-1 text-blue-500 font-medium">{t('admin.messages.unreadIndicator', { count: unreadCount })}</span>}
         </p>
       </div>
 
@@ -104,7 +106,7 @@ export function AdminMessagesPage() {
               : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'
           }`}
         >
-          All
+          {t('common.all')}
         </button>
         {STATUS_OPTIONS.map(s => {
           const Icon = STATUS_ICONS[s]
@@ -134,12 +136,12 @@ export function AdminMessagesPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">From</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">Email</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Subject</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">Message</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Status</th>
-                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">Date</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.messages.table.from')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden md:table-cell">{t('admin.messages.table.email')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.messages.table.subject')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.messages.table.message')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{t('admin.messages.table.status')}</th>
+                  <th className="text-left px-5 py-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500 hidden lg:table-cell">{t('admin.messages.table.date')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
@@ -148,7 +150,7 @@ export function AdminMessagesPage() {
                     <tr key={i}><td colSpan={6} className="px-5 py-4"><div className="h-5 bg-neutral-100 dark:bg-neutral-800 rounded animate-pulse" /></td></tr>
                   ))
                 ) : messages.length === 0 ? (
-                  <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">No messages found</td></tr>
+                  <tr><td colSpan={6} className="px-5 py-12 text-center text-sm text-neutral-400">{t('admin.messages.empty')}</td></tr>
                 ) : messages.map(msg => (
                   <tr
                     key={msg.id}
@@ -172,7 +174,7 @@ export function AdminMessagesPage() {
                     </td>
                     <td className="px-5 py-3">
                       <p className={`text-sm truncate max-w-[180px] ${msg.status === 'unread' ? 'font-semibold text-neutral-900 dark:text-white' : 'text-neutral-700 dark:text-neutral-300'}`}>
-                        {msg.subject || '(no subject)'}
+                        {msg.subject || t('admin.messages.noSubject')}
                       </p>
                     </td>
                     <td className="px-5 py-3 hidden lg:table-cell">
@@ -194,7 +196,7 @@ export function AdminMessagesPage() {
 
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-5 py-3 border-t border-neutral-100 dark:border-neutral-800">
-              <p className="text-xs text-neutral-500">Page {page} of {totalPages}</p>
+              <p className="text-xs text-neutral-500">{t('common.pageOf', { page, total: totalPages })}</p>
               <div className="flex gap-1">
                 <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
                   className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 disabled:opacity-30 disabled:cursor-not-allowed">
@@ -213,7 +215,7 @@ export function AdminMessagesPage() {
         {selected && (
           <div className="w-full lg:w-[440px] shrink-0 bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-200 dark:border-neutral-800 overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 dark:border-neutral-800">
-              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">Message</h2>
+              <h2 className="font-bold text-neutral-900 dark:text-white text-sm">{t('admin.messages.detailTitle')}</h2>
               <button onClick={() => setSelected(null)} className="p-1 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-400">
                 <X className="w-4 h-4" />
               </button>
@@ -237,14 +239,14 @@ export function AdminMessagesPage() {
               {/* Subject */}
               {selected.subject && (
                 <div>
-                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Subject</label>
+                  <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.messages.fields.subject')}</label>
                   <p className="text-sm font-semibold text-neutral-900 dark:text-white mt-1">{selected.subject}</p>
                 </div>
               )}
 
               {/* Message */}
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Message</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.messages.fields.message')}</label>
                 <div className="mt-1 p-4 rounded-xl bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-100 dark:border-neutral-800">
                   <p className="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap leading-relaxed">{selected.message}</p>
                 </div>
@@ -252,7 +254,7 @@ export function AdminMessagesPage() {
 
               {/* Status */}
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Status</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.messages.fields.status')}</label>
                 <select
                   value={editStatus}
                   onChange={e => setEditStatus(e.target.value as MessageStatus)}
@@ -266,11 +268,11 @@ export function AdminMessagesPage() {
 
               {/* Reply */}
               <div>
-                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Admin Reply</label>
+                <label className="text-xs font-bold text-neutral-500 uppercase tracking-wider">{t('admin.messages.fields.adminReply')}</label>
                 <textarea
                   value={replyText}
                   onChange={e => setReplyText(e.target.value)}
-                  placeholder="Type your reply..."
+                  placeholder={t('admin.messages.replyPlaceholder')}
                   rows={5}
                   className="w-full mt-1 px-3 py-2.5 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-sm text-neutral-700 dark:text-neutral-300 placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-accent-600 resize-none"
                 />
@@ -282,7 +284,7 @@ export function AdminMessagesPage() {
                 className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-700 disabled:opacity-50 text-white text-sm font-medium transition-colors"
               >
                 <Send className="w-4 h-4" />
-                {isSaving ? 'Saving...' : 'Save & Reply'}
+                {isSaving ? t('common.saving') : t('admin.messages.saveReply')}
               </button>
             </div>
           </div>

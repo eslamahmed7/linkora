@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { isAPIError, APIError } from '../utils/errors';
-import { sendError } from '../utils/response';
-import { logger } from '../utils/logger';
-import { config } from '../config/env';
+import { isAPIError, APIError } from '../utils/errors.js';
+import { sendError } from '../utils/response.js';
+import { logger } from '../utils/logger.js';
+import { config } from '../config/env.js';
 
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
   const requestId = req.metadata?.requestId;

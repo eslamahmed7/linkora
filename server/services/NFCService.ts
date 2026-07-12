@@ -1,7 +1,7 @@
-import { NFCCard, NFCWriteResult, CardDesign } from '../types/index';
-import { nfcRepository } from '../repositories/NFCRepository';
-import { linkPageRepository } from '../repositories/LinkPageRepository';
-import { NotFoundError, AuthorizationError } from '../utils/errors';
+import { NFCCard, NFCWriteResult, CardDesign } from '../types/index.js';
+import { nfcRepository } from '../repositories/NFCRepository.js';
+import { linkPageRepository } from '../repositories/LinkPageRepository.js';
+import { NotFoundError, AuthorizationError } from '../utils/errors.js';
 
 export class NFCService {
   async getUserCards(userId: string): Promise<NFCCard[]> {

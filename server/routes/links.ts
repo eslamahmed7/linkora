@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import { linkService } from '../services/LinkService';
-import { validateLinkCreate } from '../utils/validators';
-import { sendSuccess, sendError } from '../utils/response';
-import { authenticateToken, asyncHandler } from '../middleware/auth';
+import { linkService } from '../services/LinkService.js';
+import { validateLinkCreate } from '../utils/validators.js';
+import { sendSuccess, sendError } from '../utils/response.js';
+import { authenticateToken, asyncHandler } from '../middleware/auth.js';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import Joi from 'joi';
-import { ValidationError } from './errors';
-import { AuthCredentials, RegisterData } from '../types';
+import { ValidationError } from './errors.js';
+import { AuthCredentials, RegisterData } from '../types/index.js';
 
 // Validation schemas
 export const schemas = {

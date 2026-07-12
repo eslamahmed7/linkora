@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticationError } from '../utils/errors';
-import { AuthToken, RequestMetadata } from '../types/index';
+import { AuthenticationError } from '../utils/errors.js';
+import { AuthToken, RequestMetadata } from '../types/index.js';
 import { v4 as uuidv4 } from 'uuid';
-import { supabase } from '../utils/supabase';
+import { supabase } from '../utils/supabase.js';
 
 declare global {
   namespace Express {

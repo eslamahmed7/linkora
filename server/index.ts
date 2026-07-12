@@ -1,21 +1,21 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { config } from './config/env';
-import { logger } from './utils/logger';
-import { addRequestMetadata } from './middleware/auth';
-import { errorHandler } from './middleware/errorHandler';
-import { sendSuccess } from './utils/response';
+import { config } from './config/env.js';
+import { logger } from './utils/logger.js';
+import { addRequestMetadata } from './middleware/auth.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { sendSuccess } from './utils/response.js';
 
 // Routes
-import pageRoutes from './routes/pages';
-import linkRoutes from './routes/links';
-import qrcodeRoutes from './routes/qrcodes';
-import nfcRoutes from './routes/nfc';
-import analyticsRoutes from './routes/analytics';
-import dashboardRoutes from './routes/dashboard';
-import adminRoutes from './routes/admin';
-import assetRoutes from './routes/assets';
-import uploadRoutes from './routes/upload';
+import pageRoutes from './routes/pages.js';
+import linkRoutes from './routes/links.js';
+import qrcodeRoutes from './routes/qrcodes.js';
+import nfcRoutes from './routes/nfc.js';
+import analyticsRoutes from './routes/analytics.js';
+import dashboardRoutes from './routes/dashboard.js';
+import adminRoutes from './routes/admin.js';
+import assetRoutes from './routes/assets.js';
+import uploadRoutes from './routes/upload.js';
 
 
 const app: Express = express();

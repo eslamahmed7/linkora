@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { authenticateToken, asyncHandler } from '../middleware/auth';
-import { nfcService } from '../services/NFCService';
-import { sendSuccess, sendError } from '../utils/response';
+import { authenticateToken, asyncHandler } from '../middleware/auth.js';
+import { nfcService } from '../services/NFCService.js';
+import { sendSuccess, sendError } from '../utils/response.js';
 
 const router = Router();
 

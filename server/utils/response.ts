@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { APIResponse, PaginatedResponse } from '../types/index';
+import { APIResponse, PaginatedResponse } from '../types/index.js';
 
 export function sendSuccess<T>(res: Response, data: T, statusCode: number = 200): Response {
   const response: APIResponse<T> = {

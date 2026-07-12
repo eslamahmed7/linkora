@@ -1,7 +1,7 @@
-import { Analytics } from '../types/index';
-import { analyticsRepository } from '../repositories/AnalyticsRepository';
-import { linkPageRepository } from '../repositories/LinkPageRepository';
-import { AuthorizationError, NotFoundError } from '../utils/errors';
+import { Analytics } from '../types/index.js';
+import { analyticsRepository } from '../repositories/AnalyticsRepository.js';
+import { linkPageRepository } from '../repositories/LinkPageRepository.js';
+import { AuthorizationError, NotFoundError } from '../utils/errors.js';
 
 export class AnalyticsService {
   async getPageAnalytics(

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { supabase } from '../utils/supabase'
+import { supabase } from '../utils/supabase.js'
 
 export type AdminRole = 'super_admin' | 'admin' | 'editor' | 'support' | 'designer' | 'viewer'
 

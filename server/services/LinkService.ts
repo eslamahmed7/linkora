@@ -1,9 +1,9 @@
-import { Link } from '../types/index';
-import { linkRepository } from '../repositories/LinkRepository';
-import { linkPageRepository } from '../repositories/LinkPageRepository';
-import { analyticsRepository } from '../repositories/AnalyticsRepository';
-import { NotFoundError, AuthorizationError } from '../utils/errors';
-import { linkPageService } from './LinkPageService';
+import { Link } from '../types/index.js';
+import { linkRepository } from '../repositories/LinkRepository.js';
+import { linkPageRepository } from '../repositories/LinkPageRepository.js';
+import { analyticsRepository } from '../repositories/AnalyticsRepository.js';
+import { NotFoundError, AuthorizationError } from '../utils/errors.js';
+import { linkPageService } from './LinkPageService.js';
 
 export class LinkService {
   async createLink(

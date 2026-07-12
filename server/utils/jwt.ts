@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { config } from '../config/env';
-import { AuthToken } from '../types/index';
-import { AuthenticationError } from './errors';
+import { config } from '../config/env.js';
+import { AuthToken } from '../types/index.js';
+import { AuthenticationError } from './errors.js';
 
 export function generateToken(payload: Omit<AuthToken, 'iat' | 'exp'>): string {
   return jwt.sign(payload, config.JWT_SECRET, {

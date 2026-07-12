@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
-import { qrCodeService } from '../services/QRCodeService';
-import { validateQRCodeCreate } from '../utils/validators';
-import { sendSuccess, sendError, sendPaginated } from '../utils/response';
-import { authenticateToken, asyncHandler } from '../middleware/auth';
+import { qrCodeService } from '../services/QRCodeService.js';
+import { validateQRCodeCreate } from '../utils/validators.js';
+import { sendSuccess, sendError, sendPaginated } from '../utils/response.js';
+import { authenticateToken, asyncHandler } from '../middleware/auth.js';
 
 const router = Router();
 

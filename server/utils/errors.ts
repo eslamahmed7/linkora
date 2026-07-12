@@ -1,4 +1,4 @@
-import { APIError } from '../types/index';
+import { APIError } from '../types/index.js';
 export { APIError };
 
 export class ValidationError extends APIError {

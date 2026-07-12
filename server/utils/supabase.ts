@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { config } from '../config/env';
+import { config } from '../config/env.js';
 
 if (!config.SUPABASE_URL || !config.SUPABASE_SERVICE_ROLE_KEY) {
   console.warn('Missing Supabase credentials. Backend requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');

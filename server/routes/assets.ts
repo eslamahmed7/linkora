@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
-import { supabase } from '../utils/supabase'
-import { requireMinRole, AdminRequest } from '../middleware/admin'
-import { sendSuccess, sendError } from '../utils/response'
+import { supabase } from '../utils/supabase.js'
+import { requireMinRole, AdminRequest } from '../middleware/admin.js'
+import { sendSuccess, sendError } from '../utils/response.js'
 
 const router = Router()
 

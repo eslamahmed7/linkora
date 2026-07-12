@@ -1,9 +1,9 @@
-import { QRCode } from '../types/index';
-import { qrCodeRepository } from '../repositories/QRCodeRepository';
-import { linkPageRepository } from '../repositories/LinkPageRepository';
-import { analyticsRepository } from '../repositories/AnalyticsRepository';
-import { NotFoundError, AuthorizationError } from '../utils/errors';
-import { config } from '../config/env';
+import { QRCode } from '../types/index.js';
+import { qrCodeRepository } from '../repositories/QRCodeRepository.js';
+import { linkPageRepository } from '../repositories/LinkPageRepository.js';
+import { analyticsRepository } from '../repositories/AnalyticsRepository.js';
+import { NotFoundError, AuthorizationError } from '../utils/errors.js';
+import { config } from '../config/env.js';
 import QRCodeLib from 'qrcode';
 import crypto from 'crypto';
 

@@ -1,4 +1,4 @@
-import { config } from '../config/env';
+import { config } from '../config/env.js';
 
 export enum LogLevel {
   DEBUG = 'DEBUG',

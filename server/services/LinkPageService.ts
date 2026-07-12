@@ -1,10 +1,10 @@
-import { LinkPage } from '../types/index';
-import { linkPageRepository } from '../repositories/LinkPageRepository';
-import { linkRepository } from '../repositories/LinkRepository';
-import { qrCodeRepository } from '../repositories/QRCodeRepository';
-import { analyticsRepository } from '../repositories/AnalyticsRepository';
-import { nfcRepository } from '../repositories/NFCRepository';
-import { NotFoundError, AuthorizationError, ConflictError } from '../utils/errors';
+import { LinkPage } from '../types/index.js';
+import { linkPageRepository } from '../repositories/LinkPageRepository.js';
+import { linkRepository } from '../repositories/LinkRepository.js';
+import { qrCodeRepository } from '../repositories/QRCodeRepository.js';
+import { analyticsRepository } from '../repositories/AnalyticsRepository.js';
+import { nfcRepository } from '../repositories/NFCRepository.js';
+import { NotFoundError, AuthorizationError, ConflictError } from '../utils/errors.js';
 
 export class LinkPageService {
   async createPage(

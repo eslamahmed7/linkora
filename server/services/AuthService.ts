@@ -1,6 +1,6 @@
-import { User, RegisterData } from '../types/index';
-import { userRepository } from '../repositories/UserRepository';
-import { ConflictError } from '../utils/errors';
+import { User, RegisterData } from '../types/index.js';
+import { userRepository } from '../repositories/UserRepository.js';
+import { ConflictError } from '../utils/errors.js';
 
 export class AuthService {
   async register(data: RegisterData & { id?: string }): Promise<{ user: Omit<User, 'passwordHash'> }> {

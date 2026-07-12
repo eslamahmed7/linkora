@@ -1,7 +1,7 @@
-import { Analytics } from '../types/index';
-import { supabase } from '../utils/supabase';
+import { Analytics } from '../types/index.js';
+import { supabase } from '../utils/supabase.js';
 import { v4 as uuidv4 } from 'uuid';
-import { config } from '../config/env';
+import { config } from '../config/env.js';
 
 export class AnalyticsRepository {
   async create(analyticsData: Omit<Analytics, 'id'>): Promise<Analytics> {

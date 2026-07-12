@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { authenticateToken, asyncHandler } from '../middleware/auth';
-import { sendSuccess, sendError } from '../utils/response';
-import { supabase } from '../utils/supabase';
+import { authenticateToken, asyncHandler } from '../middleware/auth.js';
+import { sendSuccess, sendError } from '../utils/response.js';
+import { supabase } from '../utils/supabase.js';
 
 const router = Router();
 

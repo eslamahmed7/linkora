@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import { analyticsService } from '../services/AnalyticsService';
-import { sendSuccess, sendError, sendPaginated } from '../utils/response';
-import { authenticateToken, asyncHandler } from '../middleware/auth';
+import { analyticsService } from '../services/AnalyticsService.js';
+import { sendSuccess, sendError, sendPaginated } from '../utils/response.js';
+import { authenticateToken, asyncHandler } from '../middleware/auth.js';
 
 const router = Router();
 

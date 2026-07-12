@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { linkPageService } from '../services/LinkPageService';
-import { linkRepository } from '../repositories/LinkRepository';
-import { validateLinkPageCreate } from '../utils/validators';
-import { sendSuccess, sendError, sendPaginated } from '../utils/response';
-import { authenticateToken, asyncHandler, optionalAuth } from '../middleware/auth';
+import { linkPageService } from '../services/LinkPageService.js';
+import { linkRepository } from '../repositories/LinkRepository.js';
+import { validateLinkPageCreate } from '../utils/validators.js';
+import { sendSuccess, sendError, sendPaginated } from '../utils/response.js';
+import { authenticateToken, asyncHandler, optionalAuth } from '../middleware/auth.js';
 
 const router = Router();
 

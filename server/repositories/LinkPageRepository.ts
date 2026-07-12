@@ -1,5 +1,5 @@
-import { LinkPage } from '../types/index';
-import { supabase } from '../utils/supabase';
+import { LinkPage } from '../types/index.js';
+import { supabase } from '../utils/supabase.js';
 import { v4 as uuidv4 } from 'uuid';
 
 export class LinkPageRepository {

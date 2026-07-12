@@ -65,8 +65,24 @@ app.use('/api/upload', uploadRoutes);
 
 
 // QR code redirect
-app.get('/r/:code', (req: Request, res: Response) => {
-  res.status(302).redirect('/');
+app.get('/r/:code', async (req: Request, res: Response) => {
+  try {
+    const { qrCodeService } = await import('./services/QRCodeService.js');
+    const redirectUrl = await qrCodeService.resolveQRCode(req.params.code, {
+      userAgent: req.get('user-agent') || 'unknown',
+      ipAddress: req.ip || req.socket.remoteAddress || 'unknown',
+      referer: req.get('referer')
+    });
+    
+    // In production, backend and frontend are on the same domain
+    // In local dev, we need to redirect to the frontend domain
+    const isLocal = process.env.NODE_ENV !== 'production';
+    const finalUrl = isLocal ? `${config.CORS_ORIGIN}${redirectUrl}` : redirectUrl;
+    
+    res.status(302).redirect(finalUrl);
+  } catch (err) {
+    res.status(404).json({ success: false, error: 'NOT_FOUND', message: 'Invalid or expired QR code' });
+  }
 });
 
 // 404 handler

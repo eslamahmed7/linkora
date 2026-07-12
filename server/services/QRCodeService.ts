@@ -188,12 +188,20 @@ export class QRCodeService {
 
     // Return target URL
     if (qrCode.linkId) {
-      // If linked to a specific link, return that link's URL
-      // In production, fetch from LinkRepository
-      return `/l/${qrCode.linkId}`;
+      // If linked to a specific link, fetch its URL
+      const { linkRepository } = await import('../repositories/LinkRepository.js');
+      const link = await linkRepository.findById(qrCode.linkId);
+      if (link && link.url) {
+        return link.url;
+      }
     }
 
-    // Otherwise return page URL
+    // Otherwise return page URL by handle
+    const page = await linkPageRepository.findById(qrCode.pageId);
+    if (page && page.slug) {
+      return `/p/${page.slug}`;
+    }
+    
     return `/p/${qrCode.pageId}`;
   }
 

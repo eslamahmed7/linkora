@@ -12,7 +12,9 @@ export const config = {
   JWT_EXPIRY: process.env.JWT_EXPIRY || '7d',
   
   // QR Code
-  QR_REDIRECT_URL: process.env.QR_REDIRECT_URL || 'http://localhost:3001/r',
+  // The base URL for the QR code redirect. If empty, the frontend must assemble it.
+  // We use a relative path by default or extract it dynamically to avoid localhost hardcoding in prod
+  QR_REDIRECT_URL: process.env.QR_REDIRECT_URL || (process.env.NODE_ENV === 'production' ? 'https://linkora-nu.vercel.app/r' : 'http://localhost:3001/r'),
   QR_SIZE: parseInt(process.env.QR_SIZE || '300'),
   
   // Analytics

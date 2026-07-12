@@ -84,7 +84,7 @@ export function PageSettings() {
           </label>
           <div className="flex rounded border border-neutral-200 dark:border-neutral-700 overflow-hidden bg-neutral-100 dark:bg-neutral-800">
             <span className="px-3 py-2 text-neutral-500 font-medium whitespace-nowrap border-r border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/50">
-              localhost:8887/p/
+              {window.location.host}/p/
             </span>
             <input
               type="text"

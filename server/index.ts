@@ -66,7 +66,6 @@ app.use('/api/upload', uploadRoutes);
 
 // QR code redirect
 app.get('/r/:code', (req: Request, res: Response) => {
-  // This would be handled by qrCodeService.resolveQRCode
   res.status(302).redirect('/');
 });
 
@@ -84,32 +83,32 @@ app.use((req: Request, res: Response) => {
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
-const PORT = config.PORT;
-const server = app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`, {
-    environment: config.NODE_ENV,
-    corsOrigin: config.CORS_ORIGIN,
+// Only start HTTP server in non-serverless environment (local dev)
+if (process.env.VERCEL !== '1') {
+  const PORT = config.PORT;
+  const server = app.listen(PORT, () => {
+    logger.info(`Server running on port ${PORT}`, {
+      environment: config.NODE_ENV,
+      corsOrigin: config.CORS_ORIGIN,
+    });
   });
-});
 
-
-
-// Graceful shutdown
-process.on('SIGTERM', () => {
-  logger.info('SIGTERM signal received: closing HTTP server');
-  server.close(() => {
-    logger.info('HTTP server closed');
-    process.exit(0);
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
+    logger.info('SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+      logger.info('HTTP server closed');
+      process.exit(0);
+    });
   });
-});
 
-process.on('SIGINT', () => {
-  logger.info('SIGINT signal received: closing HTTP server');
-  server.close(() => {
-    logger.info('HTTP server closed');
-    process.exit(0);
+  process.on('SIGINT', () => {
+    logger.info('SIGINT signal received: closing HTTP server');
+    server.close(() => {
+      logger.info('HTTP server closed');
+      process.exit(0);
+    });
   });
-});
+}
 
 export default app;

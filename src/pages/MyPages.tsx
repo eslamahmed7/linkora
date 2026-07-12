@@ -15,20 +15,29 @@ interface Page {
 
 export function MyPagesPage() {
   const notification = useNotification()
-  const [pages, setPages] = useState<Page[]>([])
+  const [allPages, setAllPages] = useState<Page[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
 
   useEffect(() => {
     fetchPages()
-  }, [statusFilter])
+  }, [])
+
+  // Client-side filtering — avoids a server round-trip per keystroke
+  const pages = allPages.filter(page => {
+    const matchesSearch = !searchTerm ||
+      page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      page.slug.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesStatus = statusFilter === 'all' || page.status === statusFilter
+    return matchesSearch && matchesStatus
+  })
 
   const fetchPages = async () => {
     try {
       setIsLoading(true)
       const response = await pagesAPI.list()
-      setPages(response.pages)
+      setAllPages(response.pages)
     } catch (error) {
       notification.error('Failed to load pages')
     } finally {
@@ -43,7 +52,7 @@ export function MyPagesPage() {
 
     try {
       await pagesAPI.delete(id)
-      setPages((prev) => prev.filter((p) => p.id !== id))
+      setAllPages((prev) => prev.filter((p) => p.id !== id))
       notification.success('Page deleted successfully')
     } catch (error) {
       notification.error('Failed to delete page')
@@ -53,7 +62,7 @@ export function MyPagesPage() {
   const handleDuplicate = async (id: string) => {
     try {
       const response = await pagesAPI.duplicate(id)
-      setPages((prev) => [response.page as any as Page, ...prev])
+      setAllPages((prev) => [response.page as any as Page, ...prev])
       notification.success('Page duplicated successfully')
     } catch (error) {
       notification.error('Failed to duplicate page')
@@ -63,7 +72,7 @@ export function MyPagesPage() {
   const handleArchive = async (id: string) => {
     try {
       await pagesAPI.archive(id)
-      setPages((prev) =>
+      setAllPages((prev) =>
         prev.filter((p) => p.id !== id)
       )
       notification.success('Page archived successfully')
@@ -101,7 +110,6 @@ export function MyPagesPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyUp={fetchPages}
             placeholder="Search pages..."
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50 focus:outline-none focus:ring-2 focus:ring-accent-600"
           />

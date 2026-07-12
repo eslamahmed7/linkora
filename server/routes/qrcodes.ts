@@ -59,10 +59,6 @@ router.put('/:qrCodeId', authenticateToken, asyncHandler(async (req: Request, re
 
   const { pageId, designStyle, customColors, customLogo, name, url, customization, errorCorrection, size, format, foregroundColor, backgroundColor, isActive } = req.body;
   
-  try {
-    require('fs').writeFileSync('update_log.txt', JSON.stringify({ body: req.body, time: new Date().toISOString() }, null, 2));
-  } catch(e) {}
-
   const qrCode = await qrCodeService.updateQRCode(req.params.qrCodeId, req.user.userId, {
     pageId,
     designStyle,

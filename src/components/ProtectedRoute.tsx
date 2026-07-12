@@ -1,22 +1,39 @@
+import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '@/hooks/useAuth'
+import { supabase } from '@/lib/supabase'
+import { Loader2 } from 'lucide-react'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated, isLoading } = useAuth()
+  const [checking, setChecking] = useState(true)
+  const [authenticated, setAuthenticated] = useState(false)
 
-  if (isLoading) {
+  useEffect(() => {
+    // Check real Supabase session — avoids flash redirect on page reload
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthenticated(!!session)
+      setChecking(false)
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthenticated(!!session)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (checking) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-accent-600"></div>
+        <Loader2 className="w-8 h-8 animate-spin text-accent-600" />
       </div>
     )
   }
 
-  if (!isAuthenticated) {
+  if (!authenticated) {
     return <Navigate to="/auth/login" replace />
   }
 

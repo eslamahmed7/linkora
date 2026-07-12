@@ -85,23 +85,15 @@ export class QRCodeService {
   }
 
   async getUserQRCodes(userId: string, skip: number = 0, take: number = 10) {
-    // We need to fetch all pages owned by the user first, or we need a repository method
-    // to list all QR codes by userId directly if qr_codes table doesn't have user_id.
-    // The qr_codes table usually joins with link_pages.
+    // Get all page IDs for this user in one query
     const pagesResult = await linkPageRepository.list(userId, 0, 1000);
     const pageIds = pagesResult.pages.map(p => p.id);
-    
-    // Instead of querying by pageIds which might not be supported in repository directly,
-    // let's just fetch for all pages and aggregate for now, or just return an empty array if not supported.
-    // Ideally we'd have a user_id on qr_codes or a specific query.
-    // Let's implement a quick aggregation:
-    let allQrCodes: QRCode[] = [];
-    for (const pageId of pageIds) {
-      const res = await qrCodeRepository.list(pageId, 0, 1000);
-      allQrCodes = allQrCodes.concat(res.qrCodes);
-    }
-    
-    // Simple pagination in memory (this is a fallback because we don't have user_id on qr_codes)
+    if (pageIds.length === 0) return { qrCodes: [], total: 0 };
+
+    // Fetch all QR codes for all user pages in ONE query using .in()
+    const allQrCodes = await qrCodeRepository.listByPageIds(pageIds);
+
+    // In-memory pagination
     const paginated = allQrCodes.slice(skip, skip + take);
     return { qrCodes: paginated, total: allQrCodes.length };
   }

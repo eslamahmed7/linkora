@@ -48,12 +48,8 @@ export function LoginPage() {
       notification.success('Login successful')
       navigate('/dashboard')
     } catch (error: any) {
-      const message =
-        error.response?.data?.message || 'Login failed. Please try again.'
+      const message = error?.message || 'Login failed. Please try again.'
       notification.error(message)
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors)
-      }
     } finally {
       setIsLoading(false)
     }

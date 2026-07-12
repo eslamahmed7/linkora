@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAuthStore } from '@/stores/authStore'
 import { authAPI } from '@/api/auth'
+import { supabase } from '@/lib/supabase'
 
 export function useAuth() {
   const {
@@ -15,20 +16,22 @@ export function useAuth() {
     updateUser,
   } = useAuthStore()
 
-  // Restore session on mount
+  const initialized = useRef(false)
+
+  // Restore session on mount using Supabase session (not localStorage)
   useEffect(() => {
+    if (initialized.current) return
+    initialized.current = true
+
     const restoreSession = async () => {
-      // With Supabase we could get token from session instead of localStorage, 
-      // but if we are already authenticated in store, we verify it.
-      const storedToken = localStorage.getItem('authToken')
-      if (storedToken) {
-        // Only set loading if we don't have a cached user yet
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
         if (!user) setLoading(true)
         try {
           const response = await authAPI.getCurrentUser()
           setUser(response.user)
-          setToken(storedToken)
-        } catch (error) {
+          setToken(session.access_token)
+        } catch {
           logout()
         } finally {
           setLoading(false)
@@ -37,6 +40,21 @@ export function useAuth() {
     }
 
     restoreSession()
+
+    // Listen for Supabase auth state changes (e.g. tab focus token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_OUT' || !session) {
+          logout()
+        } else if (event === 'TOKEN_REFRESHED' && session) {
+          setToken(session.access_token)
+        }
+      }
+    )
+
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   const login = async (email: string, password: string) => {

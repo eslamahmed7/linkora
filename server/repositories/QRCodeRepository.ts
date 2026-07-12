@@ -152,6 +152,18 @@ export class QRCodeRepository {
     };
   }
 
+  async listByPageIds(pageIds: string[]): Promise<QRCode[]> {
+    if (pageIds.length === 0) return [];
+    const { data, error } = await supabase
+      .from('qr_codes')
+      .select('*')
+      .in('page_id', pageIds)
+      .order('created_at', { ascending: false });
+
+    if (error || !data) return [];
+    return data.map(d => this.mapToQRCode(d, ''));
+  }
+
   private mapToQRCode(dbQR: any, redirectUrl: string): QRCode {
     let parsedExtras: any = {};
     if (dbQR.image_base64) {

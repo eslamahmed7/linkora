@@ -10,7 +10,7 @@ export interface User {
   cover?: string
   bio?: string
   role?: string
-  is_suspended?: boolean
+  isSuspended?: boolean
   theme: 'dark' | 'light'
   language: 'en' | 'ar'
   createdAt: string
@@ -33,9 +33,9 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      token: localStorage.getItem('authToken'),
+      token: null,
       isLoading: false,
-      isAuthenticated: !!localStorage.getItem('authToken'),
+      isAuthenticated: false,
 
       setUser: (user) =>
         set({
@@ -44,18 +44,12 @@ export const useAuthStore = create<AuthState>()(
         }),
 
       setToken: (token) => {
-        if (token) {
-          localStorage.setItem('authToken', token)
-        } else {
-          localStorage.removeItem('authToken')
-        }
         set({ token, isAuthenticated: !!token })
       },
 
       setLoading: (loading) => set({ isLoading: loading }),
 
       logout: () => {
-        localStorage.removeItem('authToken')
         set({
           user: null,
           token: null,

@@ -38,9 +38,9 @@ export class NFCService {
 
     // Handle frontend bug where user.id is passed as pageId
     if (data.pageId === userId) {
-      const pages = await linkPageRepository.list(userId, 0, 1);
-      if (pages.length > 0) {
-        actualPageId = pages[0].id;
+      const result = await linkPageRepository.list(userId, 0, 1);
+      if (result.pages.length > 0) {
+        actualPageId = result.pages[0].id;
       } else {
         actualPageId = undefined; // Will be set to null in repository
       }
@@ -95,7 +95,7 @@ export class NFCService {
 
   async writeTag(cardId: string, userId: string, tagId: string): Promise<NFCWriteResult> {
     // Verify ownership
-    const card = await this.getCard(cardId, userId);
+    await this.getCard(cardId, userId);
 
     // In a real implementation, this would interact with a hardware layer 
     // or an external service. For now, we update the database to link the tag.

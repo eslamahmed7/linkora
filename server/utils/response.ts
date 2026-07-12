@@ -45,7 +45,42 @@ export function sendError(
   code: string,
   message: string,
   details?: Record<string, unknown>
+): Response;
+export function sendError(
+  res: Response,
+  message: string,
+  statusCode?: number
+): Response;
+export function sendError(
+  res: Response,
+  firstParam: number | string,
+  secondParam?: string | number,
+  thirdParam?: string,
+  fourthParam?: Record<string, unknown>
 ): Response {
+  let statusCode = 500;
+  let code = 'INTERNAL_SERVER_ERROR';
+  let message = 'An error occurred';
+  let details = fourthParam;
+
+  if (typeof firstParam === 'number') {
+    // Standard signature: sendError(res, statusCode, code, message, details)
+    statusCode = firstParam;
+    code = typeof secondParam === 'string' ? secondParam : 'ERROR';
+    message = thirdParam || '';
+  } else {
+    // Legacy signature: sendError(res, message, statusCode)
+    message = firstParam;
+    statusCode = typeof secondParam === 'number' ? secondParam : 400;
+    if (statusCode === 401 || statusCode === 403) {
+      code = 'UNAUTHORIZED';
+    } else if (statusCode === 404) {
+      code = 'NOT_FOUND';
+    } else {
+      code = 'BAD_REQUEST';
+    }
+  }
+
   const response: APIResponse<null> = {
     success: false,
     error: {

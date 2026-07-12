@@ -51,9 +51,6 @@ export class QRCodeService {
     // Generate redirect URL
     const redirectUrl = `${config.QR_REDIRECT_URL}/${code}`;
 
-    // Generate QR code image
-    const qrImage = await this.generateQRImage(redirectUrl, options);
-
     // Create QR code record
     try {
       const qrCode = await qrCodeRepository.create({
@@ -204,35 +201,6 @@ export class QRCodeService {
     const data = `${pageId}${linkId || ''}${Date.now()}${Math.random()}`;
     const hash = crypto.createHash('sha256').update(data).digest('hex');
     return hash.substring(0, 8);
-  }
-
-  private async generateQRImage(
-    text: string,
-    options: {
-      format: 'png' | 'svg' | 'webp';
-      size?: number;
-      errorCorrection?: 'L' | 'M' | 'Q' | 'H';
-      designStyle?: 'standard' | 'rounded' | 'gradient' | 'custom';
-    }
-  ): Promise<string> {
-    try {
-      const qrOptions = {
-        errorCorrectionLevel: options.errorCorrection || 'M',
-        type: options.format === 'svg' ? 'image/svg+xml' : `image/${options.format}`,
-        width: options.size || 300,
-        margin: 2,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF',
-        },
-      };
-
-      // Generate QR code
-      const qrDataUrl = await QRCodeLib.toDataURL(text, qrOptions);
-      return qrDataUrl;
-    } catch (error) {
-      throw new Error('Failed to generate QR code');
-    }
   }
 
   private detectDeviceType(userAgent: string): 'mobile' | 'tablet' | 'desktop' | 'unknown' {

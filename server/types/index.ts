@@ -7,6 +7,8 @@ export interface User {
   firstName: string;
   lastName: string;
   avatar?: string;
+  bio?: string;
+  displayName?: string;
   plan: 'free' | 'pro' | 'enterprise';
   role?: string;
   createdAt: Date;
@@ -48,6 +50,7 @@ export interface Link {
   url: string;
   description?: string;
   icon?: string;
+  color?: string;
   order: number;
   clicks: number;
   isActive: boolean;
@@ -119,6 +122,8 @@ export interface QRCode {
   customization?: QRCustomization;
   name?: string;
   url?: string;
+  isActive?: boolean;
+  scans?: number;
 }
 
 // Analytics Types

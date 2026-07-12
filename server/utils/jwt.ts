@@ -5,7 +5,7 @@ import { AuthenticationError } from './errors';
 
 export function generateToken(payload: Omit<AuthToken, 'iat' | 'exp'>): string {
   return jwt.sign(payload, config.JWT_SECRET, {
-    expiresIn: config.JWT_EXPIRY,
+    expiresIn: config.JWT_EXPIRY as any,
   });
 }
 

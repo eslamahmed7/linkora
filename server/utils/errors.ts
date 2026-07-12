@@ -1,4 +1,5 @@
 import { APIError } from '../types/index';
+export { APIError };
 
 export class ValidationError extends APIError {
   constructor(message: string, details?: Record<string, unknown>) {

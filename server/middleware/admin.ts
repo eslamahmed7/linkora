@@ -42,7 +42,7 @@ export function requireRole(...allowedRoles: AdminRole[]) {
 
       const userRole = (profile.role || 'user') as AdminRole
 
-      if (userRole === 'user') {
+      if ((userRole as string) === 'user') {
         return res.status(403).json({ success: false, error: 'Admin access required' })
       }
 

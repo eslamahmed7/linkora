@@ -27,4 +27,4 @@ export const supabase = new Proxy({}, {
     }
     return supabaseClient[prop];
   }
-}) as ReturnType<typeof createClient>;
+}) as any;

@@ -11,6 +11,10 @@
     {
       "src": "server/vercel-entry.cjs",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/test.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [

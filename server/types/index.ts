@@ -189,17 +189,7 @@ export interface RegisterData {
 }
 
 // Error Types
-export class APIError extends Error {
-  constructor(
-    public statusCode: number,
-    public code: string,
-    message: string,
-    public details?: Record<string, unknown>
-  ) {
-    super(message);
-    this.name = 'APIError';
-  }
-}
+export { APIError } from '../utils/APIError.js';
 
 export interface RequestMetadata {
   requestId: string;

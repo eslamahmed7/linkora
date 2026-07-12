@@ -37,12 +37,7 @@ export function errorHandler(err: Error, req: Request, res: Response, next: Next
   // Log unexpected errors
   logger.error('Unexpected error', err, { requestId });
 
-  // Return generic error in production
-  if (config.NODE_ENV === 'production') {
-    return sendError(res, 500, 'INTERNAL_SERVER_ERROR', 'An unexpected error occurred');
-  }
-
-  // Return detailed error in development
+  // Return detailed error to help debug Vercel 500s
   return sendError(res, 500, 'INTERNAL_SERVER_ERROR', err.message);
 }
 
